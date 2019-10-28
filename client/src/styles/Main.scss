@@ -1,0 +1,19 @@
+@import './Card.scss';
+
+@import './pages/Home.scss';
+@import './pages/Profile.scss';
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #eeeeee;
+    overflow-x: hidden;    
+}
+
+.sh-1 {
+	box-shadow: 0px 20px 26px -25px rgba(0,0,0,0.5);
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}

@@ -1,0 +1,13 @@
+.home {
+	height: 100vh;
+	background-image: url('https://i.imgur.com/tXGEo6r.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+	&__left {
+		&__text {
+			text-shadow: 0px 0px 5px rgba(0,0,0,.5);
+		}
+	}
+}
