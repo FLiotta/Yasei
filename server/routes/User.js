@@ -17,12 +17,16 @@ router.get('/:username', (req,res) => {
 
 router.get('/:username/posts', (req,res) => {
 	const { username: profile } = req.params;
+	const { offset = 0, quantity = 20 } = req.query;
 
-	Post.find({profile})		
+	Post.find({profile})			
+		.skip(parseInt(offset))
+		.limit(parseInt(quantity))
+		.sort('-createdAt')
 		.populate('author')
 		.exec((err, posts) => {
 			if(err)
-				res.status(500).send("There were an error")
+				return res.status(500).send("There were an error")
 			res.status(200).json({
 				code: 200,
 				response: posts
@@ -47,5 +51,6 @@ router.post('/:username/new/post', (req,res) => {
 		})
 		.catch(e => res.status(500).send("There were an error"));
 })
+
 
 module.exports = router;

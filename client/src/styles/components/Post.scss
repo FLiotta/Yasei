@@ -1,0 +1,17 @@
+.post {
+	transition: .5s box-shadow, .5s transform;
+
+	&__image {
+		transition: .5s all;
+	}
+
+	&:hover {
+		box-shadow: 0px 20px 26px -25px rgba(0,0,0,0.5);
+		transform: translateY(-5px);
+
+		.post__image {
+			transform: scale(1.2);
+			filter: grayscale(100%);
+		}
+	}
+}

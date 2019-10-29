@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { toggleNavbar } from '../actions/app';
-import { fetchProfile, newPost, fetchPosts } from '../actions/profile';
+import { fetchProfile, newPost, fetchPosts, restartState } from '../actions/profile';
+import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
-import Cropper from 'react-cropper';
+import Post from '../components/Post';
 import '../styles/pages/Profile.scss';
-
-const cropper = React.createRef(null);
 
 class Profile extends Component {
 	constructor(props){
@@ -29,6 +27,7 @@ class Profile extends Component {
 
 	componentDidUpdate(prevProps) {
 	    if (this.props.location !== prevProps.location) {
+	    	this.props.restartState();
 			this.props.fetchProfile(this.props.match.params.id);
 			this.props.fetchPosts(this.props.match.params.id);    
 	    }
@@ -38,7 +37,7 @@ class Profile extends Component {
 		return (
 			<div className="container mt-5 pt-5">	
 				<div className="row justify-content-center">
-					<div className="col-8 justify-content-center d-flex">
+					<div className="col-10 justify-content-center d-flex">
 						<div className="card mb-3" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
 						    	<div className="col-md-4">
@@ -79,25 +78,14 @@ class Profile extends Component {
 					{
 						!this.props.user.posts 
 							? <p>Loading posts</p> 
-							: this.props.user.posts.map((post, i) => (
+							: this.props.user.posts.items.map((post, i) => (
 								<div className="col-10 justify-content-center d-flex" key={post.message + i}>
-									<div className="card w-100 mb-3" style={{"maxWidth": "540px"}}>						  
-								    	<div className="card-body">
-								      		<div className="row justify-content-between no-gutters">
-								      			<div className="col-md-1">
-								      				{post.author && <img src={post.author.profilePic} className="card-img" alt="..." />}
-								      			</div>
-								    			<div className="col-md-10">
-								    				{post.author && <span className="mb-0"><Link to={'/u/' + post.author.username}>@{post.author.username}</Link></span>}
-								        			<p className="mb-0">{post.message}</p>
-								        		</div>
-								        	</div>
-								      	</div>						  
-									</div>
+									<Post {...post}/>
 								</div>
 							))
 					}
 				</div>	
+				<BottomScrollListener onBottom={() => {this.props.fetchPosts(this.props.match.params.id)}} />
 			</div>
 		)
 	}
@@ -110,7 +98,8 @@ const dispatchToProps = dispatch => ({
 	toggleNavbar: value => dispatch(toggleNavbar(value)),
 	fetchProfile: value => dispatch(fetchProfile(value)),
 	newPost: value => dispatch(newPost(value)),
-	fetchPosts: value => dispatch(fetchPosts(value))
+	fetchPosts: value => dispatch(fetchPosts(value)),
+	restartState: () => dispatch(restartState())
 })
 
 export default connect(stateToProps, dispatchToProps)(Profile);
