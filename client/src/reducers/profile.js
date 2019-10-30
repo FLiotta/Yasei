@@ -1,4 +1,4 @@
-import { FETCH_PROFILE, FETCH_POSTS, NEW_POST, RESTART_STATE } from '../actions/profile';
+import { FETCH_PROFILE, FETCH_POSTS, NEW_POST, DELETE_POST, RESTART_STATE } from '../actions/profile';
 
 const defaultState = {
 	username: null,
@@ -44,6 +44,14 @@ export default (state = defaultState, action) => {
 				posts: {
 					...state.posts,
 					items: [action.payload.newPost, ...state.posts.items]
+				}
+			}
+		case DELETE_POST:
+			return {
+				...state,
+				posts: {
+					...state.posts,
+					items: state.posts.items.filter(post => post._id != action.payload._id)
 				}
 			}
 		case RESTART_STATE:

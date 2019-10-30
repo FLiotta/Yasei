@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { deletePost } from '../actions/profile';
+import { Link, withRouter } from 'react-router-dom';
 
-export default (props) => (
+const Post = (props) => (
 	<div className="card post w-100 mb-3" style={{"maxWidth": "540px"}}>						  
     	<div className="card-body">
       		<div className="row no-gutters">
@@ -13,10 +15,12 @@ export default (props) => (
       				}
       			</div>
     			<div className="col-10 col-md-11 post__body">
-    				<div className="ml-3">
-    					<button type="button" className="close" aria-label="Close">
+    				<div className="ml-3">    
+    					{(props.logged._id == props.author._id || props.logged.username == props.match.params.id) && 
+    					<button type="button" className="close" aria-label="Close" onClick={() => props.deletePost({username: props.author.username, postId: props._id})}>
 							<span aria-hidden="true">&times;</span>
 						</button>
+						}
 	    				{props.author && <span className="mb-0"><Link to={'/u/' + props.author.username}>@{props.author.username}</Link></span>}
 	        			<p className="mb-0">{props.message}</p>
 	        		</div>
@@ -25,3 +29,13 @@ export default (props) => (
       	</div>						  
 	</div>
 );
+
+const stateToProps = state => ({
+	logged: state.app.logged
+});
+
+const dispatchToProps = dispatch => ({
+	deletePost: data => dispatch(deletePost(data))
+});
+
+export default connect(stateToProps, dispatchToProps)(withRouter(Post));

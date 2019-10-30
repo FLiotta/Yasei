@@ -1,0 +1,29 @@
+.navbar-cs {
+	width: 100vw;
+	display: flex;
+	position: relative;
+	top: 0px;
+	background-color: #F26B55;
+	height: 50px;
+
+	.container {
+		display: flex;
+    	justify-content: flex-end;
+	}
+
+	&__profile-pic {
+		margin-top: 5px;
+		display: flex;
+		width: fit-content;
+
+		img {
+			width: 40px;
+			border: 2px solid #ffffff;
+			transition: .5s all;
+
+			&:hover {
+				filter: grayscale(100%);
+			}
+		}
+	}
+}

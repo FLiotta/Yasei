@@ -36,7 +36,7 @@ export default (state = defaultState, action) => {
 			}
 		case SIGN_UP:
 		case SIGN_IN:
-			const { username, email, token, profilePic, description } = action.payload;
+			const { username, email, token, profilePic, description, _id } = action.payload;
 			localStorage.setItem('last_session', JSON.stringify({...action.payload}));
 			return {
 				...state,
@@ -47,7 +47,8 @@ export default (state = defaultState, action) => {
 					username,
 					email,
 					profilePic,
-					description
+					description,
+					_id
 				}
 			}
 		case RECONNECT:

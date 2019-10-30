@@ -28,7 +28,8 @@ router.post('/sign-up', (req,res) => {
 					token,
 					username: newUser.username,
 					email: newUser.email,
-					profilePic: newUser.profilePic
+					profilePic: newUser.profilePic,
+					_id: newUser._id
 				}
 			})
 		})
@@ -60,7 +61,8 @@ router.post('/sign-in', (req,res) => {
 						token,
 						username: user.username,
 						email: user.email,
-						profilePic: user.profilePic
+						profilePic: user.profilePic,
+						_id: user._id
 					}
 				}))
 				.catch(e => res.send(500).json({error: 'There were an error.'}));

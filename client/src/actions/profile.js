@@ -3,6 +3,7 @@ import axios from 'axios';
 export const FETCH_PROFILE = 'FETCH_PROFILE',
 				FETCH_POSTS = 'FETCH_POSTS',
 				NEW_POST = 'NEW_POST',
+				DELETE_POST = 'DELETE_POST',
 				RESTART_STATE = 'RESTART_STATE';
 
 export const fetchProfile = (username) => {
@@ -54,6 +55,26 @@ export const newPost = (data) => {
 							newPost: res.data.response
 						}
 					})
+			})
+			.catch(e => console.log(e));
+	}
+}
+
+export const deletePost = (data) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const { username, postId } = data;
+		const { token } = state.app.logged;
+
+		axios.post(`http://localhost:3000/user/${username}/delete/post`, { postId, token })
+			.then(res => {
+				console.log(res);
+				dispatch({
+					type: DELETE_POST,
+					payload: {
+						...res.data.response
+					}
+				})
 			})
 			.catch(e => console.log(e));
 	}

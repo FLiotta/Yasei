@@ -37,7 +37,7 @@ class Profile extends Component {
 		return (
 			<div className="container mt-5 pt-5">	
 				<div className="row justify-content-center">
-					<div className="col-10 justify-content-center d-flex">
+					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card mb-3" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
 						    	<div className="col-md-4">
@@ -55,7 +55,7 @@ class Profile extends Component {
 					</div>
 				</div>
 				<div className="row justify-content-center">
-					<div className="col-10 justify-content-center d-flex">
+					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card w-100 mb-3" style={{"maxWidth": "540px"}}>						  
 					    	<div className="card-body">
 					      		<div className="row">
@@ -79,7 +79,7 @@ class Profile extends Component {
 						!this.props.user.posts 
 							? <p>Loading posts</p> 
 							: this.props.user.posts.items.map((post, i) => (
-								<div className="col-10 justify-content-center d-flex" key={post.message + i}>
+								<div className="col-12 col-md-10	 justify-content-center d-flex" key={post.message + i}>
 									<Post {...post}/>
 								</div>
 							))
