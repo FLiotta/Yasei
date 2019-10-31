@@ -4,7 +4,7 @@ import { deletePost } from '../actions/profile';
 import { Link, withRouter } from 'react-router-dom';
 
 const Post = (props) => (
-	<div className="card post w-100 mb-3" style={{"maxWidth": "540px"}}>						  
+	<div className="card post w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
     	<div className="card-body">
       		<div className="row no-gutters">
       			<div className="col-2 col-md-1">

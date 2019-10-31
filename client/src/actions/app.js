@@ -5,7 +5,8 @@ export const TOGGLE_NAVBAR = 'TOGGLE_NAVBAR',
 				SIGN_IN = 'SIGN_IN',
 				RECONNECT = 'RECONNECT',
 				LOGOUT = 'LOGOUT',
-				SET_LOGIN_LOADING = 'SET_LOGIN_LOADING'
+				SET_LOGIN_LOADING = 'SET_LOGIN_LOADING',
+				SET_PROFILE_PICTURE = 'SET_PROFILE_PICTURE'
 
 
 export const setLoginLoad = (value) => {
@@ -66,7 +67,7 @@ export const signUp = ({username, email, password}) => {
 export const signIn = ({username, password}) => {
 	return dispatch => {
 		dispatch(setLoginLoad(true));
-		console.log(username,password)
+
 		axios.post('http://localhost:3000/auth/sign-in', { username, password })
 			.then(res => {
 				if(res.data.code == 200){
@@ -85,6 +86,14 @@ export const signIn = ({username, password}) => {
 	}
 }
 
+export const setProfilePic = url => {
+	return dispatch => dispatch({
+		type: SET_PROFILE_PICTURE,
+		payload: {
+			url
+		}
+	})
+}
 export const toggleNavbar = (value) => {
 	return dispatch => dispatch({
 		type: TOGGLE_NAVBAR,

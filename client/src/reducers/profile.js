@@ -1,10 +1,12 @@
-import { FETCH_PROFILE, FETCH_POSTS, NEW_POST, DELETE_POST, RESTART_STATE } from '../actions/profile';
+import { FETCH_PROFILE, FETCH_POSTS, NEW_POST, DELETE_POST, RESTART_STATE, SET_LOADING_POSTS } from '../actions/profile';
+import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
 	username: null,
 	description: null,
 	profilePic: null,	
 	posts: {
+		loading: true,
 		isThereMore: true,
 		offset: 0,
 		quantity: 5,		
@@ -17,18 +19,26 @@ export default (state = defaultState, action) => {
 		case FETCH_PROFILE:
 			return {
 				...state,
-				...action.payload.response
+				...action.payload.response,
+				profilePic: parseImageUrl(action.payload.response.profilePic)
 			}			
 		case FETCH_POSTS:
-
 			if(!!action.payload.posts.length)
 				return {
 					...state,
 					posts: {
 						...state.posts,
-						quantity: state.posts.quantity,
 						offset: state.posts.offset + state.posts.quantity,
-						items: [...state.posts.items,...action.payload.posts]
+						items: [
+							...state.posts.items,
+							...action.payload.posts.map(post => ({
+								...post,
+								author: {
+									...post.author, 
+									profilePic: parseImageUrl(post.author.profilePic)
+								}
+							}))
+						]
 					}
 				}
 			return {
@@ -37,6 +47,14 @@ export default (state = defaultState, action) => {
 					...state.posts,
 					isThereMore: false
 				}
+			}
+		case SET_LOADING_POSTS:
+			return {
+				...state,
+				posts: {
+					...state.posts,
+					loading: action.payload.loading
+				}			
 			}
 		case NEW_POST:			
 			return {

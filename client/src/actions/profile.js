@@ -4,7 +4,8 @@ export const FETCH_PROFILE = 'FETCH_PROFILE',
 				FETCH_POSTS = 'FETCH_POSTS',
 				NEW_POST = 'NEW_POST',
 				DELETE_POST = 'DELETE_POST',
-				RESTART_STATE = 'RESTART_STATE';
+				RESTART_STATE = 'RESTART_STATE',
+				SET_LOADING_POSTS = 'SET_LOADING_POSTS';
 
 export const fetchProfile = (username) => {
 	return dispatch => {
@@ -25,7 +26,10 @@ export const fetchPosts = (username) => {
 	return (dispatch, getState) => {
 		const { offset, quantity, isThereMore } = getState().profile.posts;
 
-		if(isThereMore)
+		if(isThereMore) {
+
+			dispatch(setLoadingPosts(true));
+			
 			axios.get(`http://localhost:3000/user/${username}/posts?offset=${offset}&quantity=${quantity}`)
 				.then(res => {
 					if(res.data.code == 200)
@@ -35,8 +39,11 @@ export const fetchPosts = (username) => {
 								posts: res.data.response
 							}
 						})
+
+					dispatch(setLoadingPosts(false));
 				})
 				.catch(e => console.log(e));
+		}
 	}
 }
 
@@ -68,7 +75,6 @@ export const deletePost = (data) => {
 
 		axios.post(`http://localhost:3000/user/${username}/delete/post`, { postId, token })
 			.then(res => {
-				console.log(res);
 				dispatch({
 					type: DELETE_POST,
 					payload: {
@@ -78,6 +84,15 @@ export const deletePost = (data) => {
 			})
 			.catch(e => console.log(e));
 	}
+}
+
+export const setLoadingPosts = (loading) => {
+	return dispatch => dispatch({
+		type: SET_LOADING_POSTS,
+		payload: {
+			loading
+		}
+	})
 }
 
 export const restartState = (data) => {
