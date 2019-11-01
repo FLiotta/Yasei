@@ -5,6 +5,7 @@ const userSchema = new Schema({
 	email: String,
 	username: String,
 	password: {type: String, select: false},
+	verified: {type: Boolean, default: false},
 	description: {type: String, default: ''},
 	profilePic: {type: String, default: `/assets/images/avatar_default_${Math.floor((Math.random() * 2) + 0)}.png`}
 });

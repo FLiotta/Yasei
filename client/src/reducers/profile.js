@@ -61,7 +61,15 @@ export default (state = defaultState, action) => {
 				...state,
 				posts: {
 					...state.posts,
-					items: [action.payload.newPost, ...state.posts.items]
+					items: [
+						{
+							...action.payload.newPost,
+							author: {
+								...action.payload.newPost.author,
+								profilePic: parseImageUrl(action.payload.newPost.author.profilePic)
+							}
+						}, 
+						...state.posts.items]
 				}
 			}
 		case DELETE_POST:

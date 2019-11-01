@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
+import VerifiedBadge from '../components/VerifiedBadge';
 import '../styles/pages/Profile.scss';
 
 class Profile extends Component {
@@ -37,6 +38,10 @@ class Profile extends Component {
 	    }
   	}
 
+  	componentWillUnmount(){
+  		this.props.restartState();
+  	}
+
 	render(){
 		return (
 			<div className="container mt-5 pt-5">	
@@ -50,15 +55,16 @@ class Profile extends Component {
 						    	<div className="col-md-8">
 						      		<div className="card-body">
 						        		<h5 className="card-title d-inline-flex">
-						        			{this.props.user.username}						        			
+						        			@{this.props.user.username}	
+						        			{this.props.user.verified && <VerifiedBadge />}
 						        		</h5>
 						        		{this.props.logged.username == this.props.match.params.id &&
 							        		<Link to="/settings">
 							        			<i className="fas fa-cog ml-1"></i>
 							        		</Link>
 						        		}
-						        		<p className="card-text">{this.props.user.description}</p>
-						        		<p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+						        		<p className="card-text mb-2">{this.props.user.description}</p>
+						        		<p className="card-text"><small className="text-muted">Last updated a time ago</small></p>
 						      		</div>
 						    	</div>
 							</div>

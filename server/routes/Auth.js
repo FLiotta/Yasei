@@ -29,6 +29,8 @@ router.post('/sign-up', (req,res) => {
 					username: newUser.username,
 					email: newUser.email,
 					profilePic: newUser.profilePic,
+					description: newUser.description,
+					verified: newUser.verified,
 					_id: newUser._id
 				}
 			})
@@ -62,6 +64,8 @@ router.post('/sign-in', (req,res) => {
 						username: user.username,
 						email: user.email,
 						profilePic: user.profilePic,
+						description: user.description,
+						verified: user.verified,
 						_id: user._id
 					}
 				}))

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { deletePost } from '../actions/profile';
 import { Link, withRouter } from 'react-router-dom';
+import VerifiedBadge from '../components/VerifiedBadge';
 
 const Post = (props) => (
 	<div className="card post w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
@@ -21,7 +22,12 @@ const Post = (props) => (
 							<span aria-hidden="true">&times;</span>
 						</button>
 						}
-	    				{props.author && <span className="mb-0"><Link to={'/u/' + props.author.username}>@{props.author.username}</Link></span>}
+	    				{props.author && 
+	    					<span className="mb-0">
+	    						<Link to={'/u/' + props.author.username}>@{props.author.username}</Link> 
+	    						{props.author.verified && <VerifiedBadge />}
+	    					</span>
+	    				}
 	        			<p className="mb-0">{props.message}</p>
 	        		</div>
         		</div>
