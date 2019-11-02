@@ -19,8 +19,8 @@ export default (state = defaultState, action) => {
 		case FETCH_PROFILE:
 			return {
 				...state,
-				...action.payload.response,
-				profilePic: parseImageUrl(action.payload.response.profilePic)
+				...action.payload,
+				profilePic: parseImageUrl(action.payload.profilePic)
 			}			
 		case FETCH_POSTS:
 			if(!!action.payload.posts.length)

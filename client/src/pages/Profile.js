@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
 import VerifiedBadge from '../components/VerifiedBadge';
+import DiscoverUser from '../components/DiscoverUser';
+
 import '../styles/pages/Profile.scss';
 
 class Profile extends Component {
@@ -49,7 +51,7 @@ class Profile extends Component {
 					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card mb-3 rounded-0" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
-						    	<div className="col-md-4">
+						    	<div className="col-md-4">						    		
 						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="..." />
 						    	</div>
 						    	<div className="col-md-8">
@@ -58,7 +60,7 @@ class Profile extends Component {
 						        			@{this.props.user.username}	
 						        			{this.props.user.verified && <VerifiedBadge />}
 						        		</h5>
-						        		{this.props.logged.username == this.props.match.params.id &&
+						        		{this.props.user.ownProfile &&
 							        		<Link to="/settings">
 							        			<i className="fas fa-cog ml-1"></i>
 							        		</Link>
@@ -71,12 +73,19 @@ class Profile extends Component {
 						</div>
 					</div>
 				</div>
+				{this.props.user.ownProfile && 
+					<div className="row justify-content-center mb-3">
+						<div className="col-12 col-md-6 d-flex justify-content-center">
+							<DiscoverUser />
+						</div>
+					</div>
+				}
 				<div className="row justify-content-center">
 					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
 					    	<div className="card-body">
 					      		<div className="row">
-					    			<div className="col-md-12">
+					    			<div className="col-md-12">					    				
 					        			<form onSubmit={this.handleNewPost}>
 					        				<div className="form-group">						        	
 					        					<textarea id="message" name="message" className="form-control" placeholder="So basically, i'm very smol."></textarea>
@@ -105,7 +114,7 @@ class Profile extends Component {
 						)	
 					}
 				</div>	
-				<BottomScrollListener onBottom={() => {this.props.fetchPosts(this.props.match.params.id)}} />
+				<BottomScrollListener onBottom={() => {this.props.fetchPosts(this.props.user.username)}} />
 			</div>
 		)
 	}
