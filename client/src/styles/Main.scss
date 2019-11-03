@@ -1,3 +1,5 @@
+$brand-color: #ff013d;
+
 @import './Card.scss';
 
 @import './pages/Home.scss';
@@ -35,4 +37,16 @@ body {
 
 .btn {
 	border-radius: 0px;
+}
+
+.bg-brand {
+    background-color: $brand-color !important;
+}
+
+.text-brand {
+    color: $brand-color !important;
+}
+
+.border-brand {
+    border-color: $brand-color !important;
 }

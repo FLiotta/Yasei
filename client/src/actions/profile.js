@@ -5,7 +5,8 @@ export const FETCH_PROFILE = 'FETCH_PROFILE',
 				NEW_POST = 'NEW_POST',
 				DELETE_POST = 'DELETE_POST',
 				RESTART_STATE = 'RESTART_STATE',
-				SET_LOADING_POSTS = 'SET_LOADING_POSTS';
+				SET_LOADING_POSTS = 'SET_LOADING_POSTS',
+				LIKE_POST = 'LIKE_POST';
 
 export const fetchProfile = (username) => {
 	return (dispatch, getState) => {
@@ -27,7 +28,9 @@ export const fetchProfile = (username) => {
 
 export const fetchPosts = (username) => {
 	return (dispatch, getState) => {
-		const { offset, quantity, isThereMore } = getState().profile.posts;
+		const state = getState();
+		const { offset, quantity, isThereMore } = state.profile.posts;	
+		const { _id: id } = state.app.logged;
 
 		if(isThereMore) {
 
@@ -39,7 +42,10 @@ export const fetchPosts = (username) => {
 						dispatch({
 							type: FETCH_POSTS,
 							payload: {
-								posts: res.data.response
+								posts: res.data.response.map(post => ({
+									...post,
+									liked: post.likedBy.includes(id)
+								}))
 							}
 						})
 
@@ -47,6 +53,26 @@ export const fetchPosts = (username) => {
 				})
 				.catch(e => console.log(e));
 		}
+	}
+}
+
+export const likePost = (postId) => {
+	return (dispatch, getState) => {
+		const state = getState();
+
+		const { token } = state.app.logged;
+
+		axios.post(`http://localhost:3000/post/${postId}/like`, {token})
+			.then(res => {
+				if(res.data.code == 200)
+					dispatch({
+						type: LIKE_POST,
+						payload: {
+							likedPost: res.data.response
+						}
+					})
+			})
+			.catch(e => console.log(e));
 	}
 }
 

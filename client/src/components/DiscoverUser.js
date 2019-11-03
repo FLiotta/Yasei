@@ -20,14 +20,14 @@ class DiscoverUser extends Component {
 
 	render(){
 		return (
-			<div className="card discover-user rounded-0">
-				<div className="card-header bg-danger text-white">
-					Discover users
+			<div className="card discover-user rounded-0 d-flex flex-grow-1">
+				<div className="card-header bg-brand text-white">
+					Discover new users!
 				</div>
 				<div className="card-body">
 					<div className="row">
 						{this.props.isLoading && 
-							<div className="col-2">
+							<div className="col-12 d-flex justify-content-center">
 								<Loading />
 							</div>
 						}

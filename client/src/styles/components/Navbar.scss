@@ -1,9 +1,11 @@
 .navbar-cs {
 	width: 100vw;
 	display: flex;
-	position: relative;
+	position: fixed;
+	z-index: 100;
+	box-shadow: 0px -6px 16px 3px rgba(0,0,0,.5);
 	top: 0px;
-	background-color: #F26B55;
+	background-color: $brand-color;
 	height: 50px;
 
 	.container {

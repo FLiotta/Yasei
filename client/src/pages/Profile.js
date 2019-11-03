@@ -62,11 +62,18 @@ class Profile extends Component {
 						        		</h5>
 						        		{this.props.user.ownProfile &&
 							        		<Link to="/settings">
-							        			<i className="fas fa-cog ml-1"></i>
+							        			<span className="badge badge-pill bg-brand text-white ml-2">Edit profile</span>
 							        		</Link>
 						        		}
 						        		<p className="card-text mb-2">{this.props.user.description}</p>
-						        		<p className="card-text"><small className="text-muted">Last updated a time ago</small></p>
+						        		<p className="card-text">
+						        			<span className="mr-2">
+						        				650 <small className="text-muted">Followers</small>
+						        			</span>
+						        			<span>
+						        				238 <small className="text-muted">Following</small>
+						        			</span>
+						        		</p>
 						      		</div>
 						    	</div>
 							</div>
@@ -75,8 +82,10 @@ class Profile extends Component {
 				</div>
 				{this.props.user.ownProfile && 
 					<div className="row justify-content-center mb-3">
-						<div className="col-12 col-md-6 d-flex justify-content-center">
-							<DiscoverUser />
+						<div className="col-12 col-md-10 d-flex justify-content-center">
+							<div style={{"maxWidth": "540px"}} className="d-flex flex-grow-1">		
+								<DiscoverUser />
+							</div>
 						</div>
 					</div>
 				}
@@ -129,7 +138,7 @@ const dispatchToProps = dispatch => ({
 	fetchProfile: value => dispatch(fetchProfile(value)),
 	newPost: value => dispatch(newPost(value)),
 	fetchPosts: value => dispatch(fetchPosts(value)),
-	restartState: () => dispatch(restartState())
+	restartState: () => dispatch(restartState())	
 })
 
 export default connect(stateToProps, dispatchToProps)(Profile);

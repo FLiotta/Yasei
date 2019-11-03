@@ -5,6 +5,15 @@
 		transition: .5s all;
 	}
 
+	&__option {
+		transition: .2s all;
+
+		&:hover {
+			background-color: $brand-color;
+			color: #ffffff;
+		}
+	}
+
 	&:hover {
 		box-shadow: 0px 20px 26px -25px rgba(0,0,0,0.5);
 		transform: translateY(-5px);

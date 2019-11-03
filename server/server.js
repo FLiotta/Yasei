@@ -9,6 +9,7 @@ const { SECRET_KEY } = require('./config');
 const app = express();
 const PORT = 3000;
 const AuthRoutes = require('./routes/Auth');
+const PostRoutes = require('./routes/Post');
 const UserRoutes = require('./routes/User');
 const DiscoverRoutes = require('./routes/Discover');
 
@@ -37,6 +38,7 @@ app.use((req,res,next) => {
 app.use('/auth', AuthRoutes);
 app.use('/user', UserRoutes);
 app.use('/discover', DiscoverRoutes);
+app.use('/post', PostRoutes);
 
 app.listen(PORT, () => {
 	console.log(`beep-booping on PORT ${PORT}`)

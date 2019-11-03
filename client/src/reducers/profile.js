@@ -1,4 +1,10 @@
-import { FETCH_PROFILE, FETCH_POSTS, NEW_POST, DELETE_POST, RESTART_STATE, SET_LOADING_POSTS } from '../actions/profile';
+import { FETCH_PROFILE, 
+	FETCH_POSTS, 
+	NEW_POST, 
+	DELETE_POST, 
+	RESTART_STATE, 
+	SET_LOADING_POSTS,
+	LIKE_POST } from '../actions/profile';
 import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
@@ -46,6 +52,25 @@ export default (state = defaultState, action) => {
 				posts: {
 					...state.posts,
 					isThereMore: false
+				}
+			}
+		case LIKE_POST:
+			const { likedPost } = action.payload;
+
+			return {
+				...state,
+				posts: {
+					...state.posts,
+					items: 
+						state.posts.items.map(post => post._id == likedPost._id 
+							? {
+								...post,
+								likes: likedPost.likes,
+								likedBy: likedPost.likedBy,
+								liked: true
+							}
+							: post
+						)
 				}
 			}
 		case SET_LOADING_POSTS:
