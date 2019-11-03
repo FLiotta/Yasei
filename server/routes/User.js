@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 
 router.get('/:username', (req,res) => {
-	const { username } = req.params;
+	let { username } = req.params;
 
 	User.findOne({username})
 		.then(user => 

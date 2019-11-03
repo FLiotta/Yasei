@@ -13,7 +13,6 @@ class RegisterForm extends Component {
 		e.preventDefault();
 
 		const newUser = {
-			email: e.target.email.value,
 			username: e.target.username.value,
 			password: e.target.password.value
 		}
@@ -27,10 +26,7 @@ class RegisterForm extends Component {
 				<form onSubmit={this.handleSubmit}>
 					<fieldset disabled={this.props.isLoading}>						
 						<div className="form-group">
-							<input type="email" name="email" id="email" className="form-control border-0 rounded-0" placeholder="ex.: example@yahoo.com" />
-						</div>
-						<div className="form-group">
-							<input type="text" name="username" id="username" className="form-control border-0 rounded-0" placeholder="example96" />
+							<input type="text" name="username" id="username" className="form-control border-0 rounded-0" placeholder="Username" />
 						</div>
 						<div className="form-group">
 							<input type="password" name="password" id="password" className="form-control border-0 rounded-0" placeholder="••••••" />

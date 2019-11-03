@@ -8,9 +8,17 @@
 	&__option {
 		transition: .2s all;
 
+		i {
+			transition: .2s all;
+		}
+
 		&:hover {
 			background-color: $brand-color;
 			color: #ffffff;
+
+			i {
+				color: #ffffff;
+			}
 		}
 	}
 

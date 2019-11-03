@@ -6,36 +6,42 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/sign-up', (req,res) => {
-	const { email, username, password } = req.body;
+	const { username, password } = req.body;
 
-	if(!email || !username || !password)
+	if(!username || !password)
 		res.status(400).send('You must provide all the information');
 
-	bcrypt.genSalt(5)
-		.then(salt => bcrypt.hash(password, salt))
-		.then(hashPassword => new User({email, username, password: hashPassword}).save())
-		.then(newUser => {
+	User.findOne({username})
+		.then(user => {
+			if(user)
+				return res.status(403).json({code: 403, response: 'User already registered'});
 
-			const token = jwt.sign(
-				{
-					data: newUser,
-					exp: Math.floor(Date.now() / 1000) + (60 * 60)
-				}, SECRET_KEY)
+			bcrypt.genSalt(5)
+				.then(salt => bcrypt.hash(password, salt))
+				.then(hashPassword => new User({username, password: hashPassword}).save())
+				.then(newUser => {
 
-			res.status(200).json({
-				code: 200, 
-				response: {
-					token,
-					username: newUser.username,
-					email: newUser.email,
-					profilePic: newUser.profilePic,
-					description: newUser.description,
-					verified: newUser.verified,
-					_id: newUser._id
-				}
-			})
+					const token = jwt.sign(
+						{
+							data: newUser,
+							exp: Math.floor(Date.now() / 1000) + (60 * 60)
+						}, SECRET_KEY)
+
+					res.status(200).json({
+						code: 200, 
+						response: {
+							token,
+							username: newUser.username,
+							profilePic: newUser.profilePic,
+							description: newUser.description,
+							verified: newUser.verified,
+							_id: newUser._id
+						}
+					})
+				})
+				.catch(e => res.send(500).json({error: 'There were an error.'}));
 		})
-		.catch(e => res.send(500).json({error: 'There were an error.'}));
+		.catch(e => res.status(500).send('There were an error'));	
 });
 
 router.post('/sign-in', (req,res) => {
@@ -62,7 +68,6 @@ router.post('/sign-in', (req,res) => {
 					response: {
 						token,
 						username: user.username,
-						email: user.email,
 						profilePic: user.profilePic,
 						description: user.description,
 						verified: user.verified,

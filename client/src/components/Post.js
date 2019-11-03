@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deletePost, likePost } from '../actions/profile';
+import { deletePost, likePost, unlikePost } from '../actions/profile';
 import { Link, withRouter } from 'react-router-dom';
 import VerifiedBadge from '../components/VerifiedBadge';
 
@@ -34,7 +34,8 @@ const Post = (props) => (
         	</div>
       </div>						  
       <div className="card-footer px-0 py-0 d-flex justify-content-around">
-        <div className="w-50 text-center cursor-pointer post__option px-2 py-2" onClick={() => props.likePost(props._id)}>
+        <div className="w-50 text-center cursor-pointer post__option px-2 py-2" 
+              onClick={() => props.liked ? props.unlikePost(props._id) : props.likePost(props._id)}>
           <span><i className={`mr-1 fas fa-heart ${props.liked ? 'text-brand' : ''}`}></i> {props.likes}</span>
         </div>
         <div className="w-50 text-center cursor-pointer post__option px-2 py-2">
@@ -50,7 +51,8 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
 	deletePost: data => dispatch(deletePost(data)),
-  likePost: postId => dispatch(likePost(postId))
+  likePost: postId => dispatch(likePost(postId)),
+  unlikePost: postId => dispatch(unlikePost(postId))
 });
 
 export default connect(stateToProps, dispatchToProps)(withRouter(Post));

@@ -11,7 +11,7 @@ $brand-color: #ff013d;
 body {
     margin: 0 !important;
     padding: 0 !important;
-    background-color: #eeeeee;
+    background-color: #E9EBEE;
     overflow-x: hidden;    
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 .text-brand {
-    color: $brand-color !important;
+    color: $brand-color;
 }
 
 .border-brand {

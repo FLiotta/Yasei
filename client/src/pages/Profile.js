@@ -80,15 +80,13 @@ class Profile extends Component {
 						</div>
 					</div>
 				</div>
-				{this.props.user.ownProfile && 
-					<div className="row justify-content-center mb-3">
-						<div className="col-12 col-md-10 d-flex justify-content-center">
-							<div style={{"maxWidth": "540px"}} className="d-flex flex-grow-1">		
-								<DiscoverUser />
-							</div>
+				<div className="row justify-content-center mb-3">
+					<div className="col-12 col-md-10 d-flex justify-content-center">
+						<div style={{"maxWidth": "540px"}} className="d-flex flex-grow-1">		
+							<DiscoverUser />
 						</div>
 					</div>
-				}
+				</div>
 				<div className="row justify-content-center">
 					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  

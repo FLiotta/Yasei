@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cogoToast from 'cogo-toast';
 
 export const TOGGLE_NAVBAR = 'TOGGLE_NAVBAR',
 				SIGN_UP = 'SIGN_UP',
@@ -8,7 +9,8 @@ export const TOGGLE_NAVBAR = 'TOGGLE_NAVBAR',
 				SET_LOGIN_LOADING = 'SET_LOGIN_LOADING',
 				SET_PROFILE_PICTURE = 'SET_PROFILE_PICTURE',
 				RESET_LAST_CONNECTION = 'RESET_LAST_CONNECTION',
-				SET_PROFILE_DESCRIPTION = 'SET_PROFILE_DESCRIPTION'
+				SET_PROFILE_DESCRIPTION = 'SET_PROFILE_DESCRIPTION',
+				ERROR = 'ERROR'
 
 
 export const setLoginLoad = (value) => {
@@ -50,13 +52,17 @@ export const logout = () => {
 	}
 }
 
-export const signUp = ({username, email, password}) => {
-	return dispatch => {
-		dispatch(setLoginLoad(true));
+export const signUp = ({username, password}) => {
 
-		axios.post('http://localhost:3000/auth/sign-up', { email, username, password })
-			.then(res => {
+	return dispatch => {
+		dispatch(setLoginLoad(true));		
+
+		axios.post('http://localhost:3000/auth/sign-up', { username, password })
+			.then(res => {								
 				if(res.data.code == 200){					
+					cogoToast.success(`Welcome aboard @${res.data.response.username}!`, { 
+					    position: 'bottom-right'
+					});
 					dispatch({
 						type: SIGN_UP,
 						payload: {
@@ -65,8 +71,10 @@ export const signUp = ({username, email, password}) => {
 					});
 				}
 			})
-			.catch(e => {
-				console.log(e)
+			.catch(e => {				
+				cogoToast.error(e.response.data.response, { 
+				    position: 'bottom-right'
+				});
 				dispatch(setLoginLoad(false));
 			});
 	}
@@ -77,8 +85,11 @@ export const signIn = ({username, password}) => {
 		dispatch(setLoginLoad(true));
 
 		axios.post('http://localhost:3000/auth/sign-in', { username, password })
-			.then(res => {
+			.then(res => {				
 				if(res.data.code == 200){
+					cogoToast.success(`Welcome back @${res.data.response.username} :)!`, { 
+					    position: 'bottom-right'
+					});
 					dispatch({
 							type: SIGN_IN,
 							payload: {
@@ -96,6 +107,9 @@ export const signIn = ({username, password}) => {
 
 export const setProfilePic = url => {
 	return dispatch => {
+		cogoToast.success(`Profile picture updated!`, { 
+		    position: 'bottom-right'
+		});
 		dispatch({
 			type: SET_PROFILE_PICTURE,
 			payload: {
@@ -109,6 +123,9 @@ export const setProfilePic = url => {
 
 export const setDescription = description => {
 	return dispatch => {
+		cogoToast.success(`Description updated!`, { 
+		    position: 'bottom-right'
+		});
 		dispatch({
 			type: SET_PROFILE_DESCRIPTION,
 			payload: {
