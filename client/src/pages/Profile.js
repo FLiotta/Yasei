@@ -52,7 +52,7 @@ class Profile extends Component {
 						<div className="card mb-3 rounded-0" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
 						    	<div className="col-md-4">						    		
-						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="..." />
+						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="Profile picture" />
 						    	</div>
 						    	<div className="col-md-8">
 						      		<div className="card-body">

@@ -34,13 +34,10 @@ const Post = (props) => (
         	</div>
       </div>						  
       <div className="card-footer px-0 py-0 d-flex justify-content-around">
-        <div className="w-50 text-center cursor-pointer post__option px-2 py-2" 
+        <div className="w-100 text-center cursor-pointer post__option px-2 py-2" 
               onClick={() => props.liked ? props.unlikePost(props._id) : props.likePost(props._id)}>
           <span><i className={`mr-1 fas fa-heart ${props.liked ? 'text-brand' : ''}`}></i> {props.likes}</span>
-        </div>
-        <div className="w-50 text-center cursor-pointer post__option px-2 py-2">
-          <span>Comment</span>
-          </div>
+        </div>             
       </div>
 	</div>
 );

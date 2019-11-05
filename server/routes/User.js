@@ -2,6 +2,7 @@ const multer = require('multer');
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const path = require('path');
 const fs = require('fs');
@@ -35,6 +36,17 @@ router.get('/:username/posts', (req,res) => {
 				response: posts
 			})
 		});
+})
+
+router.get('/:username/likes', (req,res) => {
+
+	Post.find({likedBy: { $in: '5db63be3e070d70df8fa8761' }})
+		.limit(2)
+		.exec((err, posts) => {
+			res.send(posts)
+		})
+		/*.then(res => res.status(200).send(res))
+		.catch(e => res.status(500).send("There were an error"));*/
 })
 
 router.post('/:username/new/post', (req,res) => {
