@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { deletePost, likePost, unlikePost } from '../actions/profile';
 import { Link, withRouter } from 'react-router-dom';
@@ -27,8 +29,9 @@ const Post = (props) => (
 	    						<Link to={'/u/' + props.author.username}>@{props.author.username}</Link> 
 	    						{props.author.verified && <VerifiedBadge />}
 	    					</span>
-	    				}
-	        			<p className="mb-0">{props.message}</p>
+	    				}                
+	        			<p className="mb-3">{props.message}</p>
+                <small><Moment fromNow date={props.createdAt} /></small>
 	        		</div>
         		</div>
         	</div>
