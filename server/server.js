@@ -21,7 +21,7 @@ app.use("/", express.static(path.join(__dirname, 'public')));
 
 
 app.use((req,res,next) => {
-	const { token } = req.body;
+	const token = req.header('auth_token');
 
 	if(token) {
 		jwt.verify(token, SECRET_KEY, (err, decoded) => {

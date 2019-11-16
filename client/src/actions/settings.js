@@ -1,6 +1,9 @@
 import axios from 'axios';
 import FormData from 'form-data'
 import { setProfilePic, setDescription } from '../actions/app';
+import api from '../api/api';
+
+const API = new api();
 
 export const CHANGE_IMAGE = 'CHANGE_IMAGE',
 				CHANGE_DESCRIPTION = 'CHANGE_DESCRIPTION'
@@ -13,7 +16,7 @@ export const changeImage = (binary) => {
 		const payload = new FormData();
 		payload.append('newImage', binary);
 
-		axios.post(`http://localhost:3000/user/${username}/edit/info/profilePicture`,payload, {
+		API.post(`user/${username}/edit/info/profilePicture`,payload, {
 			  headers: {
 			    'accept': 'application/json',
 			    'Accept-Language': 'en-US,en;q=0.8',
@@ -29,11 +32,7 @@ export const changeImage = (binary) => {
 
 export const changeDescription = description => {
 	return (dispatch, getState) => {
-		const state = getState();
-		const { username, token } = state.app.logged;
-		const payload = { description, token };
-
-		axios.post(`http://localhost:3000/user/${username}/edit/info/description`, {...payload})
+		API.post(`user/${username}/edit/info/description`, { description })
 			.then(res => {
 				if(res.data.code == 200)
 					dispatch(setDescription(res.data.response.newDescription));

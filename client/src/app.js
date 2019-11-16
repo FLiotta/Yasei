@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import configStore from './store';
+import Store from './store';
 import { Provider } from 'react-redux';
 import { reconnect } from './actions/app';;
 import AppRouter from './routes/AppRouter';
 import './styles/Main.scss';
 
-const store = configStore();
-
+const store = Store;
+/*
 store.subscribe(() => {
 	console.log(store.getState());
-})
+})*/
 
 const last_session = localStorage.getItem('last_session');
 

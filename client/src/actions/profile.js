@@ -1,5 +1,8 @@
 import axios from 'axios';
 import cogoToast from 'cogo-toast';
+import api from '../api/api';
+
+const API = new api();
 
 export const FETCH_PROFILE = 'FETCH_PROFILE',
 				FETCH_POSTS = 'FETCH_POSTS',
@@ -14,7 +17,7 @@ export const fetchProfile = (username) => {
 	return (dispatch, getState) => {
 		const state = getState();
 
-		axios.get(`http://localhost:3000/user/${username}`)
+		API.get(`user/${username}`)
 			.then(res => {
 				if(res.data.code == 200)
 					dispatch({
@@ -37,7 +40,7 @@ export const fetchPosts = (username) => {
 		if(isThereMore) {
 			dispatch(setLoadingPosts(true));
 			
-			axios.get(`http://localhost:3000/user/${username}/posts?offset=${offset}&quantity=${quantity}`)
+			API.get(`user/${username}/posts?offset=${offset}&quantity=${quantity}`)
 				.then(res => {
 					if(res.data.code == 200)
 						dispatch({
@@ -65,9 +68,7 @@ export const likePost = (postId) => {
 	return (dispatch, getState) => {
 		const state = getState();
 
-		const { token } = state.app.logged;
-
-		axios.post(`http://localhost:3000/post/${postId}/like`, {token})
+		API.post(`post/${postId}/like`)
 			.then(res => {
 				if(res.data.code == 200)
 					dispatch({
@@ -84,9 +85,8 @@ export const likePost = (postId) => {
 export const unlikePost = (postId) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const { token } = state.app.logged;
 
-		axios.post(`http://localhost:3000/post/${postId}/unlike`, {token})
+		API.post(`post/${postId}/unlike`)
 			.then(res => {				
 				if(res.data.code == 200)
 					dispatch({
@@ -104,9 +104,8 @@ export const newPost = (data) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		const { username, message } = data;
-		const { token } = state.app.logged;
 
-		axios.post(`http://localhost:3000/user/${username}/new/post`, { message, token })
+		API.post(`user/${username}/new/post`, { message })
 			.then(res => {				
 				if(res.data.code == 200){
 					cogoToast.success(`Post submitted`, { 
@@ -132,9 +131,7 @@ export const deletePost = (data) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		const { username, postId } = data;
-		const { token } = state.app.logged;
-
-		axios.post(`http://localhost:3000/user/${username}/delete/post`, { postId, token })
+		API.post(`user/${username}/delete/post`, { postId })
 			.then(res => {
 				cogoToast.success(`Post deleted`, { 
 				    position: 'bottom-right'

@@ -1,4 +1,7 @@
 import axios from 'axios';
+import api from '../api/api';
+
+const API = new api();
 
 export const DISCOVER_USERS = 'DISCOVER_USERS',
 				RESTART_STATE = 'RESTART_STATE',
@@ -7,7 +10,7 @@ export const DISCOVER_USERS = 'DISCOVER_USERS',
 export const discoverUsers = () => {
 	return dispatch => {
 		dispatch(setLoading(true));
-		axios.get('http://localhost:3000/discover/users')
+		API.get('discover/users')
 			.then(res => {			
 				dispatch(setLoading(false));				
 				if(res.data.code == 200)
