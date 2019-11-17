@@ -13,7 +13,7 @@ const Post = (props) => (
       			<div className="col-2 col-md-1">
       				{props.author && 
       					<Link to={'/u/' + props.author.username}>
-      						<img src={props.author.profilePic} className="card-img post__image cursor-pointer" alt="..." />
+      						<img src={props.author.profilePic} className="card-img post__image cursor-pointer rounded-circle" alt={props.author.username + '_profile-picture'} />
       					</Link>
       				}
       			</div>
@@ -28,20 +28,22 @@ const Post = (props) => (
 	    					<span className="mb-0">
 	    						<Link to={'/u/' + props.author.username}>@{props.author.username}</Link> 
 	    						{props.author.verified && <VerifiedBadge />}
+                  <small className="ml-1 text-muted"><Moment fromNow date={props.createdAt} /></small>
 	    					</span>
 	    				}                
-	        			<p className="mb-3">{props.message}</p>
-                <small><Moment fromNow date={props.createdAt} /></small>
+	        			<p className="mb-3">{props.message}</p>                
 	        		</div>
         		</div>
         	</div>
-      </div>						  
-      <div className="card-footer px-0 py-0 d-flex justify-content-around">
-        <div className="w-100 text-center cursor-pointer post__option px-2 py-2" 
-              onClick={() => props.liked ? props.unlikePost(props._id) : props.likePost(props._id)}>
-          <span><i className={`mr-1 fas fa-heart ${props.liked ? 'text-brand' : ''}`}></i> {props.likes}</span>
-        </div>             
-      </div>
+      </div>	
+      {props.logged.isLogged && 					
+        <div className="card-footer px-0 py-0 d-flex justify-content-around">
+          <div className="w-100 text-center cursor-pointer post__option px-2 py-2" 
+                onClick={() => props.liked ? props.unlikePost(props._id) : props.likePost(props._id)}>
+            <span><i className={`mr-1 fas fa-heart ${props.liked ? 'text-brand' : ''}`}></i> {props.likes}</span>
+          </div>             
+        </div>
+      }
 	</div>
 );
 

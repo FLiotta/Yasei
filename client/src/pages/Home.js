@@ -3,10 +3,13 @@ import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 import Logo from '../assets/images/logo.png';
 import { connect } from 'react-redux';
+import { toggleNavbar } from '../actions/app';
 
 class Home extends Component {
 	constructor(props){
 		super(props);
+
+		this.props.toggleNavbar(false);
 	}
 
 	componentDidMount() {
@@ -60,4 +63,8 @@ const stateToProps = state => ({
 	user: state.app.logged.username
 });
 
-export default connect(stateToProps)(Home);
+const dispatchToProps = dispatch => ({
+	toggleNavbar: value => dispatch(toggleNavbar(value))
+})
+
+export default connect(stateToProps, dispatchToProps)(Home);

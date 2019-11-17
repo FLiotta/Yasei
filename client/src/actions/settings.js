@@ -32,6 +32,10 @@ export const changeImage = (binary) => {
 
 export const changeDescription = description => {
 	return (dispatch, getState) => {
+		const state = getState();
+
+		const username = state.app.logged.username;
+		
 		API.post(`user/${username}/edit/info/description`, { description })
 			.then(res => {
 				if(res.data.code == 200)

@@ -46,10 +46,10 @@ class Profile extends Component {
 
 	render(){
 		return (
-			<div className="container mt-5 pt-5">	
+			<div className="container mt-5 pt-5 animated fadeIn">	
 				<div className="row justify-content-center">
 					<div className="col-12 col-md-10 justify-content-center d-flex">
-						<div className="card mb-3 rounded-0" style={{"maxWidth": "540px"}}>
+						<div className="card mb-3 rounded-0 animated fadeIn" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
 						    	<div className="col-md-4">						    		
 						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="Profile picture" />
@@ -87,32 +87,34 @@ class Profile extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="row justify-content-center">
-					<div className="col-12 col-md-10 justify-content-center d-flex">
-						<div className="card w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
-					    	<div className="card-body">
-					      		<div className="row">
-					    			<div className="col-md-12">					    				
-					        			<form onSubmit={this.handleNewPost}>
-					        				<div className="form-group">						        	
-					        					<textarea id="message" name="message" className="form-control" placeholder="So basically, i'm very smol."></textarea>
-					        				</div>
-					        				<div className="form-group">
-					        					<button type="submit" className="btn btn-primary float-right">Submit</button>
-					        				</div>
-					        			</form> 
-					        		</div>
-					        	</div>
-					      	</div>						  
+				{this.props.logged.isLogged &&
+					<div className="row justify-content-center">
+						<div className="col-12 col-md-10 justify-content-center d-flex">
+							<div className="card w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
+						    	<div className="card-body">
+						      		<div className="row">
+						    			<div className="col-md-12">					    				
+						        			<form onSubmit={this.handleNewPost}>
+						        				<div className="form-group">						        	
+						        					<textarea id="message" name="message" className="form-control" placeholder="So basically, i'm very smol."></textarea>
+						        				</div>
+						        				<div className="form-group">
+						        					<button type="submit" className="btn btn-primary float-right">Submit</button>
+						        				</div>
+						        			</form> 
+						        		</div>
+						        	</div>
+						      	</div>						  
+							</div>
 						</div>
-					</div>
-				</div>				
+					</div>				
+				}
 				<div className="row justify-content-center mb-5">
 					{
 						this.props.user.posts && (
 							<>								
 								{this.props.user.posts.items.map((post, i) => (
-									<div className="col-12 col-md-10 justify-content-center d-flex" key={post.message + i}>
+									<div className="col-12 col-md-10 justify-content-center d-flex animated slideInUp" key={post.message + i}>
 										<Post {...post}/>
 									</div>
 								))}

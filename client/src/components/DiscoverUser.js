@@ -33,12 +33,12 @@ class DiscoverUser extends Component {
 				<div className="card-body">
 					<div className="row">
 						{this.props.isLoading && 
-							<div className="col-12 d-flex justify-content-center">
+							<div className="col-12 d-flex justify-content-center my-4">
 								<Loading />
 							</div>
 						}
 						{this.props.users && this.props.users.map(user => 
-							<div className="col-2 flex-column" key={'discover_user_' + user._id}>
+							<div className="col-2 flex-column animated fadeIn" key={'discover_user_' + user._id}>
 								<Link to={'/u/' + user.username}>
 									<img src={user.profilePic} alt={user.username} className="img-fluid d-block mx-auto rounded-circle discover-user__picture"  data-tip={'@' + user.username} />
 								</Link>

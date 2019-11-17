@@ -1,0 +1,21 @@
+{
+  "name": "mernsocialnetwork",
+  "version": "1.0.0",
+  "description": "![alt text](display.png)",
+  "main": "index.js",
+  "scripts": {
+    "start-client": "npm run serve --prefix client",
+    "start-server": "npm start --prefix server",
+    "start": "npm run start-server & npm run start-client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FLiotta/ReactSocial.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FLiotta/ReactSocial/issues"
+  },
+  "homepage": "https://github.com/FLiotta/ReactSocial#readme"
+}

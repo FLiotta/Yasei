@@ -13,12 +13,21 @@ class Navbar extends Component {
 			<>
 				{this.props.isVisible && 
 					<div className="navbar-cs">
-						<div className="container">
+						<div className="container">							
 							<div className="navbar-cs__profile-pic">
-								<p className="mt-2 mr-2 text-white cursor-pointer d-text-underline" onClick={this.props.logout}>Log out</p>
-								<Link to={'/u/' + this.props.profile.username}>
-					  				<img src={this.props.profile.profilePic} className="img-fluid rounded-circle cursor-pointer" alt="nav-profile-pic" />
-					  			</Link>
+								{this.props.profile.isLogged 
+									? 
+										<>
+											<p className="mt-2 mr-2 text-white cursor-pointer d-text-underline" onClick={this.props.logout}>Log out</p>
+											<Link to={'/u/' + this.props.profile.username}>
+							  					<img src={this.props.profile.profilePic} className="img-fluid rounded-circle cursor-pointer" alt="nav-profile-pic" />
+							  				</Link>
+							  			</>
+							  		: 
+							  			<Link to='/'>
+							  				<p className="mt-2 mr-2 text-white cursor-pointer d-text-underline">Log In</p>
+							  			</Link>
+							  	}
 							</div>
 						</div>
 					</div>
