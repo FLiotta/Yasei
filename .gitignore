@@ -1,5 +1,8 @@
 /client/node_modules
+
 /server/node_modules
 /server/config.js
 /server/public
+
 /design
+/node_modules

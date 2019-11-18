@@ -2,13 +2,15 @@ import { FETCH_PROFILE,
 	FETCH_POSTS, 
 	NEW_POST, 
 	DELETE_POST, 
-	RESTART_STATE, 
+	RESTART_STATE,
+	SET_LOADING, 
 	SET_LOADING_POSTS,
 	LIKE_POST,
 	UNLIKE_POST } from '../actions/profile';
 import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
+	loading: true,
 	username: null,
 	description: null,
 	profilePic: null,	
@@ -25,7 +27,7 @@ export default (state = defaultState, action) => {
 	switch(action.type) {
 		case FETCH_PROFILE:
 			return {
-				...state,
+				...state,				
 				...action.payload,
 				profilePic: parseImageUrl(action.payload.profilePic)
 			}			
@@ -92,6 +94,11 @@ export default (state = defaultState, action) => {
 							: post
 						)
 				}
+			}
+		case SET_LOADING:
+			return {
+				...state,
+				loading: action.payload.loading
 			}
 		case SET_LOADING_POSTS:
 			return {

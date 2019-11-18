@@ -3,7 +3,7 @@ import { toggleNavbar } from '../actions/app';
 import { fetchProfile, newPost, fetchPosts, restartState } from '../actions/profile';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
 import VerifiedBadge from '../components/VerifiedBadge';
@@ -47,6 +47,9 @@ class Profile extends Component {
 	render(){
 		return (
 			<div className="container mt-5 pt-5 animated fadeIn">	
+				{(!this.props.user.username && !this.props.user.loading) && 
+					<Redirect to='/404' />
+				}
 				<div className="row justify-content-center">
 					<div className="col-12 col-md-10 justify-content-center d-flex">
 						<div className="card mb-3 rounded-0 animated fadeIn" style={{"maxWidth": "540px"}}>
@@ -96,7 +99,13 @@ class Profile extends Component {
 						    			<div className="col-md-12">					    				
 						        			<form onSubmit={this.handleNewPost}>
 						        				<div className="form-group">						        	
-						        					<textarea id="message" name="message" className="form-control" placeholder="So basically, i'm very smol."></textarea>
+						        					<textarea 
+						        						id="message" 
+						        						name="message" 
+						        						className="form-control" 
+						        						rows="3" 
+						        						placeholder="So basically, i'm very smol.">
+						        					</textarea>
 						        				</div>
 						        				<div className="form-group">
 						        					<button type="submit" className="btn btn-primary float-right">Submit</button>

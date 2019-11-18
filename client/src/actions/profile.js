@@ -9,6 +9,7 @@ export const FETCH_PROFILE = 'FETCH_PROFILE',
 				NEW_POST = 'NEW_POST',
 				DELETE_POST = 'DELETE_POST',
 				RESTART_STATE = 'RESTART_STATE',
+				SET_LOADING = 'SET_LOADING',
 				SET_LOADING_POSTS = 'SET_LOADING_POSTS',
 				LIKE_POST = 'LIKE_POST',
 				UNLIKE_POST = 'UNLIKE_POST';
@@ -16,6 +17,7 @@ export const FETCH_PROFILE = 'FETCH_PROFILE',
 export const fetchProfile = (username) => {
 	return (dispatch, getState) => {
 		const state = getState();
+		dispatch(setLoading(true));
 
 		API.get(`user/${username}`)
 			.then(res => {
@@ -27,6 +29,23 @@ export const fetchProfile = (username) => {
 							ownProfile: state.app.logged.username == res.data.response.username
 						}
 					})
+			})
+			.catch(e => {
+				switch(e.response.status){
+					case 404:
+						cogoToast.danger("404: User not found", { 
+						    position: 'bottom-right'
+						});
+						break;
+					default:
+						cogoToast.danger("Unexpected error", { 
+						    position: 'bottom-right'
+						});
+						break;
+				}
+			})
+			.then(() => {
+				dispatch(setLoading(false));
 			})
 	}
 }
@@ -150,6 +169,15 @@ export const deletePost = (data) => {
 export const setLoadingPosts = (loading) => {
 	return dispatch => dispatch({
 		type: SET_LOADING_POSTS,
+		payload: {
+			loading
+		}
+	})
+}
+
+export const setLoading = loading => {
+	return dispatch => dispatch({
+		type: SET_LOADING,
 		payload: {
 			loading
 		}

@@ -6,7 +6,7 @@
   "scripts": {
     "start-client": "npm run serve --prefix client",
     "start-server": "npm start --prefix server",
-    "start": "npm run start-server & npm run start-client"
+    "start": "concurrently \"npm run start-client\" \"npm run start-server\""
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/FLiotta/ReactSocial/issues"
   },
-  "homepage": "https://github.com/FLiotta/ReactSocial#readme"
+  "homepage": "https://github.com/FLiotta/ReactSocial#readme",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
 }
