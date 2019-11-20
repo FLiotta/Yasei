@@ -36,7 +36,7 @@ class DiscoverUser extends Component {
 							<div className="col-12 d-flex justify-content-center my-4">
 								<Loading />
 							</div>
-						}
+						}		
 						{this.props.users && this.props.users.map(user => 
 							<div className="col-2 flex-column animated fadeIn" key={'discover_user_' + user._id}>
 								<Link to={'/u/' + user.username}>
@@ -47,7 +47,7 @@ class DiscoverUser extends Component {
 									effect="solid"
 								/>
 							</div>
-						)}
+						)}				
 					</div>					
 				</div>				
 			</div>
