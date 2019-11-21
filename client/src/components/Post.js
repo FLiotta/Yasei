@@ -31,7 +31,7 @@ const Post = (props) => (
                   <small className="ml-1 text-muted"><Moment fromNow date={props.createdAt} /></small>
 	    					</span>
 	    				}                
-	        			<p className="mb-3">{props.message}</p>                
+	        			<p className="my-0 py-0">{props.message}</p>                
 	        		</div>
         		</div>
         	</div>

@@ -1,32 +1,9 @@
 .profile {
-	&__picture {
-
-		img {
-			transition: 1s all;
-		}
-
+	&__image {
 		&__icon {
-			font-size: 40px;
 			position: absolute;
-			color: white;
-			opacity: 0;
-			transition: 1s all;
-			background-color: #F26B55;
-		    padding: 5px 15px;
-		    border-radius: 15px;
-			z-index: 5;
-			transform: translate(0px, 60px)
-		}
-
-		&:hover {
-			img {
-				filter: grayscale(100%);
-			}
-
-			.profile__picture__icon {
-				opacity: 1;			
-			    transform: translate(58px, 50px);
-			}
+			bottom: 7px;
+			left: 5px;
 		}
 	}
 }

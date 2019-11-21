@@ -10,7 +10,7 @@ import Loading from '../components/Loading';
 import cogoToast from 'cogo-toast';
 import VerifiedBadge from '../components/VerifiedBadge';
 import DiscoverUser from '../components/DiscoverUser';
-
+import Files from 'react-files'
 import '../styles/pages/Profile.scss';
 
 class Profile extends Component {
@@ -28,10 +28,11 @@ class Profile extends Component {
 		this.handleNewPost = this.handleNewPost.bind(this); 
 		this.toggleDescription = this.toggleDescription.bind(this);
 		this.updateDescription = this.updateDescription.bind(this);
+		this.handleNewImage = this.handleNewImage.bind(this);
 	}
 
 	toggleDescription() {
-		if(this.props.user.ownProfile)
+		if(this.props.ownsProfile)
 			this.setState(() => ({
 				descriptionEditMode: !this.state.descriptionEditMode
 			}))
@@ -50,7 +51,7 @@ class Profile extends Component {
 	  		}))
 		}
   		else {
-  			cogoToast.warn('Hmm... your description looks the same?', {
+  			cogoToast.warn('Hmm... is it me or your description looks the same?', {
   				position: 'bottom-right'
   			})
   		}
@@ -68,6 +69,11 @@ class Profile extends Component {
 
 		e.target.message.value = '';
 	}
+
+
+	handleNewImage(File) {
+  		this.props.changeImage(File[0]);
+  	}
 
 	componentDidUpdate(prevProps) {
 	    if (this.props.location !== prevProps.location) {
@@ -89,10 +95,24 @@ class Profile extends Component {
 				}
 				<div className="row justify-content-center">
 					<div className="col-12 col-md-10 justify-content-center d-flex">
-						<div className="card mb-3 rounded-0 animated fadeIn" style={{"maxWidth": "540px"}}>
+						<div className="card mb-3 rounded-0 animated fadeIn profile" style={{"maxWidth": "540px"}}>
 						  	<div className="row no-gutters">
-						    	<div className="col-md-4">						    		
+						    	<div className="col-md-4 profile__image">						    		
 						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="Profile picture" />
+						    		{this.props.ownsProfile && 
+							    		<span>
+							    			<Files
+										        className='files-dropzone'
+										        onChange={this.handleNewImage}
+										        accepts={['image/png', 'image/jpg', 'image/jpeg']}
+										        maxFiles={5}
+										        maxFileSize={10000000}
+										        minFileSize={0}
+										        clickable>
+									        	<i className="fas fa-camera-retro cursor-pointer ml-2 text-brand profile__image__icon"></i>
+									        </Files>	
+							    		</span>
+						    		}
 						    	</div>
 						    	<div className="col-md-8">
 						      		<div className="card-body">
@@ -102,12 +122,13 @@ class Profile extends Component {
 						        		</h5>						        		
 					        			{this.state.descriptionEditMode 
 					        				?	
-			        						<form onSubmit={this.updateDescription}>
+			        						<form onSubmit={this.updateDescription} className="animated fadeIn">
 			        							<div className="form-group">
 			        								<textarea 
 			        									id="newDescription" 
 			        									placeholder="i like good music" 
 			        									className="form-control" 
+			        									maxLength="110"
 			        									defaultValue={this.props.user.description}>
 			        								</textarea>
 			        							</div>
@@ -117,20 +138,20 @@ class Profile extends Component {
 			        							</div>
 			        						</form>		
 					        				: 
-					        				<>
+					        				<div className="animated fadeIn">
 					        					<p className="card-text mb-0 py-0">
 							        				{this.props.user.description} 
-							        				{this.props.user.ownProfile && 
+							        				{this.props.ownsProfile && 
 							        					<i className="fas fa-pencil-alt cursor-pointer ml-2 text-brand" onClick={this.toggleDescription}></i>
 							        				}	
 							        			</p>
 							        			<p className="card-text py-0 mt-2">
 							        				<span>
-							        					<small>570 Followers</small>
-							        					<small className="ml-3">320 Following</small>
+							        					<small>570 <span className="text-muted">Followers</span></small>
+							        					<small className="ml-3">320 <span className="text-muted">Following</span></small>
 							        				</span>
 							        			</p>
-							        		</>
+							        		</div>
 					        			}						        		
 						      		</div>
 						    	</div>
@@ -163,7 +184,7 @@ class Profile extends Component {
 						        					</textarea>
 						        				</div>
 						        				<div className="form-group">
-						        					<button type="submit" className="btn btn-primary float-right">Submit</button>
+						        					<button type="submit" className="btn btn-primary float-right">Publish</button>
 						        				</div>
 						        			</form> 
 						        		</div>
@@ -201,7 +222,8 @@ const stateToProps = state => ({
 			...state.app.logged, 
 			ownProfile: true
 		} 
-		: state.profile
+		: state.profile,
+	ownsProfile: state.profile.ownProfile
 })
 const dispatchToProps = dispatch => ({
 	toggleNavbar: value => dispatch(toggleNavbar(value)),
