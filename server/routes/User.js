@@ -94,6 +94,9 @@ router.post('/:username/edit/info/description', isAuth, (req,res) => {
 	const { description } = req.body;
 	if(req.user.username != username)
 		return res.status(401).json({ code: 401, response: "Unauthorized request"});
+
+	if(description.length > 150)
+		return res.status(400).json({code: 400, message: "Your description can't have more than 150 characters"})
 	
 	User.findOneAndUpdate({ username }, { description: description }, { new: true, useFindAndModify: false })
 		.then(updatedUser => res.status(200).json(

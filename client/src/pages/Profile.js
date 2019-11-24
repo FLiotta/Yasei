@@ -29,6 +29,7 @@ class Profile extends Component {
 		this.toggleDescription = this.toggleDescription.bind(this);
 		this.updateDescription = this.updateDescription.bind(this);
 		this.handleNewImage = this.handleNewImage.bind(this);
+		this.handleNewImageError = this.handleNewImageError.bind(this);
 	}
 
 	toggleDescription() {
@@ -43,7 +44,7 @@ class Profile extends Component {
 
 		const newDescription = e.target.newDescription.value;
 
-		if(this.props.logged.description != newDescription) {
+		if(this.props.logged.description != newDescription && newDescription.length <= 150) {
   			this.props.changeDescription(newDescription);
 
   			this.setState(() => ({
@@ -51,7 +52,14 @@ class Profile extends Component {
 	  		}))
 		}
   		else {
-  			cogoToast.warn('Hmm... is it me or your description looks the same?', {
+  			let warningMessage;
+
+  			if(newDescription.length > 150)
+  				warningMessage = "Your description can't have more than 150 characters";
+  			else
+  				warningMessage = "Hmm... is it me or your description looks the same?"
+
+  			cogoToast.warn(warningMessage, {
   				position: 'bottom-right'
   			})
   		}
@@ -73,6 +81,10 @@ class Profile extends Component {
 
 	handleNewImage(File) {
   		this.props.changeImage(File[0]);
+  	}
+
+  	handleNewImageError(error, file) {
+  		console.log(error)
   	}
 
 	componentDidUpdate(prevProps) {
@@ -104,9 +116,10 @@ class Profile extends Component {
 							    			<Files
 										        className='files-dropzone'
 										        onChange={this.handleNewImage}
+										        onError={this.handleNewImageError}
 										        accepts={['image/png', 'image/jpg', 'image/jpeg']}
-										        maxFiles={5}
-										        maxFileSize={10000000}
+										        maxFiles={1}
+										        maxFileSize={6000000}
 										        minFileSize={0}
 										        clickable>
 									        	<i className="fas fa-camera-retro cursor-pointer ml-2 text-brand profile__image__icon"></i>
@@ -114,7 +127,7 @@ class Profile extends Component {
 							    		</span>
 						    		}
 						    	</div>
-						    	<div className="col-md-8">
+						    	<div className="col-md-8 profile__description">
 						      		<div className="card-body">
 						        		<h5 className="card-title d-inline-flex">
 						        			@{this.props.user.username}	
@@ -128,7 +141,7 @@ class Profile extends Component {
 			        									id="newDescription" 
 			        									placeholder="i like good music" 
 			        									className="form-control" 
-			        									maxLength="110"
+			        									maxLength="150"
 			        									defaultValue={this.props.user.description}>
 			        								</textarea>
 			        							</div>
@@ -144,13 +157,7 @@ class Profile extends Component {
 							        				{this.props.ownsProfile && 
 							        					<i className="fas fa-pencil-alt cursor-pointer ml-2 text-brand" onClick={this.toggleDescription}></i>
 							        				}	
-							        			</p>
-							        			<p className="card-text py-0 mt-2">
-							        				<span>
-							        					<small>570 <span className="text-muted">Followers</span></small>
-							        					<small className="ml-3">320 <span className="text-muted">Following</span></small>
-							        				</span>
-							        			</p>
+							        			</p>							        			
 							        		</div>
 					        			}						        		
 						      		</div>

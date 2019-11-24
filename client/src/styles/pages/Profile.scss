@@ -6,6 +6,12 @@
 			left: 5px;
 		}
 	}
+
+	&__description {
+		p {
+			/*white-space: pre-line;*/
+		}
+	}
 }
 
 #newDescription {
