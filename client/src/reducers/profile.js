@@ -125,11 +125,12 @@ export default (state = defaultState, action) => {
 				}
 			}
 		case DELETE_POST:
+			console.log(action.payload);
 			return {
 				...state,
 				posts: {
 					...state.posts,
-					items: state.posts.items.filter(post => post._id != action.payload._id)
+					items: state.posts.items.filter(post => post._id != action.payload.deletedPost._id)
 				}
 			}
 		case RESTART_STATE:

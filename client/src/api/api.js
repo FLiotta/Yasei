@@ -12,7 +12,6 @@ class Api {
 		const state = store.getState();
 
 		const config = {
-			method: 'GET',
 			headers: { }
 		}
 
@@ -43,7 +42,6 @@ class Api {
 		const state = store.getState();
 
 		const config = {
-			method: 'GET',
 			headers: { }
 		}
 

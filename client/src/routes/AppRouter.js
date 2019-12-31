@@ -13,11 +13,10 @@ class AppRouter extends Component {
 
 	render(){
 		return (
-			<BrowserRouter>
-				<Navbar />
+			<BrowserRouter> 
 				<Switch>
 					<Route path="/" component={Home} exact />
-					<Route path="/u/:id" component={Profile} />		
+					<Route path="/u/:id" component={Profile} />
 					<Route component={Error} />
 				</Switch>
 			</BrowserRouter>

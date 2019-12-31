@@ -149,8 +149,8 @@ export const newPost = (data) => {
 export const deletePost = (data) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const { username, postId } = data;
-		API.post(`user/${username}/delete/post`, { postId })
+		const { postId } = data;
+		API.get(`post/${postId}/delete`)
 			.then(res => {
 				cogoToast.warn(`Post deleted`, { 
 				    position: 'bottom-right'
@@ -158,7 +158,7 @@ export const deletePost = (data) => {
 				dispatch({
 					type: DELETE_POST,
 					payload: {
-						...res.data.response
+						...res.data
 					}
 				})
 			})

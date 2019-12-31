@@ -3,68 +3,33 @@ import { toggleNavbar } from '../actions/app';
 import { fetchProfile, newPost, fetchPosts, restartState } from '../actions/profile';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import { changeImage, changeDescription } from '../actions/settings';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
-import cogoToast from 'cogo-toast';
-import VerifiedBadge from '../components/VerifiedBadge';
-import DiscoverUser from '../components/DiscoverUser';
-import Files from 'react-files'
+import { logout } from '../actions/app';
 import '../styles/pages/Profile.scss';
 
 class Profile extends Component {
 	constructor(props){
 		super(props);
 
-		this.state = {
-			descriptionEditMode: false
-		}
-
-		this.props.toggleNavbar(true);
-		this.props.fetchProfile(this.props.match.params.id);
-		this.props.fetchPosts(this.props.match.params.id);
-
-		this.handleNewPost = this.handleNewPost.bind(this); 
-		this.toggleDescription = this.toggleDescription.bind(this);
-		this.updateDescription = this.updateDescription.bind(this);
-		this.handleNewImage = this.handleNewImage.bind(this);
-		this.handleNewImageError = this.handleNewImageError.bind(this);
+		this.handleNewPost = this.handleNewPost.bind(this);
+		this.fetchPosts = this.fetchPosts.bind(this);
+		this.initializeProfile = this.initializeProfile.bind(this);
 	}
 
-	toggleDescription() {
-		if(this.props.ownsProfile)
-			this.setState(() => ({
-				descriptionEditMode: !this.state.descriptionEditMode
-			}))
+	componentDidMount() {
+		this.initializeProfile();
 	}
 
-	updateDescription(e) {
-		e.preventDefault();
-
-		const newDescription = e.target.newDescription.value;
-
-		if(this.props.logged.description != newDescription && newDescription.length <= 150) {
-  			this.props.changeDescription(newDescription);
-
-  			this.setState(() => ({
-	  			descriptionEditMode: false
-	  		}))
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.location !== prevProps.location) {
+			this.props.restartState();
+			this.initializeProfile();
 		}
-  		else {
-  			let warningMessage;
+	}
 
-  			if(newDescription.length > 150)
-  				warningMessage = "Your description can't have more than 150 characters";
-  			else
-  				warningMessage = "Hmm... is it me or your description looks the same?"
-
-  			cogoToast.warn(warningMessage, {
-  				position: 'bottom-right'
-  			})
-  		}
-
-  		
+	componentWillUnmount(){
+		this.props.restartState();
 	}
 
 	handleNewPost(e) {
@@ -73,149 +38,82 @@ class Profile extends Component {
 		this.props.newPost({
 			username: this.props.match.params.id,
 			message: e.target.message.value
-		})
+		});
 
 		e.target.message.value = '';
 	}
 
+	fetchPosts() {
+		const profileId = this.props.match.params.id;
 
-	handleNewImage(File) {
-  		this.props.changeImage(File[0]);
-  	}
+		this.props.fetchPosts(profileId);
+	}
 
-  	handleNewImageError(error, file) {
-  		console.log(error)
-  	}
-
-	componentDidUpdate(prevProps) {
-	    if (this.props.location !== prevProps.location) {
-	    	this.props.restartState();
-			this.props.fetchProfile(this.props.match.params.id);
-			this.props.fetchPosts(this.props.match.params.id);    
-	    }
-  	}
-
-  	componentWillUnmount(){
-  		this.props.restartState();
-  	}
+	initializeProfile() {
+		this.props.fetchProfile(this.props.match.params.id)
+		this.fetchPosts();
+	}
 
 	render(){
 		return (
-			<div className="container mt-5 pt-5 animated fadeIn">	
-				{(!this.props.user.username && !this.props.user.loading) && 
-					<Redirect to='/404' />
-				}
-				<div className="row justify-content-center">
-					<div className="col-12 col-md-10 justify-content-center d-flex">
-						<div className="card mb-3 rounded-0 animated fadeIn profile" style={{"maxWidth": "540px"}}>
-						  	<div className="row no-gutters">
-						    	<div className="col-md-4 profile__image">						    		
-						    		<img src={this.props.user.profilePic} className="card-img rounded-0" alt="Profile picture" />
-						    		{this.props.ownsProfile && 
-							    		<span>
-							    			<Files
-										        className='files-dropzone'
-										        onChange={this.handleNewImage}
-										        onError={this.handleNewImageError}
-										        accepts={['image/png', 'image/jpg', 'image/jpeg']}
-										        maxFiles={1}
-										        maxFileSize={6000000}
-										        minFileSize={0}
-										        clickable>
-									        	<i className="fas fa-camera-retro cursor-pointer ml-2 text-brand profile__image__icon"></i>
-									        </Files>	
-							    		</span>
-						    		}
-						    	</div>
-						    	<div className="col-md-8 profile__description">
-						      		<div className="card-body">
-						        		<h5 className="card-title d-inline-flex">
-						        			@{this.props.user.username}	
-						        			{this.props.user.verified && <VerifiedBadge />}
-						        		</h5>						        		
-					        			{this.state.descriptionEditMode 
-					        				?	
-			        						<form onSubmit={this.updateDescription} className="animated fadeIn">
-			        							<div className="form-group">
-			        								<textarea 
-			        									id="newDescription" 
-			        									placeholder="i like good music" 
-			        									className="form-control" 
-			        									maxLength="150"
-			        									defaultValue={this.props.user.description}>
-			        								</textarea>
-			        							</div>
-			        							<div className="form-group mb-0">
-			        								<input type="submit" value="Update" className="my-0 py-0 text-primary cursor-pointer btn btn-link" />
-			        								<button className="text-danger btn btn-link ml-2 my-0 py-0 cursor-pointer" onClick={this.toggleDescription}>Cancel</button>
-			        							</div>
-			        						</form>		
-					        				: 
-					        				<div className="animated fadeIn">
-					        					<p className="card-text mb-0 py-0">
-							        				{this.props.user.description} 
-							        				{this.props.ownsProfile && 
-							        					<i className="fas fa-pencil-alt cursor-pointer ml-2 text-brand" onClick={this.toggleDescription}></i>
-							        				}	
-							        			</p>							        			
-							        		</div>
-					        			}						        		
-						      		</div>
-						    	</div>
+			<div className="d-flex profile w-100">
+				<div className="d-none d-md-flex position-relative sidenav flex-column">
+					<div>
+						<img src={this.props.profile.profilePic}
+							 className="img-fluid rounded-circle sidenav__avatar mx-auto d-block mt-5"/>
+					</div>
+					<div className="mt-2 sidenav__description">
+						<p className="text-center text-white title mt-3">@{this.props.profile.username}</p>
+						<p className="text-left text-white description px-5">{this.props.profile.description}</p>
+						<div className="d-flex flex-column justify-content-between h-100">
+							<div className="d-flex justify-content-between px-5">
+								<div>
+									<p className="text-white mb-0">450 Followers</p>
+									<p className="text-white mb-0">235 Followings</p>
+								</div>
+								<div>
+									<p className="text-white mb-0">723 Likes</p>
+									<p className="text-white mb-0">532 Posts</p>
+								</div>
+							</div>
+							<div className="mt-3">
+								<p className="text-white text-center cursor-pointer" onClick={this.props.logout}>Log out</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="row justify-content-center mb-3">
-					<div className="col-12 col-md-10 d-flex justify-content-center">
-						<div style={{"maxWidth": "540px"}} className="d-flex flex-grow-1">		
-							<DiscoverUser />
-						</div>
-					</div>
-				</div>
-				{this.props.logged.isLogged &&
-					<div className="row justify-content-center">
-						<div className="col-12 col-md-10 justify-content-center d-flex">
-							<div className="card w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
-						    	<div className="card-body">
-						      		<div className="row">
-						    			<div className="col-md-12">					    				
-						        			<form onSubmit={this.handleNewPost}>
-						        				<div className="form-group">						        	
-						        					<textarea 
-						        						id="message" 
-						        						name="message" 
-						        						className="form-control" 
-						        						rows="3" 
-						        						placeholder="So basically, i'm very smol.">
-						        					</textarea>
-						        				</div>
-						        				<div className="form-group">
-						        					<button type="submit" className="btn btn-primary float-right">Publish</button>
-						        				</div>
-						        			</form> 
-						        		</div>
-						        	</div>
-						      	</div>						  
-							</div>
-						</div>
-					</div>				
-				}
-				<div className="row justify-content-center mb-5">
-					{
-						this.props.user.posts && (
-							<>								
-								{this.props.user.posts.items.map((post, i) => (
-									<div className="col-12 col-md-10 justify-content-center d-flex animated slideInUp" key={post.message + i}>
-										<Post {...post}/>
+				<BottomScrollListener onBottom={this.fetchPosts}>
+					{scrollRef => (
+						<div className="d-flex position-relative profile__body justify-content-center flex-wrap" ref={scrollRef}>
+							<div className="profile__body__textarea w-100 my-4">
+								<div className="card border-0">
+									<div className="card-body">
+										<form onSubmit={this.handleNewPost}>
+											<div className="form-group">
+										<textarea
+											id="message"
+											name="message"
+											className="form-control rounded-0 profile__body__textarea__input"
+											rows="5"
+											placeholder="What you thinking?">
+										</textarea>
+											</div>
+											<div className="form-group">
+												<button type="submit" className="btn btn-success rounded-pill float-right profile__body__textarea__button">POST</button>
+											</div>
+										</form>
 									</div>
-								))}
-								{this.props.user.posts.loading && <div className="col-12 d-flex justify-content-center"><Loading classes="my-3"/></div>}
-							</>
-						)	
-					}
-				</div>	
-				<BottomScrollListener onBottom={() => {this.props.fetchPosts(this.props.user.username)}} />
+								</div>
+							</div>
+							<div className="profile__body__posts w-100">
+								<div className="d-flex flex-column">
+									{this.props.profile.posts.items.map((post, i) => <Post {...post} key={post.message + '_' + i}/>)}
+									{this.props.profile.posts.loading && <div className="d-flex justify-content-center"><Loading classes="my-5"/></div>}
+								</div>
+							</div>
+						</div>
+					)}
+				</BottomScrollListener>
 			</div>
 		)
 	}
@@ -223,23 +121,17 @@ class Profile extends Component {
 
 const stateToProps = state => ({
 	logged: state.app.logged,
-	user: state.profile.ownProfile 
-		? {
-			...state.profile, 
-			...state.app.logged, 
-			ownProfile: true
-		} 
-		: state.profile,
-	ownsProfile: state.profile.ownProfile
-})
+	ownsProfile: state.profile.ownProfile,
+	profile: state.profile.ownProfile ? {...state.profile, ...state.app.logged} : state.profile
+});
+
 const dispatchToProps = dispatch => ({
 	toggleNavbar: value => dispatch(toggleNavbar(value)),
 	fetchProfile: value => dispatch(fetchProfile(value)),
 	newPost: value => dispatch(newPost(value)),
 	fetchPosts: value => dispatch(fetchPosts(value)),
-	changeImage: binary => dispatch(changeImage(binary)),
-	changeDescription: description => dispatch(changeDescription(description)),
-	restartState: () => dispatch(restartState())	
+	restartState: () => dispatch(restartState()),
+	logout: () => dispatch(logout())
 })
 
 export default connect(stateToProps, dispatchToProps)(Profile);

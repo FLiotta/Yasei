@@ -65,6 +65,20 @@ router.post('/:id/unlike', isAuth, (req,res) => {
 		.catch(e => res.status(500).send("There were an error"));
 })
 
+router.get('/:id/delete', isAuth, (req,res) => {
+	const { id } = req.params;
+
+	if(!req.user)
+		res.status(403).json({code: 403, response: "Unauthorized request"});
+
+	Post.findOneAndDelete({_id: id, $or: [{author: req.user._id}, {profile: req.user.username}]})
+		.exec((err, post) => {
+			if(err)
+				return res.status(500).json({code: 500, message: 'There was an error deleting the post', error: err})
+			res.status(200).json({code: 200, message: 'Post deleted', deletedPost: post})
+		});
+})
+
 router.get('/:id', (req,res) => {
 	const { id } = req.params;
 

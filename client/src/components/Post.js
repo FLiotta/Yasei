@@ -1,60 +1,85 @@
-import React from 'react';
-import moment from 'moment';
+import React, {Component} from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { deletePost, likePost, unlikePost } from '../actions/profile';
 import { Link, withRouter } from 'react-router-dom';
-import VerifiedBadge from '../components/VerifiedBadge';
+import ReactTooltip from "react-tooltip";
+import cogoToast from "cogo-toast";
 
-const Post = (props) => (
-	<div className="card post w-100 mb-3 rounded-0" style={{"maxWidth": "540px"}}>						  
-    	<div className="card-body">
-      		<div className="row no-gutters">
-      			<div className="col-2 col-md-1">
-      				{props.author && 
-      					<Link to={'/u/' + props.author.username}>
-      						<img src={props.author.profilePic} className="card-img post__image cursor-pointer rounded-circle" alt={props.author.username + '_profile-picture'} />
-      					</Link>
-      				}
-      			</div>
-    			<div className="col-10 col-md-11 post__body">
-    				<div className="ml-3">    
-    					{(props.logged._id == props.author._id || props.logged.username == props.match.params.id) && 
-    					<button type="button" className="close" aria-label="Close" onClick={() => props.deletePost({username: props.author.username, postId: props._id})}>
-							<span aria-hidden="true">&times;</span>
-						</button>
-						}
-	    				{props.author && 
-	    					<span className="mb-0">
-	    						<Link to={'/u/' + props.author.username}>@{props.author.username}</Link> 
-	    						{props.author.verified && <VerifiedBadge />}
-                  <small className="ml-1 text-muted"><Moment fromNow date={props.createdAt} /></small>
-	    					</span>
-	    				}                
-	        			<p className="my-0 py-0">{props.message}</p>                
-	        		</div>
-        		</div>
-        	</div>
-      </div>	
-      {props.logged.isLogged && 					
-        <div className="card-footer px-0 py-0 d-flex justify-content-around">
-          <div className="w-100 text-center cursor-pointer post__option px-2 py-2" 
-                onClick={() => props.liked ? props.unlikePost(props._id) : props.likePost(props._id)}>
-            <span><i className={`mr-1 fas fa-heart ${props.liked ? 'text-brand' : ''}`}></i> {props.likes}</span>
-          </div>             
-        </div>
-      }
-	</div>
-);
+class Post extends Component {
+	constructor(props) {
+		super(props);
+
+		this.deletePost = this.deletePost.bind(this);
+		this.ownsIt = this.ownsIt.bind(this);
+		this.handleLike = this.handleLike.bind(this);
+	}
+
+	deletePost() {
+		this.props.deletePost({ postId: this.props._id })
+	}
+
+	ownsIt() {
+		return this.props.session._id == this.props.author._id || this.props.session.username == this.props.match.params.id;
+	}
+
+	handleLike() {
+		if(!this.props.logged) {
+			return cogoToast.warn(`You must be logged in to perform this action 😢`, {
+				position: 'bottom-right'
+			});
+		}
+
+		if(this.props.liked) {
+			this.props.unlikePost(this.props._id)
+		} else {
+			this.props.likePost(this.props._id)
+		}
+	}
+
+	render() {
+		return (
+			<div className="card w-100 my-5 post">
+				<div className="card-body px-4 py-5 bg-white">
+					<div className="post__avatar">
+						<div className="post__avatar__image">
+							<Link to={'/u/' + this.props.author.username}>
+								<img src={this.props.author.profilePic} className="img-fluid border cursor-pointer rounded-circle" alt={this.props.author.username + '_profile-picture'} />
+							</Link>
+						</div>
+						<div className="post__avatar__username border">
+							<Link to={'/u/' + this.props.author.username}>@{this.props.author.username}</Link>
+						</div>
+					</div>
+					<p className="my-0 py-0">{this.props.message}</p>
+					<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
+					<div onClick={this.handleLike} className="bg-white border d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
+						<span className="text-danger">
+							{this.props.likes} <i className={`mr-1 ${this.props.liked ? 'fas fa-heart' : 'far fa-heart'}`}></i>
+						</span>
+					</div>
+					{this.ownsIt() &&
+						<div onClick={this.deletePost} className="bg-white border d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
+							<span className="text-secondary">
+								<i className="fas fa-times"></i>
+							</span>
+						</div>
+					}
+				</div>
+			</div>
+		)
+	}
+}
 
 const stateToProps = state => ({
-	logged: state.app.logged
+	logged: state.app.logged.isLogged,
+	session: state.app.logged
 });
 
 const dispatchToProps = dispatch => ({
 	deletePost: data => dispatch(deletePost(data)),
-  likePost: postId => dispatch(likePost(postId)),
-  unlikePost: postId => dispatch(unlikePost(postId))
+	likePost: postId => dispatch(likePost(postId)),
+	unlikePost: postId => dispatch(unlikePost(postId))
 });
 
 export default connect(stateToProps, dispatchToProps)(withRouter(Post));

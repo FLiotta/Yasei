@@ -42,10 +42,14 @@
     "react-tooltip": "^3.11.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "sass": "^1.24.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.8"
   }
 }
