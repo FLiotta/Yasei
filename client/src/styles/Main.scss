@@ -1,5 +1,3 @@
-$brand-color: #ff013d;
-
 @import './Card.scss';
 
 @import './pages/Home.scss';
@@ -35,18 +33,19 @@ body {
     line-height: 1.2;
 }
 
-.btn {
-	border-radius: 0px;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.bg-brand {
-    background-color: $brand-color !important;
+::-webkit-scrollbar-track {
+  border-radius: 10px;
 }
 
-.text-brand {
-    color: $brand-color;
+::-webkit-scrollbar-thumb {
+  background: #eeeeee;
+  border-radius: 10px;
 }
 
-.border-brand {
-    border-color: $brand-color !important;
+::-webkit-scrollbar-thumb:hover {
+  background: #cbcbcb;
 }

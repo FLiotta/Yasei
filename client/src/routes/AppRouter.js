@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from '../pages/home';
 import Profile from '../pages/Profile';
 import Error from '../pages/Error';
-import Navbar from '../components/Navbar';
+import Navbar from "../components/Navbar";
 
 class AppRouter extends Component {
 	constructor(props){
@@ -13,10 +13,15 @@ class AppRouter extends Component {
 
 	render(){
 		return (
-			<BrowserRouter> 
+			<BrowserRouter>
 				<Switch>
 					<Route path="/" component={Home} exact />
-					<Route path="/u/:id" component={Profile} />
+					<Fragment>
+						<div className="d-flex">
+							<Route path="/u/:id" component={Profile} />
+							<Navbar />
+						</div>
+					</Fragment>
 					<Route component={Error} />
 				</Switch>
 			</BrowserRouter>

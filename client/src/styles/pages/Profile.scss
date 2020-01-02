@@ -19,13 +19,35 @@
 }
 
 .sidenav {
+	position: relative;
 	height: 100vh;
-	min-width: 400px;
-	max-width: 400px;
+	width: 600px;
 	background-image: url('/assets/images/bg_profile.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: left;
+	overflow-y: hidden;
+	transition: 1s all;
+
+	&--inactive {
+		transform: translateX(-450px);
+		width: 0px;
+	}
+
+	&__toggle {
+		position: fixed;
+		background-color: #ffffff;
+		color: black;
+		padding: 5px 10px;
+		left: 10px;
+		top: 10px;
+		z-index: 999;
+		transition: .5s all;
+
+		&--open {
+			transform: rotate(180deg);
+		}
+	}
 
 	&__avatar {
 		width: 200px;
@@ -57,9 +79,6 @@
 				resize: none;
 			}
 			&__button {
-				position: absolute;
-				right: 35px;
-				bottom: 15px;
 				background-color: #7cfdad;
 				border: #43fd9b;
 				transition: .5s all;
@@ -71,5 +90,13 @@
 				}
 			}
 		}
+	}
+}
+
+@media (max-width: 768px) {
+	.sidenav {
+		position: fixed;
+		width: 100%;
+		z-index: 100;
 	}
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/app';
 import { Link } from 'react-router-dom';
+import ReactTooltip from "react-tooltip";
+import Auth from "./Auth";
 
 class Navbar extends Component {
 	constructor(props){
@@ -12,24 +14,31 @@ class Navbar extends Component {
 		return (
 			<>
 				{this.props.isVisible && 
-					<div className="navbar-cs">
-						<div className="container">							
-							<div className="navbar-cs__profile-pic">
-								{this.props.profile.isLogged 
-									? 
-										<>
-											<p className="mt-2 mr-2 text-white cursor-pointer d-text-underline" onClick={this.props.logout}>Log out</p>
-											<Link to={'/u/' + this.props.profile.username}>
-							  					<img src={this.props.profile.profilePic} className="img-fluid rounded-circle cursor-pointer" alt="nav-profile-pic" />
-							  				</Link>
-							  			</>
-							  		: 
-							  			<Link to='/'>
-							  				<p className="mt-2 mr-2 text-white cursor-pointer d-text-underline">Log In</p>
-							  			</Link>
-							  	}
+					<div className="navbar-cs bg-light d-none d-md-flex flex-column">
+						<ReactTooltip
+							place="top"
+							effect="solid"
+						/>
+						<Auth>
+							<Link to={'/u/' + this.props.profile.username}>
+								<div className="navbar-cs__button"  data-tip="Profile">
+									<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='border img-fluid d-block mx-auto rounded-circle' />
+								</div>
+							</Link>
+							<div className="navbar-cs__button"  data-tip="Explore">
+								<p className="text-center my-0"><i className="fas fa-compass fa-2x"></i></p>
 							</div>
-						</div>
+							<div className="navbar-cs__button"  data-tip="Logout" onClick={this.props.logout}>
+								<p className="text-center my-0"><i className="fas fa-sign-out-alt fa-2x"></i></p>
+							</div>
+						</Auth>
+						<Auth whenLogged={false}>
+							<Link to='/'>
+								<div className="navbar-cs__button"  data-tip="Login" onClick={this.props.logout}>
+									<p className="text-center my-0"><i className="fas fa-sign-in-alt fa-2x"></i></p>
+								</div>
+							</Link>
+						</Auth>
 					</div>
 				}
 			</>

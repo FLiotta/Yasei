@@ -26,12 +26,18 @@ class RegisterForm extends Component {
 				<form onSubmit={this.handleSubmit}>
 					<fieldset disabled={this.props.isLoading}>
 						<div className="form-group">
-							<input type="text" name="username" id="username" className="form-control border-0 rounded-0" placeholder="Username" />
+							<label htmlFor="username" className="mb-1 text-muted">
+								<small>Username</small>
+							</label>
+							<input type="text" name="username" id="username" className="form-control rounded-0"/>
 						</div>
 						<div className="form-group">
-							<input type="password" name="password" id="password" className="form-control border-0 rounded-0" placeholder="••••••" />
+							<label htmlFor="password" className="mb-1 text-muted">
+								<small>Password</small>
+							</label>
+							<input type="password" name="password" id="password" className="form-control rounded-0"/>
 						</div>
-						<button className="btn btn-success float-right border-0 rounded-0">Sign In!</button>
+						<button className="btn btn-success float-right border-0 rounded-pill">Login</button>
 					</fieldset>
 				</form>
 			</>

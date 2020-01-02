@@ -6,16 +6,18 @@ import { FETCH_PROFILE,
 	SET_LOADING, 
 	SET_LOADING_POSTS,
 	LIKE_POST,
+	TOGGLE_SIDENAV,
 	UNLIKE_POST } from '../actions/profile';
 import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
 	loading: true,
+	visibleSidenav: true,
 	username: null,
 	description: null,
 	profilePic: null,	
 	posts: {
-		loading: true,
+		loading: false,
 		isThereMore: true,
 		offset: 0,
 		quantity: 5,		
@@ -25,6 +27,11 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
 	switch(action.type) {
+		case TOGGLE_SIDENAV:
+			return {
+				...state,
+				visibleSidenav: !state.visibleSidenav
+			}
 		case FETCH_PROFILE:
 			return {
 				...state,				
@@ -108,24 +115,21 @@ export default (state = defaultState, action) => {
 					loading: action.payload.loading
 				}			
 			}
-		case NEW_POST:			
+		case NEW_POST:
 			return {
 				...state,
 				posts: {
 					...state.posts,
-					items: [
-						{
-							...action.payload.newPost,
-							author: {
-								...action.payload.newPost.author,
-								profilePic: parseImageUrl(action.payload.newPost.author.profilePic)
-							}
-						}, 
-						...state.posts.items]
+					items: [{
+						...action.payload.newPost,
+						author: {
+							...action.payload.newPost.author,
+							profilePic: parseImageUrl(action.payload.newPost.author.profilePic)
+						}
+					}, ...state.posts.items]
 				}
 			}
 		case DELETE_POST:
-			console.log(action.payload);
 			return {
 				...state,
 				posts: {

@@ -52,6 +52,15 @@ class Post extends Component {
 						</div>
 					</div>
 					<p className="my-0 py-0">{this.props.message}</p>
+					{this.props.extra &&
+						<div className="mt-3">
+							<iframe width="100%" height="315" src={'https://www.youtube.com/embed/' + this.props.extra.value}
+									frameBorder="0"
+									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+									allowFullScreen>
+							</iframe>
+						</div>
+					}
 					<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
 					<div onClick={this.handleLike} className="bg-white border d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
 						<span className="text-danger">

@@ -12,7 +12,16 @@ export const FETCH_PROFILE = 'FETCH_PROFILE',
 				SET_LOADING = 'SET_LOADING',
 				SET_LOADING_POSTS = 'SET_LOADING_POSTS',
 				LIKE_POST = 'LIKE_POST',
+				TOGGLE_SIDENAV = 'TOGGLE_SIDENAV',
 				UNLIKE_POST = 'UNLIKE_POST';
+
+export const toggleSidenav = () => {
+	return (dispatch) => {
+		dispatch({
+			type: TOGGLE_SIDENAV
+		});
+	}
+}
 
 export const fetchProfile = (username) => {
 	return (dispatch, getState) => {
@@ -53,32 +62,34 @@ export const fetchProfile = (username) => {
 export const fetchPosts = (username) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const { offset, quantity, isThereMore } = state.profile.posts;	
+		const { offset, quantity, isThereMore, loading } = state.profile.posts;
 		const { _id: id } = state.app.logged;
 
-		if(isThereMore) {
-			dispatch(setLoadingPosts(true));
-			
-			API.get(`user/${username}/posts?offset=${offset}&quantity=${quantity}`)
-				.then(res => {
-					if(res.data.code == 200)
-						dispatch({
-							type: FETCH_POSTS,
-							payload: {
-								posts: res.data.response.map(post => ({
-									...post,
-									liked: post.likedBy.includes(id)
-								}))
-							}
-						})
+		if(!loading) {
+			if (isThereMore) {
+				dispatch(setLoadingPosts(true));
 
-					dispatch(setLoadingPosts(false));
-				})
-				.catch(e => console.log(e));
-		} else {
-			cogoToast.info(`You have reached the bottom :O!`, { 
-			    position: 'bottom-right'
-			});
+				API.get(`user/${username}/posts?offset=${offset}&quantity=${quantity}`)
+					.then(res => {
+						if (res.data.code == 200)
+							dispatch({
+								type: FETCH_POSTS,
+								payload: {
+									posts: res.data.response.map(post => ({
+										...post,
+										liked: post.likedBy.includes(id)
+									}))
+								}
+							})
+
+						dispatch(setLoadingPosts(false));
+					})
+					.catch(e => console.log(e));
+			} else {
+				cogoToast.info(`You have reached the bottom 😱!`, {
+					position: 'bottom-right'
+				});
+			}
 		}
 	}
 }
@@ -124,7 +135,7 @@ export const newPost = (data) => {
 		const state = getState();
 		const { username, message } = data;
 
-		API.post(`user/${username}/new/post`, { message })
+		API.post(`user/${username}/new/post`, { ...data })
 			.then(res => {				
 				if(res.data.code == 200){
 					cogoToast.success(`Post submitted`, { 

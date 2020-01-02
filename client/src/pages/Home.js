@@ -8,8 +8,11 @@ import { toggleNavbar } from '../actions/app';
 class Home extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			signMode: true
+		}
 
-		this.props.toggleNavbar(false);
+		this.toggleSignMode = this.toggleSignMode.bind(this);
 	}
 
 	componentDidMount() {
@@ -20,6 +23,12 @@ class Home extends Component {
 	componentDidUpdate() {
 		if(this.props.isLogged)
 			this.props.history.push(`/u/${this.props.user}`)
+	}
+
+	toggleSignMode() {
+		this.setState(prevState => ({
+			signMode: !prevState.signMode
+		}));
 	}
 
 	render(){
@@ -44,9 +53,24 @@ class Home extends Component {
 							<div className="col-12 px-4">
 								<div className="card border-0 rounded-0">
 									<div className="card-body">
-										<RegisterForm />
-										<hr/>
-										<LoginForm />
+										{this.state.signMode ?
+											<>
+												<RegisterForm />
+												<a className="mx-auto d-block mt-3 text-center cursor-pointer"
+												   onClick={this.toggleSignMode}
+												   href="#" >
+													Already have an account 🤠
+												</a>
+											</> :
+											<>
+												<LoginForm />
+												<a className="mx-auto d-block mt-3 text-center cursor-pointer"
+												   onClick={this.toggleSignMode}
+												   href="#">
+													I don't have an account yet 🧐
+												</a>
+											</>
+										}
 									</div>
 								</div>
 							</div>

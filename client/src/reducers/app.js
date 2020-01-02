@@ -12,7 +12,7 @@ import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
 	navbar: {
-		isVisible: false,
+		isVisible: true,
 	},
 	logged: {
 		isLoading: false,

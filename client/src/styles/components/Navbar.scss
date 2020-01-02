@@ -1,31 +1,25 @@
 .navbar-cs {
-	width: 100vw;
+	width: 75px;
 	display: flex;
-	position: fixed;
+	position: relative;
 	z-index: 100;
-	box-shadow: 0px -6px 16px 3px rgba(0,0,0,.5);
 	top: 0px;
-	background-color: $brand-color;
-	height: 50px;
+	right: 0px;
+	height: 100vh;
 
-	.container {
+
+	&__button {
+		width: 100%;
+		height: 75px;
+		cursor: pointer;
+		color: black;
 		display: flex;
-    	justify-content: flex-end;
-	}
+		flex-direction: column;
+		justify-content: center;
 
-	&__profile-pic {
-		margin-top: 5px;
-		display: flex;
-		width: fit-content;
-
-		img {
-			width: 40px;
-			border: 2px solid #ffffff;
-			transition: .5s all;
-
-			&:hover {
-				filter: grayscale(100%);
-			}
+		&:hover {
+			background-color: #43fd9b;
+			color: #ffffff;
 		}
 	}
 }
