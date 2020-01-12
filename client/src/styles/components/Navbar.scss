@@ -1,15 +1,19 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";
+
 .navbar-cs {
-	width: 75px;
-	display: flex;
-	position: relative;
+	width: 100%;
+	position: fixed;
 	z-index: 100;
 	top: 0px;
 	right: 0px;
-	height: 100vh;
+	height: 75px;
+	flex-shrink: 0;
 
 
 	&__button {
-		width: 100%;
+		width: 33%;
 		height: 75px;
 		cursor: pointer;
 		color: black;
@@ -20,6 +24,17 @@
 		&:hover {
 			background-color: #43fd9b;
 			color: #ffffff;
+		}
+	}
+}
+
+@include media-breakpoint-up(md) {
+	.navbar-cs {
+		width: 75px;
+		height: 100vh;
+
+		&__button {
+			width: 100%;
 		}
 	}
 }

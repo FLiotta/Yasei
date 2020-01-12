@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { toggleNavbar } from '../actions/app';
-import {fetchProfile, newPost, fetchPosts, restartState, toggleSidenav} from '../actions/profile';
+import { fetchProfile, newPost, restartState, toggleSidenav } from '../actions/profile';
+import { fetchUserPosts, restartState as restartStatePosts } from '../actions/posts';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
 import Post from '../components/Post';
@@ -18,7 +19,7 @@ class Profile extends Component {
 		};
 
 		this.handleNewPost = this.handleNewPost.bind(this);
-		this.fetchPosts = this.fetchPosts.bind(this);
+		this.fetchUserPosts = this.fetchUserPosts.bind(this);
 		this.initializeProfile = this.initializeProfile.bind(this);
 		this.toggleYoutubeInput = this.toggleYoutubeInput.bind(this);
 	}
@@ -36,6 +37,7 @@ class Profile extends Component {
 
 	componentWillUnmount(){
 		this.props.restartState();
+		this.props.restartStatePosts();
 	}
 
 	toggleYoutubeInput() {
@@ -61,15 +63,15 @@ class Profile extends Component {
 		e.target.extra.value = '';
 	}
 
-	fetchPosts() {
+	fetchUserPosts() {
 		const profileId = this.props.match.params.id;
 
-		this.props.fetchPosts(profileId);
+		this.props.fetchUserPosts(profileId);
 	}
 
 	initializeProfile() {
 		this.props.fetchProfile(this.props.match.params.id)
-		this.fetchPosts();
+		this.fetchUserPosts();
 	}
 
 	render(){
@@ -79,10 +81,10 @@ class Profile extends Component {
 					<div className="sidenav__description">
 						<img src={this.props.profile.profilePic}
 							 className="img-fluid rounded-circle sidenav__avatar mx-auto d-block mt-5 mb-2"/>
-						<p className="text-center text-white title mt-3">@{this.props.profile.username}</p>
+						<p className="text-center text-white title mt-3">{this.props.profile.username}</p>
 						<p className="text-left text-white description px-5">{this.props.profile.description}</p>
 						<div className="d-flex flex-column justify-content-between h-100">
-							<div className="d-flex justify-content-between px-5">
+							<div className="d-none justify-content-between px-5">
 								<div>
 									<p className="text-white mb-0">450 Followers</p>
 									<p className="text-white mb-0">235 Followings</p>
@@ -95,10 +97,7 @@ class Profile extends Component {
 						</div>
 					</div>
 				</div>
-				<div className={"sidenav__toggle border rounded-circle cursor-pointer " + (!this.props.profile.visibleSidenav ? 'sidenav__toggle--open' : '')} onClick={this.props.toggleSidenav}>
-					<p className="my-0 py-0"><i className="fas fa-arrow-left"></i></p>
-				</div>
-				<BottomScrollListener onBottom={this.fetchPosts}>
+				<BottomScrollListener onBottom={this.fetchUserPosts}>
 					{scrollRef => (
 						<div className="d-flex position-relative profile__body justify-content-center flex-wrap" ref={scrollRef}>
 							<Auth>
@@ -119,7 +118,7 @@ class Profile extends Component {
 												<input name="extra" id="extra" className={"form-control mt-2 " + (this.state.youtubeInput ? 'd-flex' : 'd-none')} placeholder="https://www.youtube.com/watch?v=dO368WjwyFs"/>
 											</div>
 											<div className="form-group">
-												<button type="submit" className="btn btn-success rounded-pill float-right profile__body__textarea__button">POST</button>
+												<button type="submit" className="btn btn-brand rounded-pill float-right text-white font-weight-bold">POST</button>
 												<button type="button" onClick={this.toggleYoutubeInput} className="btn btn-danger text-white rounded-pill float-right px-3 mx-2">
 													<i className="fab fa-youtube"></i>
 												</button>
@@ -131,8 +130,8 @@ class Profile extends Component {
 							</Auth>
 							<div className="profile__body__posts w-100 mt-5">
 								<div className="d-flex flex-column">
-									{this.props.profile.posts.items.map((post, i) => <Post {...post} key={post.message + '_' + i}/>)}
-									{this.props.profile.posts.loading && <div className="d-flex justify-content-center"><Loading classes="my-5"/></div>}
+									{this.props.posts.map((post, i) => <Post {...post} key={post.message + '_' + i}/>)}
+									{this.props.postsLoading && <div className="d-flex justify-content-center"><Loading classes="my-5"/></div>}
 								</div>
 							</div>
 						</div>
@@ -146,7 +145,9 @@ class Profile extends Component {
 const stateToProps = state => ({
 	logged: state.app.logged,
 	ownsProfile: state.profile.ownProfile,
-	profile: state.profile
+	profile: state.profile,
+	posts: state.posts.items,
+	postsLoading: state.posts.loading
 });
 
 const dispatchToProps = dispatch => ({
@@ -154,8 +155,9 @@ const dispatchToProps = dispatch => ({
 	toggleSidenav: () => dispatch(toggleSidenav()),
 	fetchProfile: value => dispatch(fetchProfile(value)),
 	newPost: value => dispatch(newPost(value)),
-	fetchPosts: value => dispatch(fetchPosts(value)),
+	fetchUserPosts: value => dispatch(fetchUserPosts(value)),
 	restartState: () => dispatch(restartState()),
+	restartStatePosts: () => dispatch(restartStatePosts()),
 	logout: () => dispatch(logout())
 })
 

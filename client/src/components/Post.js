@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { deletePost, likePost, unlikePost } from '../actions/profile';
+import { likePost, unlikePost, deletePost } from '../actions/posts';
 import { Link, withRouter } from 'react-router-dom';
-import ReactTooltip from "react-tooltip";
 import cogoToast from "cogo-toast";
 
 class Post extends Component {

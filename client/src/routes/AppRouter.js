@@ -5,7 +5,7 @@ import Home from '../pages/home';
 import Profile from '../pages/Profile';
 import Error from '../pages/Error';
 import Navbar from "../components/Navbar";
-
+import Explore from '../pages/Explore';
 class AppRouter extends Component {
 	constructor(props){
 		super(props);
@@ -17,7 +17,8 @@ class AppRouter extends Component {
 				<Switch>
 					<Route path="/" component={Home} exact />
 					<Fragment>
-						<div className="d-flex">
+						<div className="d-flex page">
+							<Route path="/explore" component={Explore} />
 							<Route path="/u/:id" component={Profile} />
 							<Navbar />
 						</div>

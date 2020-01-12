@@ -4,6 +4,7 @@ import LoginForm from '../components/LoginForm';
 import Logo from '../assets/images/logo.png';
 import { connect } from 'react-redux';
 import { toggleNavbar } from '../actions/app';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
 	constructor(props){
@@ -36,8 +37,8 @@ class Home extends Component {
 			<div className="home">
 				<div className="row h-100">
 					<div className="col-8 d-none d-md-flex flex-column justify-content-end pl-5 home__left">
-						<h1 className="display-5 text-light home__left__text">						
-							Paint me a wish 
+						<h1 className="display-5 text-light home__left__text">
+							Paint me a wish
 							<br/>
 							on a velvet sky.
 						</h1>
@@ -71,12 +72,13 @@ class Home extends Component {
 												</a>
 											</>
 										}
+										<Link to="/explore" className="mx-auto d-block mt-3 text-center cursor-pointer">I want to explore first 🧭</Link>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
 			</div>
 		)
 	}

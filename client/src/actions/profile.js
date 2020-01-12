@@ -5,15 +5,10 @@ import api from '../api/api';
 const API = new api();
 
 export const FETCH_PROFILE = 'FETCH_PROFILE',
-				FETCH_POSTS = 'FETCH_POSTS',
 				NEW_POST = 'NEW_POST',
-				DELETE_POST = 'DELETE_POST',
 				RESTART_STATE = 'RESTART_STATE',
 				SET_LOADING = 'SET_LOADING',
-				SET_LOADING_POSTS = 'SET_LOADING_POSTS',
-				LIKE_POST = 'LIKE_POST',
-				TOGGLE_SIDENAV = 'TOGGLE_SIDENAV',
-				UNLIKE_POST = 'UNLIKE_POST';
+				TOGGLE_SIDENAV = 'TOGGLE_SIDENAV';
 
 export const toggleSidenav = () => {
 	return (dispatch) => {
@@ -42,12 +37,12 @@ export const fetchProfile = (username) => {
 			.catch(e => {
 				switch(e.response.status){
 					case 404:
-						cogoToast.danger("404: User not found", { 
+						cogoToast.danger("404: User not found", {
 						    position: 'bottom-right'
 						});
 						break;
 					default:
-						cogoToast.danger("Unexpected error", { 
+						cogoToast.danger("Unexpected error", {
 						    position: 'bottom-right'
 						});
 						break;
@@ -59,86 +54,15 @@ export const fetchProfile = (username) => {
 	}
 }
 
-export const fetchPosts = (username) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const { offset, quantity, isThereMore, loading } = state.profile.posts;
-		const { _id: id } = state.app.logged;
-
-		if(!loading) {
-			if (isThereMore) {
-				dispatch(setLoadingPosts(true));
-
-				API.get(`user/${username}/posts?offset=${offset}&quantity=${quantity}`)
-					.then(res => {
-						if (res.data.code == 200)
-							dispatch({
-								type: FETCH_POSTS,
-								payload: {
-									posts: res.data.response.map(post => ({
-										...post,
-										liked: post.likedBy.includes(id)
-									}))
-								}
-							})
-
-						dispatch(setLoadingPosts(false));
-					})
-					.catch(e => console.log(e));
-			} else {
-				cogoToast.info(`You have reached the bottom 😱!`, {
-					position: 'bottom-right'
-				});
-			}
-		}
-	}
-}
-
-export const likePost = (postId) => {
-	return (dispatch, getState) => {
-		const state = getState();
-
-		API.post(`post/${postId}/like`)
-			.then(res => {
-				if(res.data.code == 200)
-					dispatch({
-						type: LIKE_POST,
-						payload: {
-							likedPost: res.data.response
-						}
-					})
-			})
-			.catch(e => console.log(e));
-	}
-}
-
-export const unlikePost = (postId) => {
-	return (dispatch, getState) => {
-		const state = getState();
-
-		API.post(`post/${postId}/unlike`)
-			.then(res => {				
-				if(res.data.code == 200)
-					dispatch({
-						type: UNLIKE_POST,
-						payload: {
-							unlikedPost: res.data.response
-						}
-					})
-			})
-			.catch(e => console.log(e));
-	}
-}
-
 export const newPost = (data) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		const { username, message } = data;
 
 		API.post(`user/${username}/new/post`, { ...data })
-			.then(res => {				
+			.then(res => {
 				if(res.data.code == 200){
-					cogoToast.success(`Post submitted`, { 
+					cogoToast.success(`Post submitted`, {
 					    position: 'bottom-right'
 					});
 					dispatch({
@@ -150,40 +74,11 @@ export const newPost = (data) => {
 				}
 			})
 			.catch(e => {
-				cogoToast.error(`There were an error submitting your post.`, { 
+				cogoToast.error(`There were an error submitting your post.`, {
 				    position: 'bottom-right'
 				});
 			});
 	}
-}
-
-export const deletePost = (data) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const { postId } = data;
-		API.get(`post/${postId}/delete`)
-			.then(res => {
-				cogoToast.warn(`Post deleted`, { 
-				    position: 'bottom-right'
-				});
-				dispatch({
-					type: DELETE_POST,
-					payload: {
-						...res.data
-					}
-				})
-			})
-			.catch(e => console.log(e));
-	}
-}
-
-export const setLoadingPosts = (loading) => {
-	return dispatch => dispatch({
-		type: SET_LOADING_POSTS,
-		payload: {
-			loading
-		}
-	})
 }
 
 export const setLoading = loading => {

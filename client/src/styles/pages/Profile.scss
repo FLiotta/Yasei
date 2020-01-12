@@ -78,17 +78,6 @@
 			&__input {
 				resize: none;
 			}
-			&__button {
-				background-color: #7cfdad;
-				border: #43fd9b;
-				transition: .5s all;
-				font-weight: 600;
-
-				&:hover {
-					background-color: #b5fdc7;
-					box-shadow: 0px 4px 17px -15px rgba(0, 0, 0, 0.5);
-				}
-			}
 		}
 	}
 }
