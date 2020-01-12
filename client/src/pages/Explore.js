@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { discoverPosts, restartState } from '../actions/posts';
+import { discoverPosts, restartState as restartStatePosts } from '../actions/posts';
+import { discoverUsers, restartState as restartStateUsers } from '../actions/users';
 import UserCard from '../components/UserCard';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
@@ -13,6 +14,7 @@ class Explore extends Component {
 
     componentDidMount() {
         this.props.discoverPosts();
+        this.props.discoverUsers();
     }
 
     componentWillUnmount() {
@@ -24,12 +26,18 @@ class Explore extends Component {
           <div className="container my-5">
               <h2 className="montserrat">Discover users</h2>
               <div className="d-inline-flex flex-row w-100 mb-5" style={{'overflowX': 'scroll', 'overflowY': 'hidden', 'minHeight': '100px'}}>
+                {this.props.usersLoading && <div className="d-flex justify-content-center m-auto"><Loading /></div>}
+                {this.props.users.map(user =>
+                    <div className={'mx-5 px-5 animated fadeIn'} key={user._id}>
+                        <UserCard {...user} />
+                    </div>
+                )}
               </div>
               <h2 className="montserrat">Explore posts</h2>
               <div className="row mt-5">
               <BottomScrollListener onBottom={this.props.discoverPosts}>
                   {this.props.posts.map((post, i) =>
-                      <div className='col-12 col-md-6' key={post._id + i}>
+                      <div className='col-12 col-md-6 animated fadeIn' key={post._id + i}>
                           <Post {...post} />
                       </div>
                   )}
@@ -41,36 +49,20 @@ class Explore extends Component {
     }
 }
 
-/*<div className="container my-5">
-    <h2 className="montserrat">Discover users</h2>
-    <div className="d-inline-flex flex-row w-100 mb-5" style={{'overflowX': 'scroll', 'overflowY': 'hidden', 'minHeight': '100px'}}>
-        {this.props.usersLoading && <div className="d-flex justify-content-center m-auto"><Loading /></div>}
-        {this.props.users.map(user =>
-            <div className={'mx-5 px-5'} key={user._id}>
-                <UserCard {...user} />
-            </div>
-        )}
-    </div>
-    <h2 className="montserrat">Explore posts</h2>
-    <div className='row'>
-    <BottomScrollListener onBottom={this.props.discoverPosts}>
-        {this.props.posts.map(post =>
-            <div className='col-12 col-md-6' key={post._id}>
-                <Post {...post} />
-            </div>
-        )}
-    </BottomScrollListener>
-    </div>
-</div>*/
-
 const stateToProps = state => ({
     posts: state.posts.items,
-    postsLoading: state.posts.loading
+    postsLoading: state.posts.loading,
+    users: state.users.items,
+    usersLoading: state.users.loading
 })
 
 const dispatchToProps = dispatch => ({
     discoverPosts: () => dispatch(discoverPosts()),
-    restartState: () => dispatch(restartState())
+    discoverUsers: () => dispatch(discoverUsers()),
+    restartState: () => {
+      dispatch(restartStatePosts());
+      dispatch(restartStateUsers());
+    }
 })
 
 export default connect(stateToProps,dispatchToProps)(Explore);

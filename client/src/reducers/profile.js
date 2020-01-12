@@ -10,14 +10,7 @@ const defaultState = {
 	visibleSidenav: true,
 	username: null,
 	description: null,
-	profilePic: null,
-	posts: {
-		loading: false,
-		isThereMore: true,
-		offset: 0,
-		quantity: 5,
-		items: []
-	}
+	profilePic: null
 }
 
 export default (state = defaultState, action) => {
