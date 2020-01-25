@@ -29,13 +29,13 @@ class RegisterForm extends Component {
 							<label htmlFor="username" className="mb-1 text-muted">
 								<small>Username</small>
 							</label>
-							<input type="text" name="username" id="username" className="form-control rounded-0"/>
+							<input type="text" name="username" id="username" className="form-control rounded-0" required minlength="5" />
 						</div>
 						<div className="form-group">
 							<label htmlFor="password" className="mb-1 text-muted">
 								<small>Password</small>
 							</label>
-							<input type="password" name="password" id="password" className="form-control rounded-0"/>
+							<input type="password" name="password" id="password" className="form-control rounded-0" required minlength="5" />
 						</div>
 						<button className="btn btn-success float-right border-0 rounded-pill">Login</button>
 					</fieldset>

@@ -4,7 +4,9 @@ import api from '../api/api';
 
 const API = new api();
 
-export const TOGGLE_NAVBAR = 'TOGGLE_NAVBAR',
+export const
+				TOGGLE_NAVBAR = 'TOGGLE_NAVBAR',
+				TOGGLE_POST_MODAL = 'TOGGLE_POST_MODAL',
 				SIGN_UP = 'SIGN_UP',
 				SIGN_IN = 'SIGN_IN',
 				RECONNECT = 'RECONNECT',
@@ -23,6 +25,12 @@ export const setLoginLoad = (value) => {
 			value
 		}
 	})
+}
+
+export const togglePostModal = () => {
+	return dispatch => dispatch({
+		type: TOGGLE_POST_MODAL
+	});
 }
 
 export const reconnect = (last_session) => {
@@ -58,12 +66,12 @@ export const logout = () => {
 export const signUp = ({username, password}) => {
 
 	return dispatch => {
-		dispatch(setLoginLoad(true));		
+		dispatch(setLoginLoad(true));
 
 		API.post('auth/sign-up', { username, password })
-			.then(res => {								
-				if(res.data.code == 200){					
-					cogoToast.success(`Welcome aboard @${res.data.response.username}!`, { 
+			.then(res => {
+				if(res.data.code == 200){
+					cogoToast.success(`Welcome aboard @${res.data.response.username}!`, {
 					    position: 'bottom-right'
 					});
 					dispatch({
@@ -74,8 +82,8 @@ export const signUp = ({username, password}) => {
 					});
 				}
 			})
-			.catch(e => {				
-				cogoToast.error(e.response.data.response, { 
+			.catch(e => {
+				cogoToast.error(e.response.data.response, {
 				    position: 'bottom-right'
 				});
 				dispatch(setLoginLoad(false));
@@ -88,9 +96,9 @@ export const signIn = ({username, password}) => {
 		dispatch(setLoginLoad(true));
 
 		API.post('auth/sign-in', { username, password })
-			.then(res => {				
+			.then(res => {
 				if(res.data.code == 200){
-					cogoToast.success(`Welcome back @${res.data.response.username} :)!`, { 
+					cogoToast.success(`Welcome back @${res.data.response.username} :)!`, {
 					    position: 'bottom-right'
 					});
 					dispatch({
@@ -110,7 +118,7 @@ export const signIn = ({username, password}) => {
 
 export const setProfilePic = url => {
 	return dispatch => {
-		cogoToast.success(`Profile picture updated!`, { 
+		cogoToast.success(`Profile picture updated!`, {
 		    position: 'bottom-right'
 		});
 		dispatch({
@@ -126,7 +134,7 @@ export const setProfilePic = url => {
 
 export const setDescription = description => {
 	return dispatch => {
-		cogoToast.success(`Description updated!`, { 
+		cogoToast.success(`Description updated!`, {
 		    position: 'bottom-right'
 		});
 		dispatch({

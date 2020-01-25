@@ -1,6 +1,7 @@
 import {
 	DISCOVER_POSTS,
 	DELETE_POST,
+	NEW_POST,
 	RESTART_STATE,
 	SET_LOADING,
 	FETCH_USER_POSTS,
@@ -46,6 +47,20 @@ export default (state = defaultState, action) => {
 						}
 					}))
 	      ]
+			}
+		case NEW_POST:
+			return {
+				...state,
+				items: [
+					{
+						...action.payload.newPost,
+						author: {
+							...action.payload.newPost.author,
+							profilePic: parseImageUrl(action.payload.newPost.author.profilePic)
+						}
+					},
+					...state.items
+				]
 			}
 		case LIKE_POST:
 			const { likedPost } = action.payload;

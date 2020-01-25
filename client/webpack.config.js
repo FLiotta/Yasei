@@ -74,6 +74,7 @@ module.exports = {
 	      chunkFilename: '[id].css',
 	      ignoreOrder: false,
 	    })
+
 	],
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'),

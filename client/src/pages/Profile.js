@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { toggleNavbar } from '../actions/app';
-import { fetchProfile, newPost, restartState, toggleSidenav } from '../actions/profile';
-import { fetchUserPosts, restartState as restartStatePosts } from '../actions/posts';
+import { fetchProfile, restartState, toggleSidenav } from '../actions/profile';
+import { fetchUserPosts, newPost, restartState as restartStatePosts } from '../actions/posts';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
 import Post from '../components/Post';
+import NewPostForm from '../components/NewPostForm';
 import Loading from '../components/Loading';
 import { logout } from '../actions/app';
 import Auth from '../components/Auth';
@@ -14,14 +15,7 @@ class Profile extends Component {
 	constructor(props){
 		super(props);
 
-		this.state = {
-			youtubeInput: false
-		};
-
-		this.handleNewPost = this.handleNewPost.bind(this);
-		this.fetchUserPosts = this.fetchUserPosts.bind(this);
-		this.initializeProfile = this.initializeProfile.bind(this);
-		this.toggleYoutubeInput = this.toggleYoutubeInput.bind(this);
+		console.log(props)
 	}
 
 	componentDidMount() {
@@ -38,29 +32,6 @@ class Profile extends Component {
 	componentWillUnmount(){
 		this.props.restartState();
 		this.props.restartStatePosts();
-	}
-
-	toggleYoutubeInput() {
-		this.setState(prevState => ({
-			youtubeInput: !prevState.youtubeInput
-		}));
-	}
-
-	handleNewPost(e) {
-		e.preventDefault();
-
-
-		this.props.newPost({
-			username: this.props.match.params.id,
-			message: e.target.message.value,
-			extra: {
-				value: e.target.extra.value,
-				extraType: 'youtube'
-			}
-		});
-
-		e.target.message.value = '';
-		e.target.extra.value = '';
 	}
 
 	fetchUserPosts() {
@@ -97,33 +68,15 @@ class Profile extends Component {
 						</div>
 					</div>
 				</div>
+
 				<BottomScrollListener onBottom={this.fetchUserPosts}>
 					{scrollRef => (
 						<div className="d-flex position-relative profile__body justify-content-center flex-wrap" ref={scrollRef}>
 							<Auth>
-								<div className="profile__body__textarea w-100 my-4">
+								<div className="profile__body__textarea w-100 mt-5 pt-5">
 								<div className="card border-0">
 									<div className="card-body">
-										<form onSubmit={this.handleNewPost}>
-											<div className="form-group">
-												<textarea
-													id="message"
-													name="message"
-													className="form-control rounded-0 profile__body__textarea__input"
-													rows="5"
-													placeholder="What you thinking?">
-												</textarea>
-											</div>
-											<div className="form-group">
-												<input name="extra" id="extra" className={"form-control mt-2 " + (this.state.youtubeInput ? 'd-flex' : 'd-none')} placeholder="https://www.youtube.com/watch?v=dO368WjwyFs"/>
-											</div>
-											<div className="form-group">
-												<button type="submit" className="btn btn-brand rounded-pill float-right text-white font-weight-bold">POST</button>
-												<button type="button" onClick={this.toggleYoutubeInput} className="btn btn-danger text-white rounded-pill float-right px-3 mx-2">
-													<i className="fab fa-youtube"></i>
-												</button>
-											</div>
-										</form>
+										<NewPostForm profileId={this.props.match.params.id} />
 									</div>
 								</div>
 							</div>

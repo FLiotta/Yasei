@@ -54,33 +54,6 @@ export const fetchProfile = (username) => {
 	}
 }
 
-export const newPost = (data) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const { username, message } = data;
-
-		API.post(`user/${username}/new/post`, { ...data })
-			.then(res => {
-				if(res.data.code == 200){
-					cogoToast.success(`Post submitted`, {
-					    position: 'bottom-right'
-					});
-					dispatch({
-						type: NEW_POST,
-						payload: {
-							newPost: res.data.response
-						}
-					})
-				}
-			})
-			.catch(e => {
-				cogoToast.error(`There were an error submitting your post.`, {
-				    position: 'bottom-right'
-				});
-			});
-	}
-}
-
 export const setLoading = loading => {
 	return dispatch => dispatch({
 		type: SET_LOADING,
