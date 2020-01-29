@@ -23,6 +23,8 @@ export default (state = defaultState, action) => {
 		case FETCH_USER_POSTS:
 			return {
 				...state,
+				isThereMore: !!action.payload.length,
+				offset: state.offset + state.quantity,
 				items: [
 					...state.items,
 					...action.payload.map(post => ({

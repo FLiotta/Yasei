@@ -12,19 +12,33 @@ router.get('/:username', (req,res) => {
 	let { username } = req.params;
 
 	User.findOne({username})
-		.then(user => 
-			user 
-				? res.status(200).json({code: 200, response: user})
-				: res.status(404).json({code: 404, response: 'User not found'}))
-		.catch(e => res.send(500).json({error: 'There were an error.'}));
+			.then(user => {
+				if(!user)
+					return res.status(404).json({code: 404, response: 'User not found'});
 
+				Promise.all([
+					Post.count({profile: username}),
+					Post.count({likedBy: { $in: username }})
+				]).then(([posts, likes]) => {
+					res.status(200).send({
+						code: 200,
+						response: {
+							posts,
+							likes,
+							...user.toObject()
+						}
+					});
+				})
+				.catch(e => res.send(500).json({error: 'There was an error.'}));
+			})
+			.catch(e => res.send(500).json({error: 'There was an error.'}));
 });
 
 router.get('/:username/posts', (req,res) => {
 	const { username: profile } = req.params;
 	const { offset = 0, quantity = 20 } = req.query;
 
-	Post.find({profile})			
+	Post.find({profile})
 		.skip(parseInt(offset))
 		.limit(parseInt(quantity))
 		.sort('-createdAt')
@@ -32,6 +46,7 @@ router.get('/:username/posts', (req,res) => {
 		.exec((err, posts) => {
 			if(err)
 				return res.status(500).send("There were an error")
+
 			res.status(200).json({
 				code: 200,
 				response: posts
@@ -39,10 +54,10 @@ router.get('/:username/posts', (req,res) => {
 		});
 })
 
-router.get('/:username/likes', (req,res) => {
+router.get('/:id/likes', (req,res) => {
 	//Search by id to be implemented
-
-	Post.find({likedBy: { $in: '5db63be3e070d70df8fa8761' }})
+	const { username } = req.params;
+	Post.find({likedBy: { $in: username }})
 		.limit(2)
 		.exec((err, posts) => {
 			res.send(posts)
@@ -71,7 +86,7 @@ router.post('/:username/new/post', isAuth, (req,res) => {
 					code: 200,
 					response: populatedPost
 				})
-			})			
+			})
 		})
 		.catch(e => res.status(500).send("We couldn't save your post."));
 });
@@ -84,7 +99,7 @@ router.post('/:username/edit/info/description', isAuth, (req,res) => {
 
 	if(description.length > 150)
 		return res.status(400).json({code: 400, message: "Your description can't have more than 150 characters"})
-	
+
 	User.findOneAndUpdate({ username }, { description: description }, { new: true, useFindAndModify: false })
 		.then(updatedUser => res.status(200).json(
 			{

@@ -53,23 +53,23 @@ class Profile extends Component {
 						<img src={this.props.profile.profilePic}
 							 className="img-fluid rounded-circle sidenav__avatar mx-auto d-block mt-5 mb-2"/>
 						<p className="text-center text-white title mt-3">{this.props.profile.username}</p>
-						<p className="text-left text-white description px-5">{this.props.profile.description}</p>
+						<p className="text-left text-white description px-5">
+							{this.props.profile.description || "It seems this user hasn't provided a description 🥴!"}
+						</p>
 						<div className="d-flex flex-column justify-content-between h-100">
-							<div className="d-none justify-content-between px-5">
+							<div className="d-flex justify-content-between px-5">
 								<div>
-									<p className="text-white mb-0">450 Followers</p>
-									<p className="text-white mb-0">235 Followings</p>
+									<p className="text-white mb-0">{this.props.profile.posts} Posts</p>
 								</div>
 								<div>
-									<p className="text-white mb-0">723 Likes</p>
-									<p className="text-white mb-0">532 Posts</p>
+									<p className="text-white mb-0">{this.props.profile.likes} Likes</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<BottomScrollListener onBottom={this.fetchUserPosts}>
+				<BottomScrollListener onBottom={() => {this.fetchUserPosts()}}>
 					{scrollRef => (
 						<div className="d-flex position-relative profile__body justify-content-center flex-wrap" ref={scrollRef}>
 							<Auth>

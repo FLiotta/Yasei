@@ -10,19 +10,19 @@ router.post('/:id/like', isAuth, (req,res) => {
 		res.status(403).json({code: 403, response: "Unauthorized request"});
 
 	const query = {
-		_id: id, 
-		likedBy: { 
-			"$nin": req.user._id 
+		_id: id,
+		likedBy: {
+			"$nin": req.user.username
 		}
 	}
 
-	const newValues = { 
+	const newValues = {
 		$push: {
-			likedBy: req.user._id
-		}, 
-		$inc: { 
-			likes: 1 
-		} 
+			likedBy: req.user.username
+		},
+		$inc: {
+			likes: 1
+		}
 	}
 
 	Post.findOneAndUpdate(query, newValues , { new: true })
@@ -41,19 +41,19 @@ router.post('/:id/unlike', isAuth, (req,res) => {
 		res.status(403).json({code: 403, response: "Unauthorized request"});
 
 	const query = {
-		_id: id, 
-		likedBy: { 
-			"$in": req.user._id 
+		_id: id,
+		likedBy: {
+			"$in": req.user.username
 		}
 	};
 
-	const newValues = { 
+	const newValues = {
 		$pull: {
-			likedBy: req.user._id
-		}, 
-		$inc: { 
-			likes: -1 
-		} 
+			likedBy: req.user.username
+		},
+		$inc: {
+			likes: -1
+		}
 	};
 
 	Post.findOneAndUpdate(query, newValues, { new: true })
@@ -83,8 +83,8 @@ router.get('/:id', (req,res) => {
 	const { id } = req.params;
 
 	Post.findById(id)
-		.then(post => 
-			post 
+		.then(post =>
+			post
 				? res.status(200).json({code: 200, response: post})
 				: res.status(404).json({code: 404, response: 'Post not found'}))
 		.catch(e => res.send(500).json({error: 'There were an error.'}));

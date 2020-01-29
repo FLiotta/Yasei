@@ -5,43 +5,40 @@ import api from '../api/api';
 const API = new api();
 
 export const
-				FETCH_USER_POSTS = 'FETCH_USER_POSTS',
-				NEW_POST = 'NEW_POST',
-				DISCOVER_POSTS = 'DISCOVER_POSTS',
-				DELETE_POST = 'DELETE_POST',
-				RESTART_STATE = 'RESTART_STATE',
-				SET_LOADING = 'SET_LOADING',
-				LIKE_POST = 'LIKE_POST',
-				UNLIKE_POST = 'UNLIKE_POST';
+				FETCH_USER_POSTS = '[POST] FETCH_USER_POSTS',
+				NEW_POST = '[POST] NEW_POST',
+				DISCOVER_POSTS = '[POST] DISCOVER_POSTS',
+				DELETE_POST = '[POST] DELETE_POST',
+				RESTART_STATE = '[POST] RESTART_STATE',
+				SET_LOADING = '[POST] SET_LOADING',
+				LIKE_POST = '[POST] LIKE_POST',
+				UNLIKE_POST = '[POST] UNLIKE_POST';
 
-export const fetchUserPosts = (username) => {
+export const fetchUserPosts = (usernamePosts) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		const { offset, quantity, isThereMore, loading } = state.posts;
-		const { _id: id } = state.app.logged;
-		if(loading) {
-			if (isThereMore) {
-				dispatch(setLoading(true));
+		const { username } = state.app.logged;
+		if (isThereMore && !loading) {
+			dispatch(setLoading(true))
 
-				API.get(`user/${username}/posts?offset=${offset}&quantity=${quantity}`)
-					.then(res => {
-						dispatch(setLoading(false))
-
-						if (res.data.code == 200)
-							dispatch({
-								type: FETCH_USER_POSTS,
-								payload: res.data.response.map(post => ({
-									...post,
-									liked: post.likedBy.includes(id)
-								}))
-							})
-					})
-					.catch(e => console.log(e));
-			} else {
-				cogoToast.info(`You have reached the bottom 😱!`, {
-					position: 'bottom-right'
-				});
-			}
+			API.get(`user/${usernamePosts}/posts?offset=${offset}&quantity=${quantity}`)
+				.then(res => {
+					if (res.data.code == 200)
+						dispatch({
+							type: FETCH_USER_POSTS,
+							payload: res.data.response.map(post => ({
+								...post,
+								liked: post.likedBy.includes(username)
+							}))
+						})
+				})
+				.catch(e => console.log(e))
+				.then(() => dispatch(setLoading(false)));
+		} else {
+			cogoToast.info(`You have reached the bottom 😱!`, {
+				position: 'bottom-right'
+			});
 		}
 	}
 }
@@ -52,29 +49,26 @@ export const discoverPosts = (username) => {
 		const { isThereMore, loading } = state.posts;
 		const { _id: id } = state.app.logged;
 
-		if(!loading) {
-			if (isThereMore) {
-				dispatch(setLoading(true));
+		if (isThereMore && !loading) {
+			dispatch(setLoading(true));
+			API.get('discover/posts')
+				.then(res => {
+					if (res.data.code == 200)
+						dispatch({
+							type: DISCOVER_POSTS,
+							payload: res.data.response.map(post => ({
+								...post,
+								liked: post.likedBy.includes(id)
+							}))
+						})
 
-				API.get('discover/posts')
-					.then(res => {
-						if (res.data.code == 200)
-							dispatch({
-								type: DISCOVER_POSTS,
-								payload: res.data.response.map(post => ({
-									...post,
-									liked: post.likedBy.includes(id)
-								}))
-							})
-
-						dispatch(setLoading(false));
-					})
-					.catch(e => console.log(e));
-			} else {
-				cogoToast.info(`You have reached the bottom 😱!`, {
-					position: 'bottom-right'
-				});
-			}
+				})
+				.catch(e => console.log(e))
+				.then(() => dispatch(setLoading(false)));
+		} else {
+			cogoToast.info(`You have reached the bottom 😱!`, {
+				position: 'bottom-right'
+			});
 		}
 	}
 }

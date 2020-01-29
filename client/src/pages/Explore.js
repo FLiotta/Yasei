@@ -28,7 +28,7 @@ class Explore extends Component {
               <div className="d-inline-flex flex-row w-100 mb-5" style={{'overflowX': 'scroll', 'overflowY': 'hidden', 'minHeight': '100px'}}>
                 {this.props.usersLoading && <div className="d-flex justify-content-center m-auto"><Loading /></div>}
                 {this.props.users.map(user =>
-                    <div className={'mx-5 px-5 animated fadeIn'} key={user._id}>
+                    <div className={'mx-3 mx-md-5 px-md-5 animated fadeIn'} key={user._id}>
                         <UserCard {...user} />
                     </div>
                 )}

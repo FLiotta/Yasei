@@ -4,11 +4,11 @@ import api from '../api/api';
 
 const API = new api();
 
-export const FETCH_PROFILE = 'FETCH_PROFILE',
-				NEW_POST = 'NEW_POST',
-				RESTART_STATE = 'RESTART_STATE',
-				SET_LOADING = 'SET_LOADING',
-				TOGGLE_SIDENAV = 'TOGGLE_SIDENAV';
+export const FETCH_PROFILE = '[PROFILE] FETCH_PROFILE',
+				NEW_POST = '[PROFILE] NEW_POST',
+				RESTART_STATE = '[PROFILE] RESTART_STATE',
+				SET_LOADING = '[PROFILE] SET_LOADING',
+				TOGGLE_SIDENAV = '[PROFILE] TOGGLE_SIDENAV';
 
 export const toggleSidenav = () => {
 	return (dispatch) => {

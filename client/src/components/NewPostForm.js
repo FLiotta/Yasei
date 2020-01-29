@@ -13,7 +13,8 @@ class NewPostForm extends Component {
 				"It's a beautiful day isn't it",
 				"Tell us a story, i know you're not boring ♪",
 				"In many ways, still miss good old days."
-			]
+			],
+      selectedPlaceholderPhrase: null
 		};
 
     this.handleNewPost = this.handleNewPost.bind(this);
@@ -23,6 +24,10 @@ class NewPostForm extends Component {
 
   componentWillUnmount() {}
 
+  componentDidMount() {
+    this.getRandomQuote();
+  }
+
   toggleYoutubeInput() {
 		this.setState(prevState => ({
 			youtubeInput: !prevState.youtubeInput
@@ -31,7 +36,9 @@ class NewPostForm extends Component {
 
 	getRandomQuote() {
 		const rand = Math.floor(Math.random() * this.state.randomPhrasesTextarea.length);
-		return this.state.randomPhrasesTextarea[rand];
+    this.setState(({
+      selectedPlaceholderPhrase: this.state.randomPhrasesTextarea[rand]
+    }))
 	}
 
 	handleNewPost(e) {
@@ -64,7 +71,7 @@ class NewPostForm extends Component {
               name="message"
               className="form-control border-top-0 border-left-0 border-right-0 border-brand rounded-0 profile__body__textarea__input"
               required
-              placeholder={this.getRandomQuote()}>
+              placeholder={this.state.selectedPlaceholderPhrase}>
             </textarea>
           </div>
           <div className="form-group">
@@ -72,7 +79,7 @@ class NewPostForm extends Component {
           </div>
           <div className="form-group">
             <button type="submit" className="btn btn-brand rounded-pill float-right text-white">
-              <i className="fas fa-paper-plane"></i> Post
+              <i className="fas fa-paper-plane"></i> Submit
             </button>
             <button type="button" onClick={this.toggleYoutubeInput} className="btn btn-danger text-white rounded-pill float-right px-3 mx-2">
               <i className="fab fa-youtube"></i> Youtube
