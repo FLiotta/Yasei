@@ -40,14 +40,14 @@ class Post extends Component {
 		return (
 			<div className="card w-100 my-5 post">
 				<div className="card-body px-4 py-5">
-					<div className="post__avatar">
-						<div className="post__avatar__image">
+					<div className="post__avatar d-flex">
+						<div className="post__avatar__username">
+							<Link to={'/u/' + this.props.author.username}>{this.props.author.username}</Link>
+						</div>
+						<div className="post__avatar__image ml-2">
 							<Link to={'/u/' + this.props.author.username}>
 								<img src={this.props.author.profilePic} className="img-fluid cursor-pointer rounded-circle" alt={this.props.author.username + '_profile-picture'} />
 							</Link>
-						</div>
-						<div className="post__avatar__username border">
-							<Link to={'/u/' + this.props.author.username}>@{this.props.author.username}</Link>
 						</div>
 					</div>
 					<p className="my-0 py-0">{this.props.message}</p>

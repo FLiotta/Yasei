@@ -6,24 +6,11 @@
 
 	&__avatar {
 		position: absolute;
-		width: 75px;
-		top: -40px;
+		top: 10px;
+		right: 10px;
 
 		&__image {
-			z-index: 11;
-			position: relative;
-		}
-
-		&__username {
-			box-shadow: 0px 0px 20px -9px rgba(0, 0, 0, 0.2);
-			position: absolute;
-			top: 25px;
-			left: 90px;
-			background-color: white;
-			padding: 0 30px;
-			border-radius: 50px;
-			left: 60px;
-			z-index: 10;
+			max-width: 25px;
 		}
 	}
 
