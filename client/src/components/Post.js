@@ -39,11 +39,11 @@ class Post extends Component {
 	render() {
 		return (
 			<div className="card w-100 my-5 post">
-				<div className="card-body px-4 py-5 bg-white">
+				<div className="card-body px-4 py-5">
 					<div className="post__avatar">
 						<div className="post__avatar__image">
 							<Link to={'/u/' + this.props.author.username}>
-								<img src={this.props.author.profilePic} className="img-fluid border cursor-pointer rounded-circle" alt={this.props.author.username + '_profile-picture'} />
+								<img src={this.props.author.profilePic} className="img-fluid cursor-pointer rounded-circle" alt={this.props.author.username + '_profile-picture'} />
 							</Link>
 						</div>
 						<div className="post__avatar__username border">
@@ -61,13 +61,13 @@ class Post extends Component {
 						</div>
 					}
 					<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
-					<div onClick={this.handleLike} className="bg-white border d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
+					<div onClick={this.handleLike} className="bg-white d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
 						<span className="text-danger">
 							{this.props.likes} <i className={`mr-1 ${this.props.liked ? 'fas fa-heart' : 'far fa-heart'}`}></i>
 						</span>
 					</div>
 					{this.ownsIt() &&
-						<div onClick={this.deletePost} className="bg-white border d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
+						<div onClick={this.deletePost} className="bg-white d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
 							<span className="text-secondary">
 								<i className="fas fa-times"></i>
 							</span>

@@ -1,5 +1,8 @@
 .post {
-	transition: .5s all;
+	border-color: rgba(0,0,0,0);
+  transition: .5s all;
+  box-shadow: 0px 10px 20px -9px rgba(0,0,0,.2);
+  border-radius: 10px;
 
 	&__avatar {
 		position: absolute;
@@ -12,6 +15,7 @@
 		}
 
 		&__username {
+			box-shadow: 0px 0px 20px -9px rgba(0, 0, 0, 0.2);
 			position: absolute;
 			top: 25px;
 			left: 90px;
@@ -27,12 +31,24 @@
 		position: absolute;
 		bottom: -15px;
 		right: 30px;
+	  transition: .5s all;
+	  box-shadow: 0px 0px 20px -9px rgba(0, 0, 0, 0.2);
 	}
 
 	&__delete {
 		position: absolute;
 		bottom: -15px;
 		right: 110px;
+		transition: .5s all;
+	  box-shadow: 0px 0px 20px -9px rgba(0, 0, 0, 0.2);
+	}
+
+	&__likes,
+	&__delete {
+		&:hover {
+			box-shadow: 0px 5px 20px -9px rgba(0, 0, 0, 0.2);
+			transform: translateY(-5px);
+		}
 	}
 	&:hover {
 		box-shadow: 0px 8px 27px -7px rgba(0, 0, 0, 0.2);
