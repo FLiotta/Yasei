@@ -6,7 +6,9 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import { connect } from 'react-redux';
 import Post from '../components/Post';
 import NewPostForm from '../components/NewPostForm';
+import ProfilePictureModal from '../components/ProfilePictureModal';
 import Loading from '../components/Loading';
+
 import { logout } from '../actions/app';
 import Auth from '../components/Auth';
 import '../styles/pages/Profile.scss';
@@ -48,7 +50,8 @@ class Profile extends Component {
 	render(){
 		return (
 			<div className="d-flex flex-column flex-md-row profile w-100">
-				<div className={"d-flex sidenav flex-column " + (!this.props.profile.visibleSidenav ? 'sidenav--inactive' : '')}>
+			<ProfilePictureModal />
+				<div className={"d-none d-md-flex sidenav flex-column " + (!this.props.profile.visibleSidenav ? 'sidenav--inactive' : '')}>
 					<div className="sidenav__description">
 						<img src={this.props.profile.profilePic}
 							 className="img-fluid rounded-circle sidenav__avatar mx-auto d-block mt-5 mb-2"/>

@@ -11,6 +11,7 @@ $theme-colors: (
 @import './components/UserCard.scss';
 @import './components/Navbar.scss';
 @import './components/DiscoverUser.scss';
+@import './components/ProfilePictureModal.scss';
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins/_breakpoints";

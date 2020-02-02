@@ -16,4 +16,11 @@ const isAuth = (req,res,next) => {
 	next();
 }
 
-module.exports = isAuth;
+const checkOwnsProfile = (req,res,next) => {
+	if(req.user.username != req.params.username)
+		return res.status(403).json({ code: 403, message: "Unauthorized request"});
+
+	next();
+}
+
+module.exports = {isAuth, checkOwnsProfile};

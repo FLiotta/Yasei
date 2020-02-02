@@ -39,17 +39,22 @@ class Post extends Component {
 	render() {
 		return (
 			<div className="card w-100 my-5 post">
-				<div className="card-body px-4 py-5">
-					<div className="post__avatar d-flex">
-						<div className="post__avatar__username">
+				<div className="card-header bg-white pb-0 border-0 d-flex justify-content-between">
+					<div>
+						<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
+					</div>
+					<div className="d-flex">
+						<div>
 							<Link to={'/u/' + this.props.author.username}>{this.props.author.username}</Link>
 						</div>
-						<div className="post__avatar__image ml-2">
+						<div className="post__avatar ml-2">
 							<Link to={'/u/' + this.props.author.username}>
 								<img src={this.props.author.profilePic} className="img-fluid cursor-pointer rounded-circle" alt={this.props.author.username + '_profile-picture'} />
 							</Link>
 						</div>
 					</div>
+				</div>
+				<div className="card-body px-4 py-4">
 					<p className="my-0 py-0">{this.props.message}</p>
 					{this.props.extra &&
 						<div className="mt-3">
@@ -60,14 +65,13 @@ class Post extends Component {
 							</iframe>
 						</div>
 					}
-					<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
-					<div onClick={this.handleLike} className="bg-white d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
-						<span className="text-danger">
+					<div onClick={this.handleLike} className="d-inline-flex px-3 py-1 rounded-pill post__likes cursor-pointer">
+						<span>
 							{this.props.likes} <i className={`mr-1 ${this.props.liked ? 'fas fa-heart' : 'far fa-heart'}`}></i>
 						</span>
 					</div>
 					{this.ownsIt() &&
-						<div onClick={this.deletePost} className="bg-white d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
+						<div onClick={this.deletePost} className="d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
 							<span className="text-secondary">
 								<i className="fas fa-times"></i>
 							</span>

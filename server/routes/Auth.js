@@ -28,7 +28,7 @@ router.post('/sign-up', (req,res) => {
 						}, SECRET_KEY)
 
 					res.status(200).json({
-						code: 200, 
+						code: 200,
 						response: {
 							token,
 							username: newUser.username,
@@ -41,7 +41,7 @@ router.post('/sign-up', (req,res) => {
 				})
 				.catch(e => res.send(500).json({error: 'There were an error.'}));
 		})
-		.catch(e => res.status(500).send('There were an error'));	
+		.catch(e => res.status(500).send('There were an error'));
 });
 
 router.post('/sign-in', (req,res) => {
@@ -52,13 +52,13 @@ router.post('/sign-in', (req,res) => {
 
 	User.findOne({username})
 		.select('+password')
-		.then(user => {			
+		.then(user => {
 			if(!user)
 				res.status(404).json({code: 404, message: 'User not found'})
 
 			bcrypt.compare(password, user.password)
 				.then(successLogged => !successLogged ? res.status(403).json({code: 403, message: 'Invalid password'}) : user)
-				.then(user => 
+				.then(user =>
 					jwt.sign({
 						data: user,
 						exp: Math.floor(Date.now() / 1000) + (60 * 60)
@@ -75,7 +75,7 @@ router.post('/sign-in', (req,res) => {
 					}
 				}))
 				.catch(e => res.send(500).json({error: 'There were an error.'}));
-		})	
+		})
 		.catch(e => res.send(500).json({error: 'There were an error.'}));
 })
 

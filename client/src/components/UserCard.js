@@ -7,7 +7,7 @@ class UserCard extends Component {
 
     render() {
         return (
-            <div className={'user-card bg-white position-relative my-5 ' + this.props.class}>
+            <div className={'user-card position-relative my-5 ' + this.props.class}>
                 <img src={this.props.profilePic} className="rounded-circle user-card__image bg-brand" />
                 <div className="user-card__body">
                     <div className="user-card__body__info d-flex justify-content-center d-md-block">

@@ -12,13 +12,16 @@ class NewPostModal extends Component {
   }
 
   render() {
+    const modalCustomStyles = {
+      height: 'fit-content'
+    };
+
     return (
       <Rodal
             visible={this.props.isVisible}
             onClose={this.props.togglePostModal}
             animation={'slideUp'}
-            width={600}
-            height={160}>
+            customStyles={modalCustomStyles}>
         <NewPostForm profileId={this.props.profileId} onSuccess={this.props.togglePostModal}/>
       </Rodal>
     );

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
-const isAuth = require('../middlewares/auth');
+const {isAuth} = require('../middlewares/auth');
 
 router.post('/:id/like', isAuth, (req,res) => {
 	const { id } = req.params;

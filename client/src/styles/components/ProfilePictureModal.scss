@@ -1,0 +1,9 @@
+.dropzone {
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #ededed;
+
+  &--active {
+    background-color: #ededed;
+  }
+}
