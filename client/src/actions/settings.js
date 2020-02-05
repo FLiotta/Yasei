@@ -1,6 +1,8 @@
 import axios from 'axios';
 import FormData from 'form-data'
-import { setProfilePic, setDescription } from '../actions/app';
+import { setProfilePic, setDescription, toggleProfilePictureModal } from '../actions/app';
+import { updatePostsPicture } from '../actions/posts';
+import { updateProfilePicture } from '../actions/profile';
 import api from '../api/api';
 
 const API = new api();
@@ -25,6 +27,9 @@ export const changeImage = (binary, crop) => {
 			  }
 			})
 			.then(res => {
+				dispatch(toggleProfilePictureModal());
+				dispatch(updatePostsPicture(res.data.response.path));
+				dispatch(updateProfilePicture(res.data.response.path));
 				dispatch(setProfilePic(res.data.response.path));
 			})
 			.catch(e => console.log(e))

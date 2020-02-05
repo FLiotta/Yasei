@@ -7,6 +7,7 @@ const API = new api();
 export const
 				TOGGLE_NAVBAR = '[APP] TOGGLE_NAVBAR',
 				TOGGLE_POST_MODAL = '[APP] TOGGLE_POST_MODAL',
+				TOGGLE_PROFILE_PICTURE_MODAL = '[APP] TOGGLE_PROFILE_PICTURE_MODAL',
 				SIGN_UP = '[APP] SIGN_UP',
 				SIGN_IN = '[APP] SIGN_IN',
 				RECONNECT = '[APP] RECONNECT',
@@ -30,6 +31,12 @@ export const setLoginLoad = (value) => {
 export const togglePostModal = () => {
 	return dispatch => dispatch({
 		type: TOGGLE_POST_MODAL
+	});
+}
+
+export const toggleProfilePictureModal = () => {
+	return dispatch => dispatch({
+		type: TOGGLE_PROFILE_PICTURE_MODAL
 	});
 }
 

@@ -8,6 +8,9 @@ export const FETCH_PROFILE = '[PROFILE] FETCH_PROFILE',
 				NEW_POST = '[PROFILE] NEW_POST',
 				RESTART_STATE = '[PROFILE] RESTART_STATE',
 				SET_LOADING = '[PROFILE] SET_LOADING',
+				UPDATE_PROFILE_PICTURE = '[PROFILE] UPDATE_PROFILE_PICTURE',
+				TOGGLE_EDITING_DESCRIPTION = '[PROFILE] TOGGLE_EDITING_DESCRIPTION',
+				SET_PROFILE_DESCRIPTION = '[APP] SET_PROFILE_DESCRIPTION',
 				TOGGLE_SIDENAV = '[PROFILE] TOGGLE_SIDENAV';
 
 export const toggleSidenav = () => {
@@ -18,6 +21,39 @@ export const toggleSidenav = () => {
 	}
 }
 
+export const setDescription = description => {
+	return dispatch => {
+		cogoToast.success(`Description updated!`, {
+		    position: 'bottom-right'
+		});
+		dispatch({
+			type: SET_PROFILE_DESCRIPTION,
+			payload: {
+				description
+			}
+		});
+
+		dispatch(resetLastConnection())
+	}
+}
+
+export const toggleEditingDescription = () => {
+	return dispatch => {
+		dispatch({
+			type: TOGGLE_EDITING_DESCRIPTION
+		})
+	}
+}
+export const updateProfilePicture = (url) => {
+	return dispatch => {
+		dispatch({
+			type: UPDATE_PROFILE_PICTURE,
+			payload: {
+				url
+			}
+		})
+	}
+}
 export const fetchProfile = (username) => {
 	return (dispatch, getState) => {
 		const state = getState();

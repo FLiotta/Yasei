@@ -12,7 +12,8 @@ export const
 				RESTART_STATE = '[POST] RESTART_STATE',
 				SET_LOADING = '[POST] SET_LOADING',
 				LIKE_POST = '[POST] LIKE_POST',
-				UNLIKE_POST = '[POST] UNLIKE_POST';
+				UNLIKE_POST = '[POST] UNLIKE_POST',
+				UPDATE_PROFILE_PICTURE = '[POST] UPDATE_PROFILE_PICTURE';
 
 export const fetchUserPosts = (usernamePosts) => {
 	return (dispatch, getState) => {
@@ -167,6 +168,21 @@ export const setLoading = loading => {
 			loading
 		}
 	})
+}
+
+export const updatePostsPicture = url => {
+
+	return (dispatch, getState) => {
+		const state = getState();
+		const username = state.app.logged.username;
+
+		dispatch({
+			type: UPDATE_PROFILE_PICTURE,
+			payload: {
+				url, username
+			}
+		})
+	}
 }
 
 export const restartState = (data) => {

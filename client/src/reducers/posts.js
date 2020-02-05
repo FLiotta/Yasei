@@ -6,7 +6,9 @@ import {
 	SET_LOADING,
 	FETCH_USER_POSTS,
 	LIKE_POST,
-	UNLIKE_POST } from '../actions/posts';
+	UNLIKE_POST,
+ 	UPDATE_PROFILE_PICTURE } from '../actions/posts';
+import store from '../store';
 import { parseImageUrl } from '../utils/util';
 
 
@@ -104,6 +106,24 @@ export default (state = defaultState, action) => {
 				...state,
 				loading: action.payload.loading
 			}
+		case UPDATE_PROFILE_PICTURE:
+				const username = action.payload.username;
+				const items = state.items.map(post => {
+						if(post.author.username == username) {
+							return {
+								...post,
+								author: {
+									...post.author,
+									profilePic: parseImageUrl(action.payload.url)
+								}
+							}
+						} else {
+							return post;
+						}
+				});
+
+				return { ...state, items }
+
 		case RESTART_STATE:
 			return defaultState;
     default:
