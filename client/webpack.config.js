@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackBundlerAnalyzer = require('webpack-bundle-analyzer');
 
 module.exports = {
 	entry: './src/app.js',
@@ -74,7 +75,6 @@ module.exports = {
 	      chunkFilename: '[id].css',
 	      ignoreOrder: false,
 	    })
-
 	],
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'),

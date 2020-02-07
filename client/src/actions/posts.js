@@ -20,6 +20,7 @@ export const fetchUserPosts = (usernamePosts) => {
 		const state = getState();
 		const { offset, quantity, isThereMore, loading } = state.posts;
 		const { username } = state.app.logged;
+		
 		if (isThereMore && !loading) {
 			dispatch(setLoading(true))
 
@@ -36,10 +37,10 @@ export const fetchUserPosts = (usernamePosts) => {
 				})
 				.catch(e => console.log(e))
 				.then(() => dispatch(setLoading(false)));
-		} else {
-			cogoToast.info(`You have reached the bottom 😱!`, {
-				position: 'bottom-right'
-			});
+		} else if(!loading) {
+				cogoToast.info(`You have reached the bottom 😱!`, {
+					position: 'bottom-right'
+				});
 		}
 	}
 }

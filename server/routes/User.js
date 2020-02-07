@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const path = require('path');
 const Jimp = require('jimp');
+const shortId = require('shortid');
 const {isAuth, checkOwnsProfile} = require('../middlewares/auth');
 const fs = require('fs');
 
@@ -120,7 +121,7 @@ var storage = multer.diskStorage({
     cb(null, 'public/images/avatars')
   },
   filename: (req, file, cb) => {
-    cb(null, `${req.params.username}_${Date.now()}.png`);
+    cb(null, `${req.params.username}.png`);
   }
 })
 
@@ -152,7 +153,7 @@ router.post('/:username/edit/info/profilePicture', [isAuth, checkOwnsProfile] , 
 						code: 200,
 						response: {
 							message: 'Foto cambiada con exito',
-							path: updatedUser.profilePic,
+							path: `${updatedUser.profilePic}?hash=${shortId.generate()}`,
 							updatedUser
 						}
 					}
