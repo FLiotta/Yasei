@@ -24,7 +24,7 @@ class Navbar extends Component {
 							<NavLink to={'/u/' + this.props.profile.username} className="navbar-cs__button" data-tip="Profile">
 								<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='border img-fluid d-block mx-auto rounded-circle' />
 							</NavLink>
-							<div className="navbar-cs__button" onClick={this.props.togglePostModal} >
+							<div className="navbar-cs__button" onClick={this.props.togglePostModal} data-tip="Submit a post">
 								<p className="text-center my-0"><i className="fas fa-comment fa-2x"></i></p>
 							</div>
 						</Auth>
