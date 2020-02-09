@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBundlerAnalyzer = require('webpack-bundle-analyzer');
@@ -8,9 +9,27 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
 	entry: './src/app.js',
 	output: {
+		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle.[hash].js'
+		filename: '[name].bundle.js'
 	},
+	optimization: {
+    runtimeChunk: "single",
+		minimizer: [
+      new UglifyJsPlugin({
+        sourceMap: true,
+      })
+    ],
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks: "async"
+        }
+      }
+    }
+  },
 	module: {
 		rules: [
 			{
@@ -65,7 +84,7 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 				filename: '[name].[hash].css',
-	      chunkFilename: '[id].[hash].css',
+	      chunkFilename: '[name].[hash].css',
 	      ignoreOrder: false,
 	    }),
 		new CopyPlugin([

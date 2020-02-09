@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment,Suspense, lazy } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Home from '../pages/Home';
-import Profile from '../pages/Profile';
-import Error from '../pages/Error';
-import Navbar from "../components/Navbar";
-import Explore from '../pages/Explore';
-import NewPostModal from '../components/NewPostModal';
+const Home = lazy(() => import('../pages/Home'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Error = lazy(() => import('../pages/Error'));
+const Explore = lazy(() => import('../pages/Explore'));
+const NewPostModal = lazy(() => import('../components/NewPostModal'));
+const Navbar = lazy(() => import('../components/Navbar'));
 
 class AppRouter extends Component {
 	constructor(props){
@@ -16,18 +16,20 @@ class AppRouter extends Component {
 	render(){
 		return (
 			<BrowserRouter>
-				<Switch>
-					<Route path="/" component={Home} exact />
-					<Fragment>
-						<div className="d-flex page">
-							<NewPostModal />
-							<Route path="/explore" component={Explore} />
-							<Route path="/u/:id" component={Profile} />
-							<Navbar />
-						</div>
-					</Fragment>
-					<Route component={Error} />
-				</Switch>
+				<Suspense fallback={<div></div>}>
+					<Switch>
+						<Route path="/" component={Home} exact />
+						<Fragment>
+							<div className="d-flex page">
+								<NewPostModal />
+								<Route path="/explore" component={Explore} />
+								<Route path="/u/:id" component={Profile} />
+								<Navbar />
+							</div>
+						</Fragment>
+						<Route component={Error} />
+					</Switch>
+				</Suspense>
 			</BrowserRouter>
 		)
 	}
