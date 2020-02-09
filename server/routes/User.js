@@ -19,8 +19,8 @@ router.get('/:username', (req,res) => {
 					return res.status(404).json({code: 404, response: 'User not found'});
 
 				Promise.all([
-					Post.count({profile: username}),
-					Post.count({likedBy: { $in: username }})
+					Post.countDocuments({profile: username}),
+					Post.countDocuments({likedBy: { $in: username }})
 				]).then(([posts, likes]) => {
 					res.status(200).send({
 						code: 200,
@@ -118,49 +118,46 @@ router.post('/:username/edit/info/description', isAuth, (req,res) => {
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images/avatars')
+    cb(null, path.resolve(__dirname, '..' , 'public/images/avatars'))
   },
   filename: (req, file, cb) => {
     cb(null, `${req.params.username}.png`);
   }
 })
 
-const upload = multer({storage: storage}).single('newImage');
+const upload = multer({storage: storage});
 
-router.post('/:username/edit/info/profilePicture', [isAuth, checkOwnsProfile] , (req,res) => {
+router.post('/:username/edit/info/profilePicture', [isAuth, checkOwnsProfile, upload.single('newImage')] , (req,res) => {
 	const { username } = req.params;
-	let upload = multer({ storage: storage }).single('newImage');
 
-	upload(req,res, function (err) {
-		if(!req.file)
-			res.status(500).json({code: 500, response: "There were an error"});
+	if(!req.file)
+		res.status(500).json({code: 500, response: "There were an error"});
 
-		const { x, y, width, height } = JSON.parse(req.body.crop);
+	const { x, y, width, height } = JSON.parse(req.body.crop);
 
-		Jimp.read(path.resolve(req.file.destination,req.file.filename), (err, imageToCrop) => {
-			if (err) throw err;
-		  imageToCrop
-		    .crop( x, y, width, height )
-				.resize(150,150)
-		    .quality(100)
-		    .write(path.resolve(req.file.destination,req.file.filename)); // save
-		});
-
-		User.findOneAndUpdate({ username }, { profilePic: `images/avatars/${req.file.filename}` }, { new: true, useFindAndModify: false })
-			.then(updatedUser => {
-				res.status(200).json(
-					{
-						code: 200,
-						response: {
-							message: 'Foto cambiada con exito',
-							path: `${updatedUser.profilePic}?hash=${shortId.generate()}`,
-							updatedUser
-						}
-					}
-				)
-			})
-			.catch(e => res.status(500).send(e));
+	Jimp.read(path.resolve(req.file.destination,req.file.filename), (err, imageToCrop) => {
+		if (err) throw err;
+		imageToCrop
+			.crop( x, y, width, height )
+			.resize(150,150)
+			.quality(100)
+			.write(path.resolve(req.file.destination,req.file.filename)); // save
 	});
+
+	User.findOneAndUpdate({ username }, { profilePic: `images/avatars/${req.file.filename}` }, { new: true, useFindAndModify: false })
+		.then(updatedUser => {
+			res.status(200).json(
+				{
+					code: 200,
+					response: {
+						message: 'Foto cambiada con exito',
+						path: `${updatedUser.profilePic}?hash=${shortId.generate()}`,
+						updatedUser
+					}
+				}
+			)
+		})
+		.catch(e => res.status(500).send(e));
 })
 
 module.exports = router;

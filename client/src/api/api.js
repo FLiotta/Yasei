@@ -8,7 +8,7 @@ class Api {
 		this.baseUrl = 'http://localhost:3000';
 	}
 
-	get(url) {		
+	get(url) {
 		const state = store.getState();
 
 		const config = {
@@ -16,7 +16,7 @@ class Api {
 		}
 
 		if(state.app.logged.token)
-			config.headers['auth_token'] = state.app.logged.token;
+			config.headers['authToken'] = state.app.logged.token;
 
 		return new Promise((res,rej) => {
 			axios.get(`${this.baseUrl}/${url}`, config)
@@ -27,9 +27,9 @@ class Api {
 					switch(status){
 						case 401:
 							store.dispatch(logout());
-							break;	
+							break;
 					}
-					
+
 					cogoToast.error(`${status}: ${data.message}`, {
 		  				position: 'bottom-right'
 		  			});
@@ -38,7 +38,7 @@ class Api {
 		})
 	}
 
-	post(url, params) {		
+	post(url, params) {
 		const state = store.getState();
 
 		const config = {
@@ -46,7 +46,7 @@ class Api {
 		}
 
 		if(state.app.logged.token)
-			config.headers['auth_token'] = state.app.logged.token;
+			config.headers['authToken'] = state.app.logged.token;
 
 
 		return new Promise((res,rej) => {
@@ -58,9 +58,9 @@ class Api {
 					switch(status){
 						case 401:
 							store.dispatch(logout());
-							break;	
+							break;
 					}
-					
+
 					cogoToast.error(`${status}: ${data.message}`, {
 		  				position: 'bottom-right'
 		  			});
