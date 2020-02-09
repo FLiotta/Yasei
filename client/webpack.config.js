@@ -3,12 +3,13 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBundlerAnalyzer = require('webpack-bundle-analyzer');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	entry: './src/app.js',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle.js'
+		filename: 'bundle.[hash].js'
 	},
 	module: {
 		rules: [
@@ -23,13 +24,13 @@ module.exports = {
 				test: /\.s?css$/,
 				use: [
 					{
-			            loader: MiniCssExtractPlugin.loader,
-			            options: {
-			              publicPath: '../',
-			            },
-			        },
-					'css-loader',
-          			'sass-loader'
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../',
+            },
+	        },
+					'css-loader?url=false',
+    			'sass-loader'
 				]
 			},
 			{
@@ -41,20 +42,8 @@ module.exports = {
 		        	}
 		        }
 			},
-			{
-		        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-		        use: [
-		        	{
-		            	loader: 'file-loader',
-		            	options: {
-		              		name: '[name].[ext]',
-		              		outputPath: 'assets/fonts/'
-		            	}
-		          	}
-		        ]
-		    },
-		    {
-		    	test: /\.svg$/,
+	    {
+		    test: /\.svg$/,
 				use: [
 			    	{
 			      		loader: "babel-loader"
@@ -70,11 +59,18 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
+			template: 'src/assets/index.html'
+		}),
 		new MiniCssExtractPlugin({
-	      filename: '[name].css',
-	      chunkFilename: '[id].css',
+				filename: '[name].[hash].css',
+	      chunkFilename: '[id].[hash].css',
 	      ignoreOrder: false,
-	    })
+	    }),
+		new CopyPlugin([
+			{ from: 'src/assets/images', to: 'assets/images'}
+		])
 	],
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'),

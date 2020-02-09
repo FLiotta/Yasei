@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const getRandomProfilePicture = () => `/assets/images/avatar_default_${Math.floor((Math.random() * 2) + 0)}.png`;
+const getRandomProfilePicture = () => `/images/avatars/default/avatar_default_${Math.floor((Math.random() * 2) + 0)}.png`;
 
 const userSchema = new Schema({
 	username: String,

@@ -10,7 +10,6 @@ import {
 	SET_PROFILE_PICTURE,
 	SET_PROFILE_DESCRIPTION,
 	RESET_LAST_CONNECTION } from '../actions/app';
-import { parseImageUrl } from '../utils/util';
 
 const defaultState = {
 	profilePicModal: {
@@ -71,7 +70,7 @@ export default (state = defaultState, action) => {
 				...state,
 				logged: {
 					...state.logged,
-					profilePic: parseImageUrl(action.payload.url)
+					profilePic: action.payload.url
 				}
 			}
 		case SET_PROFILE_DESCRIPTION:
@@ -93,7 +92,7 @@ export default (state = defaultState, action) => {
 					isLogged: true,
 					token,
 					username,
-					profilePic: parseImageUrl(profilePic),
+					profilePic: profilePic,
 					description,
 					_id
 				}
@@ -106,7 +105,7 @@ export default (state = defaultState, action) => {
 					...last_session,
 					isLoading: false,
 					isLogged: true,
-					profilePic: parseImageUrl(last_session.profilePic)
+					profilePic: last_session.profilePic
 				}
 			}
 		case RESET_LAST_CONNECTION:
