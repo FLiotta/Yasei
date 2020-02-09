@@ -10,7 +10,30 @@ class Home extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			signMode: true
+			signMode: true,
+			phrases: [
+				{
+					extra: "William Shakespeare - All's Well That Ends Well",
+					quote: 'What is a friend?\nA single soul dwelling in two bodies.',
+				},
+				{
+					extra: "Aristotle",
+					quote: 'Love all, trust a few, do wrong to none.',
+				},
+				{
+					extra: 'Marcus Aurelius - Meditations',
+					quote: 'The soul becomes dyed\nwith the colour of its thoughts.',
+				},
+				{
+					extra: 'Marcus Aurelius - Meditations',
+					quote: 'The happiness of your life depends\nupon the quality of your thoughts.',
+				},
+				{
+					extra: 'Marcus Aurelius - Meditations',
+					quote: 'The best revenge is to be\nunlike him who performed the injury',
+				}
+			],
+			selectedPhrase: {}
 		}
 
 		this.toggleSignMode = this.toggleSignMode.bind(this);
@@ -19,6 +42,11 @@ class Home extends Component {
 	componentDidMount() {
 		if(this.props.isLogged)
 			this.props.history.push(`/u/${this.props.user}`)
+
+		const randomNumber = Math.floor(Math.random() * this.state.phrases.length)
+		this.setState(() => ({
+			selectedPhrase: this.state.phrases[randomNumber]
+		}));
 	}
 
 	componentDidUpdate() {
@@ -37,12 +65,12 @@ class Home extends Component {
 			<div className="home">
 				<div className="row h-100">
 					<div className="col-8 d-none d-md-flex flex-column justify-content-end pl-5 home__left">
-						<h1 className="display-5 text-light home__left__text">
-							Paint me a wish
-							<br/>
-							on a velvet sky.
+						<h1 className="display-7 text-light home__left__text">
+							{this.state.selectedPhrase.quote}
 						</h1>
-						<p className="lead text-light home__left__text">Yasei 野生 For those, these, this and that.</p>
+						{!!this.state.selectedPhrase.extra &&
+							<p className="text-light lead home__left__tex">{this.state.selectedPhrase.extra}</p>
+						}
 					</div>
 					<div className="col-12 col-md-4 bg-white home__right d-flex flex-column justify-content-center">
 						<div className="row justify-content-center">

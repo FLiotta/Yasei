@@ -110,10 +110,10 @@ class Profile extends Component {
 							</p>
 						}
 						{(this.props.ownsProfile && !this.props.profile.editingDescription) &&
-							<button className="text-left btn-link btn px-5"
-											onClick={this.props.toggleEditingDescription}>
+							<a className="text-left btn-link text-brand btn px-5"
+								 onClick={this.props.toggleEditingDescription}>
 											Edit description <i className="fas fa-pencil-alt"></i>
-							</button>
+							</a>
 						}
 						<div className="d-flex flex-column justify-content-between h-100">
 							<div className="d-flex justify-content-between px-5">

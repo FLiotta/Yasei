@@ -2,12 +2,13 @@
 	height: 100vh;
 	overflow-x: hidden;
   background-size: cover;
-	background-image: url('../assets/images/bg_profile.jpg');
+	background-image: url('../assets/images/bg_home.jpg');
   background-position: center;
   background-repeat: no-repeat;
 
 	&__left {
 		&__text {
+			white-space: pre;
 			text-shadow: 0px 0px 5px rgba(0,0,0,.5);
 		}
 	}

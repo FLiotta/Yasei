@@ -80,6 +80,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
+			title: 'Yasei',
 			template: 'src/assets/index.html'
 		}),
 		new MiniCssExtractPlugin({
