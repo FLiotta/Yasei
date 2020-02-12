@@ -15,17 +15,18 @@ class Navbar extends Component {
 		return (
 			<>
 				{this.props.isVisible &&
-					<div className="navbar-cs bg-light d-flex flex-row flex-md-column">
+					<div className="navbar-cs bg-light d-flex flex-column justify-content-between">
+						<div className="d-flex flex-row flex-md-column">
 						<ReactTooltip
 							place="left"
 							effect="solid"
 						/>
 						<Auth>
 							<NavLink to={'/u/' + this.props.profile.username} className="navbar-cs__button" data-tip="Profile">
-								<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='border img-fluid d-block mx-auto rounded-circle' />
+								<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='img-fluid d-block mx-auto rounded-circle' />
 							</NavLink>
 							<div className="navbar-cs__button" onClick={this.props.togglePostModal} data-tip="Submit a post">
-								<p className="text-center my-0"><i className="fas fa-comment fa-2x"></i></p>
+								<p className="text-center my-0"><i className="fas fa-plus-circle fa-2x"></i></p>
 							</div>
 						</Auth>
 							<NavLink to={'/explore'} className="navbar-cs__button" activeClassName={'bg-brand text-white'}  data-tip="Explore">
@@ -44,6 +45,10 @@ class Navbar extends Component {
 									<p className="text-center my-0"><i className="fas fa-sign-in-alt fa-2x"></i></p>
 							</NavLink>
 						</Auth>
+						</div>
+						<div className="d-none d-md-block">
+							<img src="assets/images/small_logo.png" className="d-block mx-auto img-fluid" />
+						</div>
 					</div>
 				}
 			</>

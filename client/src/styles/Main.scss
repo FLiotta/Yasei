@@ -1,5 +1,6 @@
 $theme-colors: (
-        "brand": #43fd9b
+        "brand": #C02641,
+        "brand-secondary": #FFDC7C
 );
 
 @import "node_modules/bootstrap/scss/bootstrap";
@@ -73,6 +74,7 @@ body {
 .page {
   padding: 75px 0 0 0;
   min-width: 0;
+  height: 100vh;
 }
 
 @include media-breakpoint-up(md) {

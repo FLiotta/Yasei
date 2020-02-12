@@ -22,7 +22,7 @@
 		justify-content: center;
 
 		&:hover {
-			background-color: #43fd9b;
+			background-color: theme-color("brand");
 			color: #ffffff;
 		}
 	}

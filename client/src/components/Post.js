@@ -65,7 +65,7 @@ class Post extends Component {
 							</iframe>
 						</div>
 					}
-					<div onClick={this.handleLike} className="d-inline-flex px-3 py-1 text-danger rounded-pill post__likes cursor-pointer">
+					<div onClick={this.handleLike} className="d-inline-flex px-3 py-1 text-brand-secondary rounded-pill post__likes cursor-pointer">
 						<span>
 							{this.props.likes} <i className={`mr-1 ${this.props.liked ? 'fas fa-heart' : 'far fa-heart'}`}></i>
 						</span>

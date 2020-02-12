@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import RegisterForm from '../components/RegisterForm';
-import LoginForm from '../components/LoginForm';
+import AuthForm from '../components/AuthForm';
 import Logo from '../assets/images/logo.png';
 import { connect } from 'react-redux';
 import { toggleNavbar } from '../actions/app';
 import { Link } from 'react-router-dom';
+import { signIn } from '../actions/app';
+import { signUp } from '../actions/app';
 
 class Home extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			signMode: true,
+			signMode: 'menu',
 			phrases: [
 				{
 					extra: "William Shakespeare - All's Well That Ends Well",
@@ -36,7 +37,10 @@ class Home extends Component {
 			selectedPhrase: {}
 		}
 
-		this.toggleSignMode = this.toggleSignMode.bind(this);
+		this.getAuthComponent = this.getAuthComponent.bind(this);
+		this.setMenuMode = this.setMenuMode.bind(this);
+		this.setLoginMode = this.setLoginMode.bind(this);
+		this.setSignupMode = this.setSignupMode.bind(this);
 	}
 
 	componentDidMount() {
@@ -54,10 +58,27 @@ class Home extends Component {
 			this.props.history.push(`/u/${this.props.user}`)
 	}
 
-	toggleSignMode() {
-		this.setState(prevState => ({
-			signMode: !prevState.signMode
-		}));
+	setLoginMode() {
+		this.setState(() => ({signMode: 'login'}))
+	}
+
+	setMenuMode() {
+		this.setState(() => ({signMode: 'menu'}))
+	}
+
+	setSignupMode() {
+		this.setState(() => ({signMode: 'signup'}))
+	}
+
+	getAuthComponent() {
+		const signMode = this.state.signMode;
+
+		switch (signMode) {
+			case 'signup':
+				return <AuthForm type="signup" backMethod={this.setMenuMode} onSuccess={this.props.signUp} />
+			case 'login':
+				return <AuthForm type="login" backMethod={this.setMenuMode} onSuccess={this.props.signIn} />
+		}
 	}
 
 	render(){
@@ -82,25 +103,26 @@ class Home extends Component {
 							<div className="col-12 px-4">
 								<div className="card border-0 rounded-0">
 									<div className="card-body">
-										{this.state.signMode ?
+										{this.state.signMode == 'menu' &&
+											<div>
+												<button
+													className="btn btn-outline-brand btn-block rounded-pill"
+													onClick={this.setSignupMode}>Sign Up</button>
+												<button
+													className="btn btn-brand btn-block text-light rounded-pill"
+													onClick={this.setLoginMode}>Log In</button>
+												<hr/>
+												<Link to="/explore"
+													className="btn btn-brand-secondary btn-block text-white rounded-pill">
+													I'd like to explore first 🧭
+												</Link>
+											</div>
+										}
+										{this.state.signMode != 'menu' &&
 											<>
-												<RegisterForm />
-												<a className="mx-auto d-block mt-3 text-center cursor-pointer"
-												   onClick={this.toggleSignMode}
-												   href="#" >
-													Already have an account 🤠
-												</a>
-											</> :
-											<>
-												<LoginForm />
-												<a className="mx-auto d-block mt-3 text-center cursor-pointer"
-												   onClick={this.toggleSignMode}
-												   href="#">
-													I don't have an account yet 🧐
-												</a>
+												{this.getAuthComponent()}
 											</>
 										}
-										<Link to="/explore" className="mx-auto d-block mt-3 text-center cursor-pointer">I want to explore first 🧭</Link>
 									</div>
 								</div>
 							</div>
@@ -118,7 +140,9 @@ const stateToProps = state => ({
 });
 
 const dispatchToProps = dispatch => ({
-	toggleNavbar: value => dispatch(toggleNavbar(value))
+	toggleNavbar: value => dispatch(toggleNavbar(value)),
+	signIn: value => dispatch(signIn(value)),
+	signUp: value => dispatch(signUp(value))
 })
 
 export default connect(stateToProps, dispatchToProps)(Home);
