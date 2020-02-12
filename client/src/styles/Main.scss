@@ -1,11 +1,13 @@
+.cropper-view-box {
+  border-radius: 50% !important;
+}
+
 $theme-colors: (
         "brand": #C02641,
         "brand-secondary": #FFDC7C
 );
 
 @import "node_modules/bootstrap/scss/bootstrap";
-
-
 @import './pages/Home.scss';
 @import './pages/Profile.scss';
 @import './components/Post.scss';

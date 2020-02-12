@@ -13,7 +13,6 @@ import cogoToast from 'cogo-toast';
 
 import { logout } from '../actions/app';
 import Auth from '../components/Auth';
-import '../styles/pages/Profile.scss';
 
 class Profile extends Component {
 	constructor(props){
@@ -82,9 +81,13 @@ class Profile extends Component {
 				{(this.props.profilePicModal && this.props.ownsProfile) && <ProfilePictureModal />}
 				<div className={"d-none d-md-flex sidenav flex-column " + (!this.props.profile.visibleSidenav ? 'sidenav--inactive' : '')}>
 					<div className="sidenav__description">
-						<img src={this.props.profile.profilePic}
-							 onClick={this.openProfilePictureModal}
-							 className={'img-fluid rounded-circle sidenav__avatar mx-auto d-block mt-5 mb-2 ' + (this.props.ownsProfile && 'cursor-pointer')}/>
+						<div
+							onClick={this.openProfilePictureModal}
+							className={"sidenav__avatar mx-auto d-block mt-5 mb-2" + (this.props.ownsProfile && ' sidenav__avatar--owner cursor-pointer')}>
+							<img src={this.props.profile.profilePic}
+								 className={'sidenav__avatar__image img-fluid rounded-circle mx-auto d-block w-100 h-100'}/>
+								 <span className='sidenav__avatar--owner__camera'><i className="fas fa-camera"></i></span>
+						</div>
 						<p className="text-center text-white title mt-3">{this.props.profile.username}</p>
 						{this.props.profile.editingDescription
 							?

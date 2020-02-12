@@ -52,8 +52,35 @@
 	&__avatar {
 		width: 200px;
 		height: 200px;
-		border: 5px solid white;
-		background-color: theme-color("brand");
+
+		&__image {
+			border: 5px solid white;
+			background-color: theme-color("brand");
+			transition: .8s all;
+		}
+
+		&--owner{
+			&__camera {
+				position: relative;
+				bottom: 180px;
+				opacity: 0;
+				color: theme-color("brand-secondary");
+				font-size: 45px;
+				left: 80px;
+				transition: .8s all;
+			}
+
+			&:hover {
+				.sidenav__avatar--owner__camera {
+					opacity: 1;
+					bottom: 135px;
+				}
+
+				.sidenav__avatar__image {
+					filter: grayscale(100%);
+				}
+			}
+		}
 	}
 
 	&__description {

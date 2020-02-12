@@ -10,7 +10,7 @@ class Post extends Component {
 		super(props);
 
 		this.deletePost = this.deletePost.bind(this);
-		this.ownsIt = this.ownsIt.bind(this);
+		this.canDeleteIt = this.canDeleteIt.bind(this);
 		this.handleLike = this.handleLike.bind(this);
 	}
 
@@ -18,8 +18,14 @@ class Post extends Component {
 		this.props.deletePost({ postId: this.props._id })
 	}
 
-	ownsIt() {
-		return this.props.session._id == this.props.author._id || this.props.session.username == this.props.match.params.id;
+	canDeleteIt() {
+		if(this.props.session._id && this.props.author._id) {
+			// If i own the post.
+			return this.props.session._id == this.props.author._id
+		} else if (this.props.session.username && this.props.match.params.id) {
+			// If the post is in my profile, even if i don't own it.
+			return this.props.session.username == this.props.match.params.id;
+		}
 	}
 
 	handleLike() {
@@ -70,7 +76,7 @@ class Post extends Component {
 							{this.props.likes} <i className={`mr-1 ${this.props.liked ? 'fas fa-heart' : 'far fa-heart'}`}></i>
 						</span>
 					</div>
-					{this.ownsIt() &&
+					{this.canDeleteIt() &&
 						<div onClick={this.deletePost} className="d-inline-flex px-3 py-1 rounded-pill post__delete cursor-pointer">
 							<span className="text-secondary">
 								<i className="fas fa-times"></i>

@@ -82,7 +82,7 @@ class ProfilePictureModal extends Component {
             <Cropper
               ref={this.cropper}
               src={this.state.file.preview.url}
-              style={{height: 400, width: '100%'}}
+              style={{'height': 500, width: '100%'}}
               // Cropper.js options
               dragMode='move'
               zoomable={false}
@@ -94,10 +94,10 @@ class ProfilePictureModal extends Component {
         </div>
         <div className="float-right mt-2">
           <button
-            className="btn btn-light text-danger mt-2"
+            className="btn btn-brand-secondary text-white mt-2"
             onClick={this.props.toggleProfilePictureModal}>Cancel</button>
           <button
-            className="btn btn-success text-white ml-1 mt-2"
+            className="btn btn-brand text-white ml-1 mt-2"
             onClick={this.uploadPicture}
             disabled={!this.state.file}>Upload</button>
         </div>
