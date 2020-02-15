@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import Moment from 'react-moment';
 import { connect } from 'react-redux';
+import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs';
 import { likePost, unlikePost, deletePost } from '../actions/posts';
 import { Link, withRouter } from 'react-router-dom';
 import cogoToast from "cogo-toast";
@@ -12,6 +13,8 @@ class Post extends Component {
 		this.deletePost = this.deletePost.bind(this);
 		this.canDeleteIt = this.canDeleteIt.bind(this);
 		this.handleLike = this.handleLike.bind(this);
+
+		dayjs.extend(relativeTime)
 	}
 
 	deletePost() {
@@ -47,7 +50,7 @@ class Post extends Component {
 			<div className="card w-100 my-5 post">
 				<div className="card-header bg-white pb-0 border-0 d-flex justify-content-between">
 					<div>
-						<small className="text-muted"><Moment fromNow date={this.props.createdAt} /></small>
+						<small className="text-muted">{dayjs().from(dayjs(this.props.createdAt))} ago.</small>
 					</div>
 					<div className="d-flex">
 						<div>

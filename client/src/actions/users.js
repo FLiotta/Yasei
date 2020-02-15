@@ -12,15 +12,15 @@ export const
 export const discoverUsers = (username) => {
 	return (dispatch, getState) => {
 		const state = getState();
-    
+
     dispatch(setLoading(true));
 
     API.get('discover/users')
       .then(res => {
-        if (res.data.code == 200)
+        if (res.code == 200)
           dispatch({
             type: DISCOVER_USERS,
-            payload: res.data.response
+            payload: res.response
           })
 
         dispatch(setLoading(false));

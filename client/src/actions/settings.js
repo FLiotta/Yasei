@@ -29,9 +29,9 @@ export const changeImage = (binary, crop) => {
 			})
 			.then(res => {
 				dispatch(toggleProfilePictureModal());
-				dispatch(updatePostsPicture(res.data.response.path));
-				dispatch(updateProfilePicture(res.data.response.path));
-				dispatch(setProfilePic(res.data.response.path));
+				dispatch(updatePostsPicture(res.response.path));
+				dispatch(updateProfilePicture(res.response.path));
+				dispatch(setProfilePic(res.response.path));
 			})
 			.catch(e => console.log(e))
 	}
@@ -45,8 +45,8 @@ export const changeDescription = description => {
 
 		API.post(`user/${username}/edit/info/description`, { description })
 			.then(res => {
-				if(res.data.code == 200)
-					dispatch(setDescription(res.data.response.newDescription));
+				if(res.code == 200)
+					dispatch(setDescription(res.response.newDescription));
 			})
 			.catch(e => console.log(e));
 	}

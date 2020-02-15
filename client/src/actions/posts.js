@@ -20,16 +20,16 @@ export const fetchUserPosts = (usernamePosts) => {
 		const state = getState();
 		const { offset, quantity, isThereMore, loading } = state.posts;
 		const { username } = state.app.logged;
-		
+
 		if (isThereMore && !loading) {
 			dispatch(setLoading(true))
 
 			API.get(`user/${usernamePosts}/posts?offset=${offset}&quantity=${quantity}`)
 				.then(res => {
-					if (res.data.code == 200)
+					if (res.code == 200)
 						dispatch({
 							type: FETCH_USER_POSTS,
-							payload: res.data.response.map(post => ({
+							payload: res.response.map(post => ({
 								...post,
 								liked: post.likedBy.includes(username)
 							}))
@@ -55,10 +55,10 @@ export const discoverPosts = (username) => {
 			dispatch(setLoading(true));
 			API.get('discover/posts')
 				.then(res => {
-					if (res.data.code == 200)
+					if (res.code == 200)
 						dispatch({
 							type: DISCOVER_POSTS,
-							payload: res.data.response.map(post => ({
+							payload: res.response.map(post => ({
 								...post,
 								liked: post.likedBy.includes(id)
 							}))
@@ -83,7 +83,7 @@ export const newPost = (data) => {
 
 		API.post(`user/${username}/new/post`, { ...data })
 			.then(res => {
-				if(res.data.code == 200){
+				if(res.code == 200){
 					cogoToast.success(`Post submitted`, {
 					    position: 'bottom-right'
 					});
@@ -92,7 +92,7 @@ export const newPost = (data) => {
 						dispatch({
 							type: NEW_POST,
 							payload: {
-								newPost: res.data.response
+								newPost: res.response
 							}
 						})
 					}
@@ -112,11 +112,11 @@ export const likePost = (postId) => {
 
 		API.post(`post/${postId}/like`)
 			.then(res => {
-				if(res.data.code == 200)
+				if(res.code == 200)
 					dispatch({
 						type: LIKE_POST,
 						payload: {
-							likedPost: res.data.response
+							likedPost: res.response
 						}
 					})
 			})
@@ -130,11 +130,11 @@ export const unlikePost = (postId) => {
 
 		API.post(`post/${postId}/unlike`)
 			.then(res => {
-				if(res.data.code == 200)
+				if(res.code == 200)
 					dispatch({
 						type: UNLIKE_POST,
 						payload: {
-							unlikedPost: res.data.response
+							unlikedPost: res.response
 						}
 					})
 			})
@@ -154,7 +154,7 @@ export const deletePost = (data) => {
 				dispatch({
 					type: DELETE_POST,
 					payload: {
-						...res.data
+						...res
 					}
 				})
 			})

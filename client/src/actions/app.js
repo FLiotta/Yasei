@@ -77,14 +77,14 @@ export const signUp = ({username, password}) => {
 
 		API.post('auth/sign-up', { username, password })
 			.then(res => {
-				if(res.data.code == 200){
-					cogoToast.success(`Welcome aboard @${res.data.response.username}!`, {
+				if(res.code == 200){
+					cogoToast.success(`Welcome aboard @${res.response.username}!`, {
 					    position: 'bottom-right'
 					});
 					dispatch({
 						type: SIGN_UP,
 						payload: {
-							...res.data.response
+							...res.response
 						}
 					});
 				}
@@ -100,14 +100,14 @@ export const signIn = ({username, password}) => {
 
 		API.post('auth/sign-in', { username, password })
 			.then(res => {
-				if(res.data.code == 200){
-					cogoToast.success(`Welcome back @${res.data.response.username} :)!`, {
+				if(res.code == 200){
+					cogoToast.success(`Welcome back @${res.response.username} :)!`, {
 					    position: 'bottom-right'
 					});
 					dispatch({
 							type: SIGN_IN,
 							payload: {
-								...res.data.response
+								...res.response
 							}
 						});
 				}
