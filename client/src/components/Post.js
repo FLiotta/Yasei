@@ -4,6 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import dayjs from 'dayjs';
 import { likePost, unlikePost, deletePost } from '../actions/posts';
 import { Link, withRouter } from 'react-router-dom';
+import Linkify from 'react-linkify';
 import cogoToast from "cogo-toast";
 
 class Post extends Component {
@@ -13,6 +14,7 @@ class Post extends Component {
 		this.deletePost = this.deletePost.bind(this);
 		this.canDeleteIt = this.canDeleteIt.bind(this);
 		this.handleLike = this.handleLike.bind(this);
+		this.parseText = this.parseText.bind(this);
 
 		dayjs.extend(relativeTime)
 	}
@@ -29,6 +31,11 @@ class Post extends Component {
 			// If the post is in my profile, even if i don't own it.
 			return this.props.session.username == this.props.match.params.id;
 		}
+	}
+
+	parseText() {
+		const reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+		const textFractions = this.props.message.split
 	}
 
 	handleLike() {
@@ -64,7 +71,9 @@ class Post extends Component {
 					</div>
 				</div>
 				<div className="card-body px-4 py-4">
-					<p className="my-0 py-0">{this.props.message}</p>
+						<Linkify properties={{target: '_blank'}}>
+							<p className="my-0 py-0 ws-pre-line">{this.props.message}</p>
+						</Linkify>
 					{this.props.extra &&
 						<div className="mt-3">
 							<iframe width="100%" height="315" src={'https://www.youtube.com/embed/' + this.props.extra.value}
