@@ -20,22 +20,20 @@ router.post('/sign-up', (req,res) => {
 				.then(salt => bcrypt.hash(password, salt))
 				.then(hashPassword => new User({username, password: hashPassword}).save())
 				.then(newUser => {
+					newUser = newUser.toObject();
+					delete newUser['password'];
 
 					const token = jwt.sign(
 						{
 							data: newUser,
 							exp: Math.floor(Date.now() / 1000) + (60 * 60)
 						}, SECRET_KEY)
-
+					
 					res.status(200).json({
 						code: 200,
 						response: {
 							token,
-							username: newUser.username,
-							profilePic: newUser.profilePic,
-							description: newUser.description,
-							verified: newUser.verified,
-							_id: newUser._id
+							...newUser
 						}
 					})
 				})
@@ -63,17 +61,18 @@ router.post('/sign-in', (req,res) => {
 						data: user,
 						exp: Math.floor(Date.now() / 1000) + (60 * 60)
 					}, SECRET_KEY))
-				.then(token => res.status(200).json({
-					code: 200,
-					response: {
-						token,
-						username: user.username,
-						profilePic: user.profilePic,
-						description: user.description,
-						verified: user.verified,
-						_id: user._id
-					}
-				}))
+				.then(token => {
+					user = user.toObject();
+					delete user['password'];
+
+					res.status(200).json({
+						code: 200,
+						response: {
+							token,
+							...user
+						}
+					});
+				})
 				.catch(e => res.send(500).json({error: 'There were an error.'}));
 		})
 		.catch(e => res.send(500).json({error: 'There were an error.'}));

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logout, togglePostModal } from '../actions/app';
+import { logout, togglePostModal, toggleSettingsModal } from '../actions/app';
 import { Link, NavLink } from 'react-router-dom';
 import NewPostModal from './NewPostModal';
 import Auth from "./Auth";
@@ -25,6 +25,13 @@ class Navbar extends Component {
 								data-balloon-blunt>
 								<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='img-fluid d-block mx-auto rounded-circle' />
 							</NavLink>
+							<div
+								className="navbar-cs__button" onClick={this.props.toggleSettingsModal}
+								data-balloon-pos="left"
+								aria-label="Settings"
+								data-balloon-blunt>
+								<p className="text-center my-0"><i className="fas fa-cog fa-2x"></i></p>
+							</div>
 							<div
 								className="navbar-cs__button" onClick={this.props.togglePostModal}
 								data-balloon-pos="left"
@@ -90,6 +97,7 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
 	logout: () => dispatch(logout()),
-	togglePostModal: () => dispatch(togglePostModal())
+	togglePostModal: () => dispatch(togglePostModal()),
+	toggleSettingsModal: () => dispatch(toggleSettingsModal()),
 })
 export default connect(stateToProps, dispatchToProps)(Navbar);

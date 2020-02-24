@@ -94,15 +94,20 @@ class Profile extends Component {
 								<div className="px-5 mb-3">
 									<form onSubmit={this.updateDescription}>
 										<div className="form-group">
-											<textarea className="form-control"
-																id="description"
-																defaultValue={this.props.profile.description}
-																maxLength={150}></textarea>
+											<textarea 
+												className="form-control"
+												id="description"
+												defaultValue={this.props.profile.description}
+												maxLength={150}>
+											</textarea>
 										</div>
 										<div className="form-group d-flex justify-content-end">
-											<button className="btn btn-brand-secondary text-white mr-2 rounded-pill"
-															type="button"
-															onClick={this.props.toggleEditingDescription}>Cancel</button>
+											<button 
+												className="btn btn-brand-secondary text-white mr-2 rounded-pill"
+												type="button"
+												onClick={this.props.toggleEditingDescription}>
+												Cancel
+											</button>
 											<button className="btn btn-brand text-white rounded-pill">Update</button>
 										</div>
 									</form>
@@ -135,13 +140,20 @@ class Profile extends Component {
 					{scrollRef => (
 						<div className="d-flex position-relative profile__body justify-content-center flex-wrap" ref={scrollRef}>
 							<Auth>
-								<div className="profile__body__textarea w-100 mt-5">
-								<div className="card border-0">
-									<div className="card-body">
-										<NewPostForm profileId={this.props.match.params.id} />
+							{(this.props.profile.openProfile || this.props.ownsProfile)
+								?
+									<div className="profile__body__textarea w-100 mt-5">
+										<div className="card border-0">
+											<div className="card-body">
+												<NewPostForm profileId={this.props.match.params.id} />
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
+								: 	
+									<p className="mt-5">
+										<i className="fas fa-lock"></i> This user doesn't allow posts on his profile.
+									</p>
+							}
 							</Auth>
 							<div className="profile__body__posts w-100">
 								<div className="d-flex flex-column">

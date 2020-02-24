@@ -6,6 +6,7 @@ const getRandomProfilePicture = () => `/images/avatars/default/avatar_default_${
 const userSchema = new Schema({
 	username: String,
 	password: {type: String, select: false},
+	openProfile: {type: Boolean, default: true},
 	verified: {type: Boolean, default: false},
 	description: {type: String, default: ''},
 	profilePic: {type: String, default: getRandomProfilePicture}

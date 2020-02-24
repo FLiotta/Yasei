@@ -9,6 +9,9 @@ import {
 	LOGOUT,
 	SET_PROFILE_PICTURE,
 	SET_PROFILE_DESCRIPTION,
+	SET_PROFILE_PRIVACY,
+	TOGGLE_SETTINGS_MODAL,
+	SET_SETTINGS_LOADING,
 	RESET_LAST_CONNECTION } from '../actions/app';
 
 const defaultState = {
@@ -17,6 +20,10 @@ const defaultState = {
 	},
 	postModal: {
 		isVisible: false
+	},
+	settingsModal: {
+		isVisible: false,
+		loading: false
 	},
 	navbar: {
 		isVisible: true
@@ -28,6 +35,7 @@ const defaultState = {
 		username: null,
 		profilePic: null,
 		description: null,
+		openProfile: null,
 		error: null
 	}
 };
@@ -40,6 +48,14 @@ export default (state = defaultState, action) => {
 				...state,
 				navbar: {
 					isVisible
+				}
+			}
+		case TOGGLE_SETTINGS_MODAL:
+			return {
+				...state,
+				settingsModal: {
+					...state.settingsModal,
+					isVisible: !state.settingsModal.isVisible
 				}
 			}
 		case TOGGLE_POST_MODAL:
@@ -56,6 +72,14 @@ export default (state = defaultState, action) => {
 					isVisible: !state.profilePicModal.isVisible
 				}
 			}
+		case SET_PROFILE_PRIVACY:
+			return {
+				...state,
+				logged: {
+					...state.logged,
+					openProfile: action.payload.openProfile
+				}
+			}
 		case SET_LOGIN_LOADING:
 			const { value: isLoading } = action.payload;
 			return {
@@ -63,6 +87,14 @@ export default (state = defaultState, action) => {
 				logged: {
 					...state.logged,
 					isLoading
+				}
+			}
+		case SET_SETTINGS_LOADING:
+			return {
+				...state,
+				settingsModal: {
+					...state.settingsModal,
+					loading: action.payload.value
 				}
 			}
 		case SET_PROFILE_PICTURE:
@@ -83,18 +115,13 @@ export default (state = defaultState, action) => {
 			}
 		case SIGN_UP:
 		case SIGN_IN:
-			const { username, token, profilePic, description, _id } = action.payload;
 			localStorage.setItem('last_session', JSON.stringify({...action.payload}));
 			return {
 				...state,
 				logged: {
 					isLoading: false,
 					isLogged: true,
-					token,
-					username,
-					profilePic: profilePic,
-					description,
-					_id
+					...action.payload
 				}
 			}
 		case RECONNECT:

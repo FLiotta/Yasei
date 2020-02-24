@@ -68,6 +68,38 @@ class Api {
 				});
 		})
 	}
+
+	patch(url, params) {
+		const state = store.getState();
+
+		if(!state.app.logged.token)
+			return;
+
+		const config = {
+			headers: { 
+				authToken: state.app.logged.token
+			}
+		}
+
+		return new Promise((res,rej) => {
+			axios.patch(`${this.baseUrl}/${url}`, params, config)
+				.then(response => res(response.data))
+				.catch(e => {
+					const { status, data } = e.response;
+
+					switch(status){
+						case 401:
+							store.dispatch(logout());
+							break;
+					}
+
+					cogoToast.error(`${status}: ${data.message}`, {
+		  				position: 'bottom-right'
+		  			});
+					rej(e);
+				});
+		})
+	}
 }
 
 export default Api;

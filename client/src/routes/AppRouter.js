@@ -6,6 +6,7 @@ const Profile = lazy(() => import('../pages/Profile'));
 const Error = lazy(() => import('../pages/Error'));
 const Explore = lazy(() => import('../pages/Explore'));
 const NewPostModal = lazy(() => import('../components/NewPostModal'));
+const SettingsModal = lazy(() => import('../components/SettingsModal'));
 const Navbar = lazy(() => import('../components/Navbar'));
 
 class AppRouter extends Component {
@@ -22,6 +23,7 @@ class AppRouter extends Component {
 						<Fragment>
 							<div className="d-flex page">
 								<NewPostModal />
+								<SettingsModal />
 								<Route path="/explore" component={Explore} />
 								<Route path="/u/:id" component={Profile} />
 								<Navbar />

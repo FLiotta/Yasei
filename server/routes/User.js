@@ -93,6 +93,24 @@ router.post('/:username/new/post', isAuth, (req,res) => {
 		.catch(e => res.status(500).send("We couldn't save your post."));
 });
 
+router.patch('/settings/privacy', isAuth, (req,res) => {
+	const { _id } = req.user;
+	
+	User.findById(_id)
+		.then(user => {
+			user.openProfile = !user.openProfile;
+			return user.save();
+		})
+		.then(updatedUser => {
+			res.status(200).send({
+				code: 200,
+				message: 'Privacy updated',
+				response: updatedUser
+			});
+		})
+		.catch(e => res.status(500).send({ code: 500, message: 'Unexpected error'}));
+});
+
 router.post('/:username/edit/info/description', isAuth, (req,res) => {
 	const { username } = req.params;
 	const { description } = req.body;
