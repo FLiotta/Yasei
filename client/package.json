@@ -39,6 +39,7 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.1.2",
     "react-svg-loader": "^3.0.3",
+    "react-youtube": "^7.9.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "rodal": "^1.7.0",

@@ -34,7 +34,7 @@ class SettingsModal extends Component {
             {this.props.loading
               ? <Loading />
               : <div className="custom-control custom-switch" onClick={this.toggleProfilePrivacy}>
-                <input type="checkbox" className="custom-control-input" id="customSwitch1" checked={this.props.profilePrivacy} />
+                <input type="checkbox" className="custom-control-input" id="customSwitch1" defaultChecked={this.props.profilePrivacy} />
                 <label className="custom-control-label" htmlFor="customSwitch1">Allow people to post on my profile.</label>
               </div>
             }

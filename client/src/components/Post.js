@@ -6,6 +6,8 @@ import { likePost, unlikePost, deletePost } from '../actions/posts';
 import { Link, withRouter } from 'react-router-dom';
 import Linkify from 'react-linkify';
 import cogoToast from "cogo-toast";
+import YouTube from 'react-youtube';
+
 
 class Post extends Component {
 	constructor(props) {
@@ -76,11 +78,12 @@ class Post extends Component {
 						</Linkify>
 					{this.props.extra &&
 						<div className="mt-3">
-							<iframe width="100%" height="315" src={'https://www.youtube.com/embed/' + this.props.extra.value}
-									frameBorder="0"
-									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-									allowFullScreen>
-							</iframe>
+							<YouTube
+								videoId={this.props.extra.value}
+								opts={{
+									width: '100%', 
+									height: '400'
+								}}/>
 						</div>
 					}
 					<div onClick={this.handleLike} className="d-inline-flex px-3 py-1 text-brand-secondary rounded-pill post__likes cursor-pointer">
