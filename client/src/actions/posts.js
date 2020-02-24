@@ -143,10 +143,9 @@ export const unlikePost = (postId) => {
 }
 
 export const deletePost = (data) => {
-	return (dispatch, getState) => {
-		const state = getState();
+	return dispatch => {
 		const { postId } = data;
-		API.get(`post/${postId}/delete`)
+		API.delete(`post/${postId}`)
 			.then(res => {
 				cogoToast.warn(`Post deleted`, {
 				    position: 'bottom-right'

@@ -141,11 +141,11 @@ export const signIn = ({username, password}) => {
 					    position: 'bottom-right'
 					});
 					dispatch({
-							type: SIGN_IN,
-							payload: {
-								...res.response
-							}
-						});
+						type: SIGN_IN,
+						payload: {
+							...res.response
+						}
+					});
 				}
 			})
 			.catch(e => console.log(e))

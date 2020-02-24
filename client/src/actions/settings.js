@@ -12,15 +12,13 @@ export const CHANGE_IMAGE = 'CHANGE_IMAGE',
 
 
 export const changeImage = (binary, crop) => {
-	return (dispatch, getState) => {
-		const state = getState();
-		const { username } = state.app.logged;
+	return dispatch => {
 		const payload = new FormData();
 		payload.append('crop', JSON.stringify(crop));
 		payload.append('newImage', binary);
 
 
-		API.post(`user/${username}/edit/info/profilePicture`,payload, {
+		API.patch(`user/settings/profilePicture`,payload, {
 			  headers: {
 			    'accept': 'application/json',
 			    'Accept-Language': 'en-US,en;q=0.8',
@@ -38,12 +36,9 @@ export const changeImage = (binary, crop) => {
 }
 
 export const changeDescription = description => {
-	return (dispatch, getState) => {
-		const state = getState();
+	return dispatch => {
 
-		const username = state.app.logged.username;
-
-		API.post(`user/${username}/edit/info/description`, { description })
+		API.patch(`user/settings/description`, { description })
 			.then(res => {
 				if(res.code == 200)
 					dispatch(setDescription(res.response.newDescription));

@@ -8,9 +8,9 @@ router.get('/users', (req,res) => {
 		.exec((err, count) => {
 			if(err)
 				return res.status(500).send('There were an error counting the users');
-		  const random = Math.floor(Math.random() * (count - 20))
+		  const random = Math.floor(Math.random() * (count - 10))
 		  User.find({})
-		  	.limit(20)
+		  	.limit(10)
 		  	.skip(random)
 		  	.exec((err, result) => {
 		  		if(err)
@@ -36,7 +36,7 @@ router.get('/posts', (req,res) => {
 			const random = Math.floor(Math.random() * (count - 10));
 			Post.find({})
 				.limit(10)
-				//.skip(random)
+				.skip(random)
 				.populate('author')
 				.exec((err, result) => {
 					if(err)
