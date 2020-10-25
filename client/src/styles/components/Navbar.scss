@@ -4,38 +4,37 @@
 @import "~balloon-css/src/balloon";
 
 .navbar-cs {
-	width: 100%;
-	position: fixed;
-	z-index: 100;
-	top: 0px;
-	right: 0px;
-	height: 75px;
-	flex-shrink: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  top: 0px;
+  right: 0px;
+  height: 75px;
+  flex-shrink: 0;
 
+  &__button {
+    width: 33%;
+    height: 75px;
+    cursor: pointer;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-	&__button {
-		width: 33%;
-		height: 75px;
-		cursor: pointer;
-		color: black;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		&:hover {
-			background-color: theme-color("brand");
-			color: #ffffff;
-		}
-	}
+    &:hover {
+      background-color: theme-color("brand");
+      color: #ffffff;
+    }
+  }
 }
 
 @include media-breakpoint-up(md) {
-	.navbar-cs {
-		width: 75px;
-		height: 100vh;
+  .navbar-cs {
+    width: 75px;
+    height: 100vh;
 
-		&__button {
-			width: 100%;
-		}
-	}
+    &__button {
+      width: 100%;
+    }
+  }
 }

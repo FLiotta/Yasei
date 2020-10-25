@@ -10,13 +10,13 @@ const store = Store;
 
 const last_session = localStorage.getItem('last_session');
 
-if(last_session){
-	store.dispatch(reconnect(JSON.parse(last_session)));
+if (last_session) {
+  store.dispatch(reconnect(JSON.parse(last_session)));
 }
 
 ReactDOM.render(
-	<Provider store={store}>
-		<AppRouter />
-	</Provider>,
-	document.getElementById('root')
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>,
+  document.getElementById('root')
 );

@@ -18,11 +18,11 @@ class NewPostModal extends Component {
 
     return (
       <Rodal
-            visible={this.props.isVisible}
-            onClose={this.props.togglePostModal}
-            animation={'slideUp'}
-            customStyles={modalCustomStyles}>
-        <NewPostForm profileId={this.props.profileId} onSuccess={this.props.togglePostModal}/>
+        visible={this.props.isVisible}
+        onClose={this.props.togglePostModal}
+        animation={'slideUp'}
+        customStyles={modalCustomStyles}>
+        <NewPostForm profileId={this.props.profileId} onSuccess={this.props.togglePostModal} />
       </Rodal>
     );
   }

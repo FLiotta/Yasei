@@ -5,12 +5,12 @@
 .user-card {
   min-height: 180px;
   width: 175px;
-  box-shadow: 0px 0px 25px 4px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 25px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   border-radius: 10px;
 
   &__image {
-    box-shadow: 0px 0px 25px 4px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 25px 4px rgba(0, 0, 0, 0.1);
     position: absolute;
     width: 75px;
     height: 75px;
@@ -53,7 +53,7 @@
     }
 
     &__body {
-        padding: 0px 30px 0px 100px;
+      padding: 0px 30px 0px 100px;
     }
   }
 }

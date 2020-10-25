@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { logout, togglePostModal, toggleSettingsModal } from '../actions/app';
 import { Link, NavLink } from 'react-router-dom';
@@ -6,98 +6,98 @@ import NewPostModal from './NewPostModal';
 import Auth from "./Auth";
 
 class Navbar extends Component {
-	constructor(props){
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+  }
 
-	render(){
-		return (
-			<>
-				{this.props.isVisible &&
-					<div className="navbar-cs bg-light d-flex flex-column justify-content-between">
-						<div className="d-flex flex-row flex-md-column">
-						<Auth>
-							<NavLink
-								to={'/u/' + this.props.profile.username}
-								className="navbar-cs__button"
-								data-balloon-pos="left"
-								aria-label="Profile"
-								data-balloon-blunt>
-								<img src={this.props.profile.profilePic} style={{'width': '35px', 'height': '35px'}} className='img-fluid d-block mx-auto rounded-circle' />
-							</NavLink>
-							<div
-								className="navbar-cs__button" onClick={this.props.toggleSettingsModal}
-								data-balloon-pos="left"
-								aria-label="Settings"
-								data-balloon-blunt>
-								<p className="text-center my-0"><i className="fas fa-cog fa-2x"></i></p>
-							</div>
-							<div
-								className="navbar-cs__button" onClick={this.props.togglePostModal}
-								data-balloon-pos="left"
-								aria-label="Submit a post"
-								data-balloon-blunt>
-								<p className="text-center my-0"><i className="fas fa-plus-circle fa-2x"></i></p>
-							</div>
-						</Auth>
-							<NavLink
-								to={'/explore'}
-								className="navbar-cs__button"
-								activeClassName={'bg-brand text-white'}
-								data-balloon-pos="left"
-								aria-label="Explore"
-								data-balloon-blunt>
-								<p className="text-center my-0"><i className="fas fa-compass fa-2x"></i></p>
-							</NavLink>
-							<a
-								href='https://www.github.com/fliotta/reactsocial'
-								className="navbar-cs__button"
-								target="_blank"
-								data-balloon-pos="left"
-								aria-label="Source code"
-								data-balloon-blunt>
-								<p className="text-center my-0"><i className="fab fa-github fa-2x"></i></p>
-							</a>
-						<Auth>
-							<div
-								className="navbar-cs__button"
-								onClick={this.props.logout}
-								data-balloon-pos="left"
-								aria-label="Logout"
-								data-balloon-blunt>
-								<p className="text-center my-0"><i className="fas fa-sign-out-alt fa-2x"></i></p>
-							</div>
-						</Auth>
-						<Auth whenLogged={false}>
-							<NavLink
-								to='/'
-								className="navbar-cs__button"
-								onClick={this.props.logout}
-								data-balloon-pos="left"
-								aria-label="Login"
-								data-balloon-blunt>
-									<p className="text-center my-0"><i className="fas fa-sign-in-alt fa-2x"></i></p>
-							</NavLink>
-						</Auth>
-						</div>
-						<div className="d-none d-md-block">
-							<img src="assets/images/small_logo.png" className="d-block mx-auto img-fluid" />
-						</div>
-					</div>
-				}
-			</>
-		)
-	}
+  render() {
+    return (
+      <Fragment>
+        {this.props.isVisible &&
+          <div className="navbar-cs bg-light d-flex flex-column justify-content-between">
+            <div className="d-flex flex-row flex-md-column">
+              <Auth>
+                <NavLink
+                  to={'/u/' + this.props.profile.username}
+                  className="navbar-cs__button"
+                  data-balloon-pos="left"
+                  aria-label="Profile"
+                  data-balloon-blunt>
+                  <img src={this.props.profile.profilePic} style={{ 'width': '35px', 'height': '35px' }} className='img-fluid d-block mx-auto rounded-circle' />
+                </NavLink>
+                <div
+                  className="navbar-cs__button" onClick={this.props.toggleSettingsModal}
+                  data-balloon-pos="left"
+                  aria-label="Settings"
+                  data-balloon-blunt>
+                  <p className="text-center my-0"><i className="fas fa-cog fa-2x"></i></p>
+                </div>
+                <div
+                  className="navbar-cs__button" onClick={this.props.togglePostModal}
+                  data-balloon-pos="left"
+                  aria-label="Submit a post"
+                  data-balloon-blunt>
+                  <p className="text-center my-0"><i className="fas fa-plus-circle fa-2x"></i></p>
+                </div>
+              </Auth>
+              <NavLink
+                to={'/explore'}
+                className="navbar-cs__button"
+                activeClassName={'bg-brand text-white'}
+                data-balloon-pos="left"
+                aria-label="Explore"
+                data-balloon-blunt>
+                <p className="text-center my-0"><i className="fas fa-compass fa-2x"></i></p>
+              </NavLink>
+              <a
+                href='https://www.github.com/fliotta/reactsocial'
+                className="navbar-cs__button"
+                target="_blank"
+                data-balloon-pos="left"
+                aria-label="Source code"
+                data-balloon-blunt>
+                <p className="text-center my-0"><i className="fab fa-github fa-2x"></i></p>
+              </a>
+              <Auth>
+                <div
+                  className="navbar-cs__button"
+                  onClick={this.props.logout}
+                  data-balloon-pos="left"
+                  aria-label="Logout"
+                  data-balloon-blunt>
+                  <p className="text-center my-0"><i className="fas fa-sign-out-alt fa-2x"></i></p>
+                </div>
+              </Auth>
+              <Auth whenLogged={false}>
+                <NavLink
+                  to='/'
+                  className="navbar-cs__button"
+                  onClick={this.props.logout}
+                  data-balloon-pos="left"
+                  aria-label="Login"
+                  data-balloon-blunt>
+                  <p className="text-center my-0"><i className="fas fa-sign-in-alt fa-2x"></i></p>
+                </NavLink>
+              </Auth>
+            </div>
+            <div className="d-none d-md-block">
+              <img src="assets/images/small_logo.png" className="d-block mx-auto img-fluid" />
+            </div>
+          </div>
+        }
+      </Fragment>
+    )
+  }
 }
 
 const stateToProps = state => ({
-	isVisible: state.app.navbar.isVisible,
-	profile: state.app.logged
+  isVisible: state.app.navbar.isVisible,
+  profile: state.app.logged
 })
 
 const dispatchToProps = dispatch => ({
-	logout: () => dispatch(logout()),
-	togglePostModal: () => dispatch(togglePostModal()),
-	toggleSettingsModal: () => dispatch(toggleSettingsModal()),
+  logout: () => dispatch(logout()),
+  togglePostModal: () => dispatch(togglePostModal()),
+  toggleSettingsModal: () => dispatch(toggleSettingsModal()),
 })
 export default connect(stateToProps, dispatchToProps)(Navbar);
