@@ -1,17 +1,14 @@
-import axios from 'axios';
-import cogoToast from 'cogo-toast';
 import api from '../api/api';
 
 const API = new api();
 
-export const
-				DISCOVER_USERS = 'DISCOVER_USERS',
-				RESTART_STATE = 'RESTART_STATE',
-				SET_LOADING = 'SET_LOADING';
+export const DISCOVER_USERS = 'DISCOVER_USERS';
+export const RESTART_STATE = 'RESTART_STATE';
+export const SET_LOADING = 'SET_LOADING';
 
 export const discoverUsers = (username) => {
-	return (dispatch, getState) => {
-		const state = getState();
+  return (dispatch, getState) => {
+    const state = getState();
 
     dispatch(setLoading(true));
 
@@ -26,20 +23,20 @@ export const discoverUsers = (username) => {
         dispatch(setLoading(false));
       })
       .catch(e => console.log(e));
-	}
+  }
 }
 
 export const setLoading = loading => {
-	return dispatch => dispatch({
-		type: SET_LOADING,
-		payload: {
-			loading
-		}
-	})
+  return dispatch => dispatch({
+    type: SET_LOADING,
+    payload: {
+      loading
+    }
+  })
 }
 
 export const restartState = (data) => {
-	return dispatch => dispatch({
-		type: RESTART_STATE
-	})
+  return dispatch => dispatch({
+    type: RESTART_STATE
+  })
 }

@@ -60,12 +60,12 @@ class ProfilePictureModal extends Component {
         onClose={this.props.toggleProfilePictureModal}
         animation={'slideUp'}
         customStyles={modalCustomStyles}>
-        <div className="mt-4" style={{maxWidth: '400px'}}>
+        <div className="mt-4" style={{ maxWidth: '400px' }}>
           {!this.state.file &&
             <Files
               className='dropzone mt-2'
               dropActiveClassName='dropzone--active'
-              accepts={['image/png' , 'image/jpg', 'image/jpeg']}
+              accepts={['image/png', 'image/jpg', 'image/jpeg']}
               onChange={this.onFileSelected}
               onError={this.onFileError}
               maxFileSize={10000000}
@@ -82,7 +82,7 @@ class ProfilePictureModal extends Component {
             <Cropper
               ref={this.cropper}
               src={this.state.file.preview.url}
-              style={{'height': 500, width: '100%'}}
+              style={{ 'height': 500, width: '100%' }}
               // Cropper.js options
               dragMode='move'
               zoomable={false}

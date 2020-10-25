@@ -7,10 +7,10 @@ import usersReducer from './reducers/users';
 import thunk from 'redux-thunk';
 
 const reducers = combineReducers({
-	app: appReducer,
-	profile: profileReducer,
-	posts: postsReducer,
-	users: usersReducer
+  app: appReducer,
+  profile: profileReducer,
+  posts: postsReducer,
+  users: usersReducer
 });
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

@@ -14,7 +14,7 @@ class SettingsModal extends Component {
   }
 
   toggleProfilePrivacy() {
-    if(!this.props.loading) {
+    if (!this.props.loading) {
       this.props.toggleProfilePrivacy();
     }
   }
@@ -26,18 +26,18 @@ class SettingsModal extends Component {
 
     return (
       <Rodal
-            visible={this.props.isVisible}
-            onClose={this.props.toggleSettingsModal}
-            animation={'slideUp'}
-            customStyles={modalCustomStyles}>
-            <h4 className="mb-3">Settings</h4>
-            {this.props.loading
-              ? <Loading />
-              : <div className="custom-control custom-switch" onClick={this.toggleProfilePrivacy}>
-                <input type="checkbox" className="custom-control-input" id="customSwitch1" defaultChecked={this.props.profilePrivacy} />
-                <label className="custom-control-label" htmlFor="customSwitch1">Allow people to post on my profile.</label>
-              </div>
-            }
+        visible={this.props.isVisible}
+        onClose={this.props.toggleSettingsModal}
+        animation={'slideUp'}
+        customStyles={modalCustomStyles}>
+        <h4 className="mb-3">Settings</h4>
+        {this.props.loading
+          ? <Loading />
+          : <div className="custom-control custom-switch" onClick={this.toggleProfilePrivacy}>
+            <input type="checkbox" className="custom-control-input" id="customSwitch1" defaultChecked={this.props.profilePrivacy} />
+            <label className="custom-control-label" htmlFor="customSwitch1">Allow people to post on my profile.</label>
+          </div>
+        }
       </Rodal>
     );
   }
