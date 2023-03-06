@@ -7,5 +7,6 @@ const config = {
 }
 
 mongoose.connect(MONGO_URI, config);
+mongoose.set('strictQuery', false);
 
 module.exports = mongoose;
